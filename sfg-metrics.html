@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sammons Financial Group - QA Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for a professional look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Hide update section and header links when printing */
+        @media print {
+            #update-data-section,
+            .header-links {
+                display: none !important;
+            }
+            body {
+                background-color: #fff; /* White background for printing */
+            }
+            /* Adjust margins for print */
+            .container.mx-auto {
+                margin-left: 0;
+                margin-right: 0;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            /* Ensure content fits on page */
+            section {
+                box-shadow: none !important;
+                border: none !important;
+            }
+            /* Force background colors to print for the progress bar */
+            #overallAutomationProgressBar {
+                -webkit-print-color-adjust: exact; /* For WebKit browsers like Chrome, Safari */
+                color-adjust: exact; /* Standard property */
+                print-color-adjust: exact; /* For Firefox */
+            }
+        }
+        /* Spinner animation */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-6 shadow-lg rounded-b-lg">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-3xl font-bold">Sammons Financial Group</h1>
+                <h2 class="text-2xl font-semibold">QA Metrics Dashboard</h2>
+            </div>
+            <!-- Links and Print Icon -->
+            <div class="container mx-auto mt-4 text-center flex justify-center items-center space-x-4 header-links">
+                <a href="#update-data-section" class="inline-block bg-white text-blue-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-100 transition duration-200">
+                    Update Dashboard Data
+                </a>
+                <button onclick="window.print()" class="inline-flex items-center bg-white text-blue-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-100 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0l3 3m-3-3l-3 3m3-3v-3a2 2 0 012-2h4a2 2 0 012 2v3m0 0l3 3m-3-3l-3 3m-3-3v-3a2 2 0 012-2h4a2 2 0 012 2v3"></path>
+                    </svg>
+                    Print Dashboard
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow container mx-auto p-6 space-y-8">
+
+            <!-- Section: Automation Coverage (Overall) -->
+            <section class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Overall Automation Coverage</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Current Automated Tests Card -->
+                    <div class="bg-purple-50 p-6 rounded-lg shadow-sm border border-purple-200">
+                        <h4 class="text-xl font-medium text-purple-800 mb-2">Total Tests Currently Automated</h4>
+                        <p id="currentAutomatedCount" class="text-5xl font-extrabold text-purple-700">0</p>
+                        <p class="text-gray-600 mt-2">Sum of tests automated across all categories.</p>
+                    </div>
+                    <!-- Planned Automation Card -->
+                    <div class="bg-orange-50 p-6 rounded-lg shadow-sm border border-orange-200">
+                        <h4 class="text-xl font-medium text-orange-800 mb-2">Tests Planned for Automation (Overall)</h4>
+                        <p id="plannedAutomationCount" class="text-5xl font-extrabold text-orange-700">0</p>
+                        <p class="text-gray-600 mt-2">Total tests targeted for automation across all categories.</p>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h4 class="text-xl font-medium text-gray-800 mb-2">Overall Automation Progress</h4>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="overallAutomationProgressBar" class="bg-purple-600 h-4 rounded-full" style="width: 0%;"></div>
+                    </div>
+                    <p id="overallAutomationProgressText" class="text-right text-sm text-gray-600 mt-1">0% Automated</p>
+                </div>
+            </section>
+
+            <!-- Section: Automation Coverage by Test Type (Individual Categories) -->
+            <section class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Coverage by Test Type</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- CRM Tests Card (Automation Focus) -->
+                    <div id="crmCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">CRM Tests</h4>
+                        <div class="space-y-1">
+                            <p class="text-gray-700">Total Tests in Category: <span id="crmTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="crmPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="crmAutomated" class="font-semibold">0</span></p>
+                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="crmAutomationCoverage" class="font-bold">0%</span></b></p>
+                        </div>
+                    </div>
+
+                    <!-- Unit Tests Card (Automation Focus) -->
+                    <div id="unitCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Unit Tests</h4>
+                        <div class="space-y-1">
+                            <p class="text-gray-700">Total Tests in Category: <span id="unitTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="unitPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="unitAutomated" class="font-semibold">0</span></p>
+                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="unitAutomationCoverage" class="font-bold">0%</span></b></p>
+                        </div>
+                    </div>
+
+                    <!-- Data Tests Card (Automation Focus) -->
+                    <div id="dataCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Data Tests</h4>
+                        <div class="space-y-1">
+                            <p class="text-gray-700">Total Tests in Category: <span id="dataTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="dataPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="dataAutomated" class="font-semibold">0</span></p>
+                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="dataAutomationCoverage" class="font-bold">0%</span></b></p>
+                        </div>
+                    </div>
+
+                    <!-- Integration Tests Card (Automation Focus) -->
+                    <div id="integrationCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Integration Tests</h4>
+                        <div class="space-y-1">
+                            <p class="text-gray-700">Total Tests in Category: <span id="integrationTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="integrationPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="integrationAutomated" class="font-semibold">0</span></p>
+                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="integrationAutomationCoverage" class="font-bold">0%</span></b></p>
+                        </div>
+                    </div>
+
+                    <!-- Smoke Tests Card (Automation Focus) -->
+                    <div id="smokeCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Smoke Tests</h4>
+                        <div class="space-y-1">
+                            <p class="text-gray-700">Total Tests in Category: <span id="smokeTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="smokePlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="smokeAutomated" class="font-semibold">0</span></p>
+                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="smokeAutomationCoverage" class="font-bold">0%</span></b></p>
+                        </div>
+                    </div>
+
+                    <!-- UI Functional Tests Card (Automation Focus) -->
+                    <div id="uiCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">UI Functional Tests</h4>
+                        <div class="space-y-1">
+                            <p class="text-gray-700">Total Tests in Category: <span id="uiTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="uiPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="uiAutomated" class="font-semibold">0</span></p>
+                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="uiAutomationCoverage" class="font-bold">0%</span></b></p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Section: Update Data via CSV (Moved to bottom) -->
+            <section id="update-data-section" class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Update Data via CSV</h3>
+                <p class="text-gray-700 mb-4">
+                    You can update the dashboard data by pasting CSV content from your Excel file below.
+                    Ensure your CSV has two columns: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric</code> and <code class="font-mono text-sm bg-gray-200 p-1 rounded">Value</code>.
+                    <br>
+                    <span class="font-semibold">Example CSV format:</span>
+                    <pre class="bg-gray-100 p-2 rounded text-sm mt-2 overflow-auto"><code>Metric,Value
+PlannedToAutomate,1500
+CRMTotal,550
+CRMAutomated,450
+CRMPlannedToAutomate,500
+UnitTotal,300
+UnitAutomated,285
+UnitPlannedToAutomate,290
+DataTotal,180
+DataAutomated,120
+DataPlannedToAutomate,150
+IntegrationTotal,220
+IntegrationAutomated,100
+IntegrationPlannedToAutomate,180
+SmokeTotal,80
+SmokeAutomated,20
+SmokePlannedToAutomate,40
+UITotal,120
+UIAutomated,80
+UIPlannedToAutomate,100</code></pre>
+                    <span class="text-sm text-gray-600">
+                        To export from Excel: Go to File > Save As > Browse, then select "CSV (Comma delimited) (*.csv)" from the "Save as type" dropdown. Open the .csv file with a text editor and copy its content.
+                    </span>
+                </p>
+                <textarea id="csvInput" rows="10" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" placeholder="Paste your CSV data here..."></textarea>
+                <button id="loadDataBtn" class="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                    Load Data
+                </button>
+                <p id="dataLoadMessage" class="mt-2 text-sm text-red-600 hidden"></p>
+            </section>
+
+            <!-- Section: How to Use This Dashboard -->
+            <section class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">How to Use This Dashboard</h3>
+                <p class="text-gray-700 mb-4">
+                    This dashboard provides a high-level overview of our Quality Assurance (QA) testing metrics, designed to give you quick insights into the health and progress of our testing efforts.
+                </p>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">1. Overall Automation Coverage:</h4>
+                <p class="text-gray-700 mb-2">
+                    This section focuses on our progress in automating tests across all categories.
+                </p>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>**Total Tests Currently Automated vs. Tests Planned for Automation (Overall):** Provides a high-level view of our automation efforts across all test types.</li>
+                    <li>**Overall Automation Progress Bar:** This visual bar indicates the overall completion percentage of automation.
+                        <ul class="list-circle list-inside ml-4">
+                            <li><span class="font-semibold text-green-700">Green:</span> Excellent progress (> 80% Automated).</li>
+                            <li><span class="font-semibold text-yellow-600">Yellow:</span> Good progress (> 60% &lt;= 80% Automated).</li>
+                            <li><span class="font-semibold text-red-600">Red:</span> Critical progress (&lt;= 60% Automated).</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">2. Automation Coverage by Test Type:</h4>
+                <p class="text-gray-700 mb-2">
+                    This section provides a detailed breakdown of automation progress for each test category.
+                </p>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>For each test category (CRM, Unit, Data, etc.), you'll see:
+                        <ul class="list-circle list-inside ml-4">
+                            <li>**Total Tests in Category:** The total number of tests within that type.</li>
+                            <li><span class="font-semibold text-indigo-700">Planned to Automate:</span> The specific number of tests within this category that are targeted for automation.</li>
+                            <li>**Tests Automated:** The count of tests that have been automated for that specific type.</li>
+                            <li>**% Automated for Category:** The percentage of tests within that category that are currently automated, calculated against the "Planned to Automate" figure for that category.</li>
+                        </ul>
+                    </li>
+                    <li>**Color Coding (Key for Quick Assessment of Automation):**
+                        <ul class="list-circle list-inside ml-4">
+                            <li><span class="font-semibold text-green-700">Green Background:</span> Indicates excellent automation coverage, specifically **above 80%**.</li>
+                            <li><span class="font-semibold text-yellow-700">Yellow Background:</span> Indicates good automation coverage, **above 50% but 80% or less**.</li>
+                            <li><span class="font-semibold text-red-700">Red Background:</span> Indicates critical automation coverage, **50% or less**. This highlights an area where automation efforts may need acceleration.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">3. Updating the Data:</h4>
+                <p class="text-gray-700 mb-2">
+                    This dashboard is currently designed to be updated by pasting CSV (Comma Separated Values) data directly into the text area.
+                </p>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>Prepare your testing metrics in an Excel spreadsheet.</li>
+                    <li>Ensure your Excel data is in a two-column format: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric</code> and <code class="font-mono text-sm bg-gray-200 p-1 rounded">Value</code> (as shown in the example CSV on the dashboard).</li>
+                    <li>Save your Excel file as a CSV (<code class="font-mono text-sm bg-gray-200 p-1 rounded">.csv</code>) file.</li>
+                    <li>Open the saved <code class="font-mono text-sm bg-gray-200 p-1 rounded">.csv</code> file with a simple text editor (like Notepad or TextEdit) and copy its entire content.</li>
+                    <li>Paste this copied CSV content into the large text area on the dashboard.</li>
+                    <li>Click the "Load Data" button. The dashboard will automatically recalculate and update all metrics and colors based on your new data.</li>
+                </ul>
+                <p class="text-gray-700">
+                    This dashboard is intended to be a living document that provides a snapshot of our QA health, helping us proactively identify and address potential quality risks.
+                </p>
+            </section>
+
+            <!-- Section: Developer Readme -->
+            <section class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Developer Readme</h3>
+                <p class="text-gray-700 mb-4">
+                    This section provides instructions for developers or advanced users who wish to modify the dashboard's default data loading behavior.
+                </p>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">Data Loading Configuration:</h4>
+                <p class="text-gray-700 mb-2">
+                    The dashboard can be configured to load data automatically from a hardcoded string when the page loads, or to rely on random default data until the user manually loads data via the CSV input.
+                </p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                    <li>
+                        To control this behavior, locate the following JavaScript constant at the top of the `&lt;script&gt;` block:
+                        <pre class="bg-gray-100 p-2 rounded text-sm mt-1 mb-1 overflow-auto"><code>const LOAD_FROM_HARDCODED_ON_STARTUP = true;</code></pre>
+                        <ul>
+                            <li>Set `true`: The dashboard will load data from the `HARDCODED_CSV_DATA` string immediately upon page load.</li>
+                            <li>Set `false`: The dashboard will load random data initially. The "Update Data via CSV" section will then be the primary way to input data.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        To modify the hardcoded data, edit the `HARDCODED_CSV_DATA` multiline string constant:
+                        <pre class="bg-gray-100 p-2 rounded text-sm mt-1 mb-1 overflow-auto"><code>const HARDCODED_CSV_DATA = `Metric,Value
+... your CSV data here ...
+`;</code></pre>
+                        <p class="text-sm text-gray-600 mt-1">
+                            Ensure the CSV format matches the example provided in the "Update Data via CSV" section.
+                            Remember, direct file system access (e.g., `C:\temp\rawdata.csv`) is not possible due to browser security policies.
+                        </p>
+                    </li>
+                </ul>
+                <p class="text-gray-700">
+                    After making changes to these constants, save the HTML file and refresh your browser to see the effects.
+                </p>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white p-4 text-center text-sm mt-8 rounded-t-lg">
+            <p>&copy; 2025 Sammons Financial Group - QA Dashboard. Data as of <span id="currentDate"></span>.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Configuration for Data Loading ---
+        // Set this to 'true' to load data from the HARDCODED_CSV_DATA string when the page first loads.
+        // Set to 'false' to load random data initially (and then rely on the UI 'Load Data' button).
+        const LOAD_FROM_HARDCODED_ON_STARTUP = true;
+
+        // This is your hardcoded CSV data. You can paste content from your sample-data.csv here.
+        // NOTE: Due to browser security, you cannot directly load from a local file path like C:\temp\rawdata.csv.
+        // This string serves as the "hardcoded" data source.
+        const HARDCODED_CSV_DATA = `Metric,Value
+PlannedToAutomate,1260
+CRMTotal,550
+CRMAutomated,350
+CRMPlannedToAutomate,500
+UnitTotal,300
+UnitAutomated,200
+UnitPlannedToAutomate,290
+DataTotal,180
+DataAutomated,100
+DataPlannedToAutomate,150
+IntegrationTotal,220
+IntegrationAutomated,120
+IntegrationPlannedToAutomate,180
+SmokeTotal,80
+SmokeAutomated,25
+SmokePlannedToAutomate,40
+UITotal,120
+UIAutomated,70
+UIPlannedToAutomate,100`;
+
+
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+
+        function initializeDashboard() {
+            // Set current date in footer
+            const today = new Date();
+            document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Load initial data based on configuration flag
+            if (LOAD_FROM_HARDCODED_ON_STARTUP) {
+                applyData(parseCSV(HARDCODED_CSV_DATA));
+            } else {
+                loadDefaultRandomData();
+            }
+
+            // Event listener for the Load Data button (always active to allow manual updates)
+            document.getElementById('loadDataBtn').addEventListener('click', () => {
+                const csvInput = document.getElementById('csvInput').value;
+                const parsed = parseCSV(csvInput);
+                if (Object.keys(parsed).length > 0) {
+                    applyData(parsed);
+                    const dataLoadMessage = document.getElementById('dataLoadMessage');
+                    dataLoadMessage.textContent = 'Data loaded successfully!';
+                    dataLoadMessage.classList.remove('hidden', 'text-red-600');
+                    dataLoadMessage.classList.add('text-green-600');
+                    setTimeout(() => dataLoadMessage.classList.add('hidden'), 3000);
+                } else {
+                    const dataLoadMessage = document.getElementById('dataLoadMessage');
+                    dataLoadMessage.textContent = 'No valid data found in CSV. Please check format.';
+                    dataLoadMessage.classList.remove('hidden', 'text-green-600');
+                    dataLoadMessage.classList.add('text-red-600');
+                }
+            });
+        }
+
+        // Helper function to generate random data for demonstration
+        function loadDefaultRandomData() {
+            function generateTestData() {
+                const totalTests = Math.floor(Math.random() * 500) + 100;
+                const plannedToAutomate = Math.floor(totalTests * (0.5 + Math.random() * 0.5));
+                const automatedTests = Math.floor(plannedToAutomate * (0.4 + Math.random() * 0.5));
+
+                return {
+                    total: totalTests,
+                    plannedToAutomate: plannedToAutomate,
+                    automated: automatedTests
+                };
+            }
+
+            const testTypesData = {
+                crm: generateTestData(),
+                unit: generateTestData(),
+                data: generateTestData(),
+                integration: generateTestData(),
+                smoke: generateTestData(),
+                ui: generateTestData()
+            };
+
+            const plannedToAutomateOverall = 1500;
+
+            const defaultData = {
+                PlannedToAutomate: plannedToAutomateOverall
+            };
+            for (const type in testTypesData) {
+                defaultData[`${type.toUpperCase()}Total`] = testTypesData[type].total; // Ensure uppercase for CRM, etc.
+                defaultData[`${type.toUpperCase()}PlannedToAutomate`] = testTypesData[type].plannedToAutomate;
+                defaultData[`${type.toUpperCase()}Automated`] = testTypesData[type].automated;
+            }
+            applyData(defaultData);
+        }
+
+        // Helper function to parse CSV string into a data object
+        function parseCSV(csvString) {
+            const parsedData = {};
+            const lines = csvString.trim().split('\n');
+
+            if (lines.length < 2) {
+                console.warn('CSV string is empty or has no data rows.');
+                return parsedData;
+            }
+
+            // FIX: Removed the unexpected '.1' from lines[0].1
+            const headers = lines[0].split(',').map(h => h.trim());
+            if (headers[0] !== 'Metric' || headers[1] !== 'Value') {
+                console.error('CSV headers must be "Metric" and "Value".');
+                return parsedData;
+            }
+
+            for (let i = 1; i < lines.length; i++) {
+                const parts = lines[i].split(',');
+                if (parts.length === 2) {
+                    const metric = parts[0].trim();
+                    const value = parseInt(parts[1].trim(), 10);
+                    if (!isNaN(value)) {
+                        parsedData[metric] = value;
+                    } else {
+                        console.warn(`Skipping invalid value for metric "${metric}": ${parts[1].trim()}`);
+                    }
+                }
+            }
+            return parsedData;
+        }
+
+        let currentDashboardData = {}; // Store the last loaded data globally
+
+        function applyData(data) {
+            currentDashboardData = data; // Update global data
+
+            // Overall Automation Coverage Metrics
+            const plannedToAutomateOverall = data.PlannedToAutomate || 0;
+            let totalCurrentlyAutomated = 0;
+
+            const testTypePrefixes = ['CRM', 'Unit', 'Data', 'Integration', 'Smoke', 'UI']; // Use uppercase to match CSV
+            const testTypeDataMap = {};
+
+            testTypePrefixes.forEach(type => {
+                const lowerCaseType = type.toLowerCase();
+                const total = data[`${type}Total`] || 0;
+                const plannedToAutomate = data[`${type}PlannedToAutomate`] || 0;
+                const automated = data[`${type}Automated`] || 0;
+
+                testTypeDataMap[lowerCaseType] = {
+                    total: total,
+                    plannedToAutomate: plannedToAutomate,
+                    automated: automated
+                };
+                totalCurrentlyAutomated += automated;
+
+                // Inlined logic for individual test type cards
+                const cardElement = document.getElementById(`${lowerCaseType}Card`);
+                if (cardElement) {
+                    document.getElementById(`${lowerCaseType}Total`).textContent = total.toLocaleString();
+                    document.getElementById(`${lowerCaseType}PlannedToAutomate`).textContent = plannedToAutomate.toLocaleString();
+                    document.getElementById(`${lowerCaseType}Automated`).textContent = automated.toLocaleString();
+
+                    const automationCoverage = plannedToAutomate > 0 ? ((automated / plannedToAutomate) * 100).toFixed(1) : 0;
+                    document.getElementById(`${lowerCaseType}AutomationCoverage`).textContent = `${automationCoverage}%`;
+
+                    cardElement.classList.remove(
+                        'bg-green-50', 'border-green-200',
+                        'bg-yellow-50', 'border-yellow-200',
+                        'bg-red-50', 'border-red-200'
+                    );
+
+                    let bgColorClass, borderColorClass;
+                    if (automationCoverage > 80) {
+                        bgColorClass = 'bg-green-50';
+                        borderColorClass = 'border-green-200';
+                    } else if (automationCoverage > 50) {
+                        bgColorClass = 'bg-yellow-50';
+                        borderColorClass = 'border-yellow-200';
+                    } else {
+                        bgColorClass = 'bg-red-50';
+                        borderColorClass = 'border-red-200';
+                    }
+                    cardElement.classList.add(bgColorClass, borderColorClass);
+                }
+            });
+
+            document.getElementById('currentAutomatedCount').textContent = totalCurrentlyAutomated.toLocaleString();
+            document.getElementById('plannedAutomationCount').textContent = plannedToAutomateOverall.toLocaleString();
+
+            const overallAutomationProgress = plannedToAutomateOverall > 0 ? (totalCurrentlyAutomated / plannedToAutomateOverall) * 100 : 0;
+            const overallAutomationProgressBar = document.getElementById('overallAutomationProgressBar');
+            const overallAutomationProgressText = document.getElementById('overallAutomationProgressText');
+
+            overallAutomationProgressBar.style.width = `${Math.min(100, overallAutomationProgress)}%`;
+            overallAutomationProgressBar.className = `h-4 rounded-full ${overallAutomationProgress <= 60 ? 'bg-red-600' : (overallAutomationProgress > 60 && overallAutomationProgress <= 80 ? 'bg-yellow-600' : 'bg-green-600')}`;
+            overallAutomationProgressText.textContent = `${overallAutomationProgress.toFixed(1)}% Automated`;
+        }
+    </script>
+</body>
+</html>
