@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acme Software Co - QA Dashboard</title>
+    <title>Enterprise Applications - Automation Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -76,8 +76,8 @@
         <!-- Header -->
         <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-6 shadow-lg rounded-b-lg">
             <div class="container mx-auto flex justify-between items-center">
-                <h1 class="text-3xl font-bold">Acme Software Co</h1>
-                <h2 class="text-2xl font-semibold">QA Metrics Dashboard</h2>
+                <h1 class="text-3xl font-bold">Enterprise Applications</h1>
+                <h2 class="text-2xl font-semibold">Automation Metrics Dashboard</h2>
             </div>
             <!-- Links and Print Icon -->
             <div class="container mx-auto mt-4 text-center flex justify-center items-center space-x-4 header-links">
@@ -149,25 +149,25 @@
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Coverage by Testing Team</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <!-- CSM Team Card (Moved to front) -->
-                    <div id="csmCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">CSM Team</h4>
+                    <!-- CRM Team Card (Previously CSM) -->
+                    <div id="crmCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">CRM Team</h4>
                         <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="csmTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="csmPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="csmAutomated" class="font-semibold">0</span></p>
+                            <p class="text-gray-700">Total Tests in Category: <span id="crmTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="crmPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="crmAutomated" class="font-semibold">0</span></p>
                             <div class="mt-2">
                                 <h5 class="text-md font-medium text-gray-800 mb-1">
-                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="csmTestTypeBreakdownContent">
+                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="crmTestTypeBreakdownContent">
                                         Hide Breakdown by Test Type
                                     </a>
                                 </h5>
-                                <div id="csmTestTypeBreakdownContent" class="space-y-1 text-sm">
-                                    <div id="csmTestTypeBreakdown">
+                                <div id="crmTestTypeBreakdownContent" class="space-y-1 text-sm">
+                                    <div id="crmTestTypeBreakdown">
                                         <!-- Test type details will be populated here by JavaScript -->
                                     </div>
                                 </div>
-                                <div id="csmRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                <div id="crmRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
                                     Warning: Sum of automated test types does not match team's total automated.
                                 </div>
                             </div>
@@ -273,7 +273,7 @@
 
                 <h4 class="text-xl font-medium text-gray-800 mb-2">2. Automation Coverage by Testing Team:</h4>
                 <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>For each team (CSM, Imaging, Phoenix, Ace), you'll see:
+                    <li>For each team (CRM, Imaging, Phoenix, Ace), you'll see:
                         <ul class="list-circle list-inside ml-4">
                             <li>**Total Tests, Planned to Automate, Tests Automated:** Key metrics for the team.</li>
                             <li>**Automation Progress Bar:** Visual progress for the team.</li>
@@ -296,7 +296,7 @@
                 </p>
                 <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
                     <li>**CSV Format:** Two columns: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric</code> and <code class="font-mono text-sm bg-gray-200 p-1 rounded">Value</code>.</li>
-                    <li>**Data Structure:** Include specific metrics for each team and test type (e.g., `CSM_Unit_Automated`). The team's `_Automated` value should be the sum of its test types.</li>
+                    <li>**Data Structure:** Include specific metrics for each team and test type (e.g., `CRM_Unit_Automated`). The team's `_Automated` value should be the sum of its test types.</li>
                     <li>**Process:** Copy CSV from a text editor, paste into the text area, and click "Load Data."</li>
                 </ul>
                 <p class="text-gray-700">
@@ -345,33 +345,33 @@
                 <div class="relative mb-4">
                     <pre id="csvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto pr-10"><code>Metric,Value
 PlannedToAutomate,880
-CSM_Total,200
-CSM_PlannedToAutomate,180
-CSM_Automated,117
-CSM_Unit_Total,40
-CSM_Unit_PlannedToAutomate,35
-CSM_Unit_Automated,20
-CSM_Functional_Total,50
-CSM_Functional_PlannedToAutomate,45
-CSM_Functional_Automated,30
-CSM_IncrementalDataLoad_Total,20
-CSM_IncrementalDataLoad_PlannedToAutomate,18
-CSM_IncrementalDataLoad_Automated,17
-CSM_FullLoadDataValidation_Total,30
-CSM_FullLoadDataValidation_PlannedToAutomate,28
-CSM_FullLoadDataValidation_Automated,12
-CSM_UserAcceptance_Total,20
-CSM_UserAcceptance_PlannedToAutomate,18
-CSM_UserAcceptance_Automated,14
-CSM_API_Total,15
-CSM_API_PlannedToAutomate,14
-CSM_API_Automated,13
-CSM_Regression_Total,15
-CSM_Regression_PlannedToAutomate,14
-CSM_Regression_Automated,5
-CSM_Smoke_Total,10
-CSM_Smoke_PlannedToAutomate,8
-CSM_Smoke_Automated,6
+CRM_Total,200
+CRM_PlannedToAutomate,180
+CRM_Automated,117
+CRM_Unit_Total,40
+CRM_Unit_PlannedToAutomate,35
+CRM_Unit_Automated,20
+CRM_Functional_Total,50
+CRM_Functional_PlannedToAutomate,45
+CRM_Functional_Automated,30
+CRM_IncrementalDataLoad_Total,20
+CRM_IncrementalDataLoad_PlannedToAutomate,18
+CRM_IncrementalDataLoad_Automated,17
+CRM_FullLoadDataValidation_Total,30
+CRM_FullLoadDataValidation_PlannedToAutomate,28
+CRM_FullLoadDataValidation_Automated,12
+CRM_UserAcceptance_Total,20
+CRM_UserAcceptance_PlannedToAutomate,18
+CRM_UserAcceptance_Automated,14
+CRM_API_Total,15
+CRM_API_PlannedToAutomate,14
+CRM_API_Automated,13
+CRM_Regression_Total,15
+CRM_Regression_PlannedToAutomate,14
+CRM_Regression_Automated,5
+CRM_Smoke_Total,10
+CRM_Smoke_PlannedToAutomate,8
+CRM_Smoke_Automated,6
 Imaging_Total,300
 Imaging_PlannedToAutomate,280
 Imaging_Automated,238
@@ -520,33 +520,33 @@ Ace_Smoke_Automated,6
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
                         <pre id="scenario1CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,1000
-CSM_Total,200
-CSM_PlannedToAutomate,180
-CSM_Automated,170
-CSM_Unit_Total,40
-CSM_Unit_PlannedToAutomate,35
-CSM_Unit_Automated,34
-CSM_Functional_Total,50
-CSM_Functional_PlannedToAutomate,45
-CSM_Functional_Automated,42
-CSM_IncrementalDataLoad_Total,20
-CSM_IncrementalDataLoad_PlannedToAutomate,18
-CSM_IncrementalDataLoad_Automated,17
-CSM_FullLoadDataValidation_Total,30
-CSM_FullLoadDataValidation_PlannedToAutomate,28
-CSM_FullLoadDataValidation_Automated,26
-CSM_UserAcceptance_Total,20
-CSM_UserAcceptance_PlannedToAutomate,18
-CSM_UserAcceptance_Automated,17
-CSM_API_Total,15
-CSM_API_PlannedToAutomate,14
-CSM_API_Automated,13
-CSM_Regression_Total,15
-CSM_Regression_PlannedToAutomate,14
-CSM_Regression_Automated,13
-CSM_Smoke_Total,10
-CSM_Smoke_PlannedToAutomate,8
-CSM_Smoke_Automated,8
+CRM_Total,200
+CRM_PlannedToAutomate,180
+CRM_Automated,170
+CRM_Unit_Total,40
+CRM_Unit_PlannedToAutomate,35
+CRM_Unit_Automated,34
+CRM_Functional_Total,50
+CRM_Functional_PlannedToAutomate,45
+CRM_Functional_Automated,42
+CRM_IncrementalDataLoad_Total,20
+CRM_IncrementalDataLoad_PlannedToAutomate,18
+CRM_IncrementalDataLoad_Automated,17
+CRM_FullLoadDataValidation_Total,30
+CRM_FullLoadDataValidation_PlannedToAutomate,28
+CRM_FullLoadDataValidation_Automated,26
+CRM_UserAcceptance_Total,20
+CRM_UserAcceptance_PlannedToAutomate,18
+CRM_UserAcceptance_Automated,17
+CRM_API_Total,15
+CRM_API_PlannedToAutomate,14
+CRM_API_Automated,13
+CRM_Regression_Total,15
+CRM_Regression_PlannedToAutomate,14
+CRM_Regression_Automated,13
+CRM_Smoke_Total,10
+CRM_Smoke_PlannedToAutomate,8
+CRM_Smoke_Automated,8
 Imaging_Total,300
 Imaging_PlannedToAutomate,280
 Imaging_Automated,260
@@ -648,7 +648,7 @@ Ace_Smoke_Automated,7
                                     <li>Overall Automation Warning: **Hidden**</li>
                                 </ul>
                             </li>
-                            <li>**CSM Team:**
+                            <li>**CRM Team:**
                                 <ul class="list-circle list-inside ml-4">
                                     <li>Tests Automated: **170** (Calculated sum matches CSV)</li>
                                     <li>Planned to Automate: **180**</li>
@@ -689,33 +689,33 @@ Ace_Smoke_Automated,7
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
                         <pre id="scenario2CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,1200
-CSM_Total,200
-CSM_PlannedToAutomate,180
-CSM_Automated,100
-CSM_Unit_Total,40
-CSM_Unit_PlannedToAutomate,35
-CSM_Unit_Automated,20
-CSM_Functional_Total,50
-CSM_Functional_PlannedToAutomate,45
-CSM_Functional_Automated,25
-CSM_IncrementalDataLoad_Total,20
-CSM_IncrementalDataLoad_PlannedToAutomate,18
-CSM_IncrementalDataLoad_Automated,10
-CSM_FullLoadDataValidation_Total,30
-CSM_FullLoadDataValidation_PlannedToAutomate,28
-CSM_FullLoadDataValidation_Automated,15
-CSM_UserAcceptance_Total,20
-CSM_UserAcceptance_PlannedToAutomate,18
-CSM_UserAcceptance_Automated,10
-CSM_API_Total,15
-CSM_API_PlannedToAutomate,14
-CSM_API_Automated,8
-CSM_Regression_Total,15
-CSM_Regression_PlannedToAutomate,14
-CSM_Regression_Automated,7
-CSM_Smoke_Total,10
-CSM_Smoke_PlannedToAutomate,8
-CSM_Smoke_Automated,5
+CRM_Total,200
+CRM_PlannedToAutomate,180
+CRM_Automated,100
+CRM_Unit_Total,40
+CRM_Unit_PlannedToAutomate,35
+CRM_Unit_Automated,20
+CRM_Functional_Total,50
+CRM_Functional_PlannedToAutomate,45
+CRM_Functional_Automated,25
+CRM_IncrementalDataLoad_Total,20
+CRM_IncrementalDataLoad_PlannedToAutomate,18
+CRM_IncrementalDataLoad_Automated,10
+CRM_FullLoadDataValidation_Total,30
+CRM_FullLoadDataValidation_PlannedToAutomate,28
+CRM_FullLoadDataValidation_Automated,15
+CRM_UserAcceptance_Total,20
+CRM_UserAcceptance_PlannedToAutomate,18
+CRM_UserAcceptance_Automated,10
+CRM_API_Total,15
+CRM_API_PlannedToAutomate,14
+CRM_API_Automated,8
+CRM_Regression_Total,15
+CRM_Regression_PlannedToAutomate,14
+CRM_Regression_Automated,7
+CRM_Smoke_Total,10
+CRM_Smoke_PlannedToAutomate,8
+CRM_Smoke_Automated,5
 Imaging_Total,300
 Imaging_PlannedToAutomate,280
 Imaging_Automated,260
@@ -817,7 +817,7 @@ Ace_Smoke_Automated,5
                                     <li>Overall Automation Warning: **Hidden**</li>
                                 </ul>
                             </li>
-                            <li>**CSM Team:**
+                            <li>**CRM Team:**
                                 <ul class="list-circle list-inside ml-4">
                                     <li>Tests Automated: **100** (Calculated sum matches CSV)</li>
                                     <li>Planned to Automate: **180**</li>
@@ -858,33 +858,33 @@ Ace_Smoke_Automated,5
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
                         <pre id="scenario3CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,250
-CSM_Total,100
-CSM_PlannedToAutomate,80
-CSM_Automated,70
-CSM_Unit_Total,20
-CSM_Unit_PlannedToAutomate,15
-CSM_Unit_Automated,15
-CSM_Functional_Total,30
-CSM_Functional_PlannedToAutomate,25
-CSM_Functional_Automated,25
-CSM_IncrementalDataLoad_Total,10
-CSM_IncrementalDataLoad_PlannedToAutomate,8
-CSM_IncrementalDataLoad_Automated,10
-CSM_FullLoadDataValidation_Total,15
-CSM_FullLoadDataValidation_PlannedToAutomate,12
-CSM_FullLoadDataValidation_Automated,15
-CSM_UserAcceptance_Total,10
-CSM_UserAcceptance_PlannedToAutomate,8
-CSM_UserAcceptance_Automated,10
-CSM_API_Total,5
-CSM_API_PlannedToAutomate,4
-CSM_API_Automated,5
-CSM_Regression_Total,5
-CSM_Regression_PlannedToAutomate,4
-CSM_Regression_Automated,4
-CSM_Smoke_Total,5
-CSM_Smoke_PlannedToAutomate,4
-CSM_Smoke_Automated,20
+CRM_Total,100
+CRM_PlannedToAutomate,80
+CRM_Automated,70
+CRM_Unit_Total,20
+CRM_Unit_PlannedToAutomate,15
+CRM_Unit_Automated,15
+CRM_Functional_Total,30
+CRM_Functional_PlannedToAutomate,25
+CRM_Functional_Automated,25
+CRM_IncrementalDataLoad_Total,10
+CRM_IncrementalDataLoad_PlannedToAutomate,8
+CRM_IncrementalDataLoad_Automated,10
+CRM_FullLoadDataValidation_Total,15
+CRM_FullLoadDataValidation_PlannedToAutomate,12
+CRM_FullLoadDataValidation_Automated,15
+CRM_UserAcceptance_Total,10
+CRM_UserAcceptance_PlannedToAutomate,8
+CRM_UserAcceptance_Automated,10
+CRM_API_Total,5
+CRM_API_PlannedToAutomate,4
+CRM_API_Automated,5
+CRM_Regression_Total,5
+CRM_Regression_PlannedToAutomate,4
+CRM_Regression_Automated,4
+CRM_Smoke_Total,5
+CRM_Smoke_PlannedToAutomate,4
+CRM_Smoke_Automated,20
 Imaging_Total,100
 Imaging_PlannedToAutomate,90
 Imaging_Automated,95
@@ -986,7 +986,7 @@ Ace_Smoke_Automated,15
                                     <li>Overall Automation Warning: **Visible**</li>
                                 </ul>
                             </li>
-                            <li>**CSM Team:**
+                            <li>**CRM Team:**
                                 <ul class="list-circle list-inside ml-4">
                                     <li>Tests Automated: **104** (Calculated sum of 15+25+10+15+10+5+4+20 = 104)</li>
                                     <li>Planned to Automate: **80**</li>
@@ -1031,7 +1031,7 @@ Ace_Smoke_Automated,15
 
         <!-- Footer -->
         <footer class="bg-gray-800 text-white p-4 text-center text-sm mt-8 rounded-t-lg">
-            <p>&copy; 2025 Acme Software Co - QA Dashboard. Data as of <span id="currentDate"></span>.</p>
+            <p>&copy; 2025 - Enterprise Applications Automation Dashboard. Data as of <span id="currentDate"></span>.</p>
         </footer>
     </div>
 
@@ -1046,33 +1046,33 @@ Ace_Smoke_Automated,15
         // This string serves as the "hardcoded" data source.
         const HARDCODED_CSV_DATA = `Metric,Value
 PlannedToAutomate,1000
-CSM_Total,200
-CSM_PlannedToAutomate,200
-CSM_Automated,180
-CSM_Unit_Total,40
-CSM_Unit_PlannedToAutomate,35
-CSM_Unit_Automated,30
-CSM_Functional_Total,50
-CSM_Functional_PlannedToAutomate,45
-CSM_Functional_Automated,40
-CSM_IncrementalDataLoad_Total,20
-CSM_IncrementalDataLoad_PlannedToAutomate,20
-CSM_IncrementalDataLoad_Automated,20
-CSM_FullLoadDataValidation_Total,30
-CSM_FullLoadDataValidation_PlannedToAutomate,28
-CSM_FullLoadDataValidation_Automated,25
-CSM_UserAcceptance_Total,20
-CSM_UserAcceptance_PlannedToAutomate,20
-CSM_UserAcceptance_Automated,20
-CSM_API_Total,15
-CSM_API_PlannedToAutomate,15
-CSM_API_Automated,15
-CSM_Regression_Total,15
-CSM_Regression_PlannedToAutomate,15
-CSM_Regression_Automated,15
-CSM_Smoke_Total,10
-CSM_Smoke_PlannedToAutomate,10
-CSM_Smoke_Automated,15
+CRM_Total,200
+CRM_PlannedToAutomate,200
+CRM_Automated,180
+CRM_Unit_Total,40
+CRM_Unit_PlannedToAutomate,35
+CRM_Unit_Automated,30
+CRM_Functional_Total,50
+CRM_Functional_PlannedToAutomate,45
+CRM_Functional_Automated,40
+CRM_IncrementalDataLoad_Total,20
+CRM_IncrementalDataLoad_PlannedToAutomate,20
+CRM_IncrementalDataLoad_Automated,20
+CRM_FullLoadDataValidation_Total,30
+CRM_FullLoadDataValidation_PlannedToAutomate,28
+CRM_FullLoadDataValidation_Automated,25
+CRM_UserAcceptance_Total,20
+CRM_UserAcceptance_PlannedToAutomate,20
+CRM_UserAcceptance_Automated,20
+CRM_API_Total,15
+CRM_API_PlannedToAutomate,15
+CRM_API_Automated,15
+CRM_Regression_Total,15
+CRM_Regression_PlannedToAutomate,15
+CRM_Regression_Automated,15
+CRM_Smoke_Total,10
+CRM_Smoke_PlannedToAutomate,10
+CRM_Smoke_Automated,15
 Imaging_Total,300
 Imaging_PlannedToAutomate,300
 Imaging_Automated,230
@@ -1158,33 +1158,33 @@ Ace_Smoke_Automated,55
 
         const CSV_EXAMPLE_DATA = `Metric,Value
 PlannedToAutomate,250
-CSM_Total,100
-CSM_PlannedToAutomate,80
-CSM_Automated,70
-CSM_Unit_Total,20
-CSM_Unit_PlannedToAutomate,15
-CSM_Unit_Automated,15
-CSM_Functional_Total,30
-CSM_Functional_PlannedToAutomate,25
-CSM_Functional_Automated,25
-CSM_IncrementalDataLoad_Total,10
-CSM_IncrementalDataLoad_PlannedToAutomate,8
-CSM_IncrementalDataLoad_Automated,10
-CSM_FullLoadDataValidation_Total,15
-CSM_FullLoadDataValidation_PlannedToAutomate,12
-CSM_FullLoadDataValidation_Automated,15
-CSM_UserAcceptance_Total,10
-CSM_UserAcceptance_PlannedToAutomate,8
-CSM_UserAcceptance_Automated,10
-CSM_API_Total,5
-CSM_API_PlannedToAutomate,4
-CSM_API_Automated,5
-CSM_Regression_Total,5
-CSM_Regression_PlannedToAutomate,4
-CSM_Regression_Automated,4
-CSM_Smoke_Total,5
-CSM_Smoke_PlannedToAutomate,4
-CSM_Smoke_Automated,20
+CRM_Total,100
+CRM_PlannedToAutomate,80
+CRM_Automated,70
+CRM_Unit_Total,20
+CRM_Unit_PlannedToAutomate,15
+CRM_Unit_Automated,15
+CRM_Functional_Total,30
+CRM_Functional_PlannedToAutomate,25
+CRM_Functional_Automated,25
+CRM_IncrementalDataLoad_Total,10
+CRM_IncrementalDataLoad_PlannedToAutomate,8
+CRM_IncrementalDataLoad_Automated,10
+CRM_FullLoadDataValidation_Total,15
+CRM_FullLoadDataValidation_PlannedToAutomate,12
+CRM_FullLoadDataValidation_Automated,15
+CRM_UserAcceptance_Total,10
+CRM_UserAcceptance_PlannedToAutomate,8
+CRM_UserAcceptance_Automated,10
+CRM_API_Total,5
+CRM_API_PlannedToAutomate,4
+CRM_API_Automated,5
+CRM_Regression_Total,5
+CRM_Regression_PlannedToAutomate,4
+CRM_Regression_Automated,4
+CRM_Smoke_Total,5
+CRM_Smoke_PlannedToAutomate,4
+CRM_Smoke_Automated,20
 Imaging_Total,100
 Imaging_PlannedToAutomate,90
 Imaging_Automated,95
@@ -1410,7 +1410,7 @@ Ace_Smoke_Automated,15
             }
 
             const data = {};
-            const teamNames = ['CSM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            const teamNames = ['CRM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
             const testTypeNames = ['Unit', 'Functional', 'IncrementalDataLoad', 'FullLoadDataValidation', 'UserAcceptance', 'API', 'Regression', 'Smoke'];
 
             let overallPlannedSum = 0;
@@ -1488,7 +1488,7 @@ Ace_Smoke_Automated,15
             let totalCurrentlyAutomated = 0; // This will be the sum of team-level automated counts
 
             // Define team prefixes in the desired order
-            const teamPrefixes = ['CSM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            const teamPrefixes = ['CRM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
             // Define test type names for iteration and display
             const testTypeDisplayNames = {
                 'Unit': 'Unit Tests',
@@ -1504,7 +1504,7 @@ Ace_Smoke_Automated,15
 
             // Process Team Data
             teamPrefixes.forEach(teamPrefix => {
-                const lowerCaseTeamPrefix = teamPrefix.toLowerCase(); // e.g., 'csm'
+                const lowerCaseTeamPrefix = teamPrefix.toLowerCase(); // e.g., 'crm'
 
                 const teamTotal = data[`${teamPrefix}_Total`] || 0;
                 const teamPlannedToAutomate = data[`${teamPrefix}_PlannedToAutomate`] || 0;
@@ -1533,7 +1533,7 @@ Ace_Smoke_Automated,15
 
                     // Populate Test Type Breakdown for the current team and calculate calculatedTeamAutomated
                     testTypeMetricPrefixes.forEach(testTypePrefix => {
-                        const testTypeTotal = data[`${teamPrefix}_${testTypePrefix}_Total`] || 0;
+                        const testTypeTotal = data[`${teamPrefix}_${testTypePrefix}_Total`] || 0; // Get the new Total value
                         const testTypePlannedToAutomate = data[`${teamPrefix}_${testTypePrefix}_PlannedToAutomate`] || 0;
                         const testTypeAutomated = data[`${teamPrefix}_${testTypePrefix}_Automated`] || 0;
 
@@ -1554,7 +1554,7 @@ Ace_Smoke_Automated,15
                             const div = document.createElement('div');
                             div.className = 'mb-1'; // Add some margin between test types
                             div.innerHTML = `
-                                <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span> / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span>
+                                <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span> / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span>
                                 <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
                                     <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
                                 </div>
