@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sammons Financial Group - QA Dashboard</title>
+    <title>Acme Software Co - QA Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -71,12 +71,12 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body id="top" class="bg-gray-100 text-gray-800">
     <div class="min-h-screen flex flex-col">
         <!-- Header -->
         <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-6 shadow-lg rounded-b-lg">
             <div class="container mx-auto flex justify-between items-center">
-                <h1 class="text-3xl font-bold">Sammons Financial Group</h1>
+                <h1 class="text-3xl font-bold">Acme Software Co</h1>
                 <h2 class="text-2xl font-semibold">QA Metrics Dashboard</h2>
             </div>
             <!-- Links and Print Icon -->
@@ -119,81 +119,203 @@
                         <div id="overallAutomationProgressBar" class="bg-purple-600 h-4 rounded-full" style="width: 0%;"></div>
                     </div>
                     <p id="overallAutomationProgressText" class="text-right text-sm text-gray-600 mt-1">0% Automated</p>
+                    <!-- Warning for automated > planned -->
+                    <div id="overallAutomationWarning" class="mt-2 text-red-600 font-semibold text-sm hidden">
+                        Warning: Total Automated Tests exceed Tests Planned for Automation. Please verify data.
+                    </div>
                 </div>
             </section>
 
-            <!-- Section: Automation Coverage by Test Type (Individual Categories) -->
+            <!-- Section: Automation Coverage by Testing Team -->
             <section class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Coverage by Test Type</h3>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Coverage by Testing Team</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <!-- CRM Tests Card (Automation Focus) -->
-                    <div id="crmCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">CRM Tests</h4>
+                    <!-- CSM Team Card (Moved to front) -->
+                    <div id="csmCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">CSM Team</h4>
                         <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="crmTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="crmPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="crmAutomated" class="font-semibold">0</span></p>
-                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="crmAutomationCoverage" class="font-bold">0%</span></b></p>
+                            <p class="text-gray-700">Total Tests in Category: <span id="csmTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="csmPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="csmAutomated" class="font-semibold">0</span></p>
+                            <div class="mt-2">
+                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div id="csmAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                </div>
+                                <p id="csmAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
+                            <div id="csmTestTypeBreakdown" class="space-y-1 text-sm">
+                                <!-- Test type details will be populated here by JavaScript -->
+                            </div>
+                            <div id="csmRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                Warning: Sum of automated test types does not match team's total automated.
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Unit Tests Card (Automation Focus) -->
-                    <div id="unitCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Unit Tests</h4>
+                    <!-- Imaging Team Card -->
+                    <div id="imagingCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Imaging Team</h4>
                         <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="unitTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="unitPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="unitAutomated" class="font-semibold">0</span></p>
-                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="unitAutomationCoverage" class="font-bold">0%</span></b></p>
+                            <p class="text-gray-700">Total Tests in Category: <span id="imagingTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="imagingPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="imagingAutomated" class="font-semibold">0</span></p>
+                            <div class="mt-2">
+                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div id="imagingAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                </div>
+                                <p id="imagingAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
+                            <div id="imagingTestTypeBreakdown" class="space-y-1 text-sm">
+                                <!-- Test type details will be populated here by JavaScript -->
+                            </div>
+                            <div id="imagingRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                Warning: Sum of automated test types does not match team's total automated.
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Data Tests Card (Automation Focus) -->
-                    <div id="dataCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Data Tests</h4>
+                    <!-- Phoenix Team Card -->
+                    <div id="phoenixCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Phoenix Team</h4>
                         <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="dataTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="dataPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="dataAutomated" class="font-semibold">0</span></p>
-                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="dataAutomationCoverage" class="font-bold">0%</span></b></p>
+                            <p class="text-gray-700">Total Tests in Category: <span id="phoenixTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="phoenixPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="phoenixAutomated" class="font-semibold">0</span></p>
+                            <div class="mt-2">
+                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div id="phoenixAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                </div>
+                                <p id="phoenixAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
+                            <div id="phoenixTestTypeBreakdown" class="space-y-1 text-sm">
+                                <!-- Test type details will be populated here by JavaScript -->
+                            </div>
+                            <div id="phoenixRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                Warning: Sum of automated test types does not match team's total automated.
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Integration Tests Card (Automation Focus) -->
-                    <div id="integrationCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Integration Tests</h4>
+                    <!-- Ace Team Card -->
+                    <div id="aceCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Ace Team</h4>
                         <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="integrationTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="integrationPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="integrationAutomated" class="font-semibold">0</span></p>
-                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="integrationAutomationCoverage" class="font-bold">0%</span></b></p>
+                            <p class="text-gray-700">Total Tests in Category: <span id="aceTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="acePlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="aceAutomated" class="font-semibold">0</span></p>
+                            <div class="mt-2">
+                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div id="aceAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                </div>
+                                <p id="aceAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Smoke Tests Card (Automation Focus) -->
-                    <div id="smokeCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Smoke Tests</h4>
-                        <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="smokeTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="smokePlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="smokeAutomated" class="font-semibold">0</span></p>
-                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="smokeAutomationCoverage" class="font-bold">0%</span></b></p>
-                        </div>
-                    </div>
-
-                    <!-- UI Functional Tests Card (Automation Focus) -->
-                    <div id="uiCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">UI Functional Tests</h4>
-                        <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="uiTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="uiPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="uiAutomated" class="font-semibold">0</span></p>
-                            <p class="text-blue-600 mt-2"><b>% Automated for Category: <span id="uiAutomationCoverage" class="font-bold">0%</span></b></p>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
+                            <div id="aceTestTypeBreakdown" class="space-y-1 text-sm">
+                                <!-- Test type details will be populated here by JavaScript -->
+                            </div>
+                            <div id="aceRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                Warning: Sum of automated test types does not match team's total automated.
+                            </div>
                         </div>
                     </div>
 
                 </div>
+            </section>
+
+            <!-- Section: How to Use This Dashboard -->
+            <section class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">How to Use This Dashboard</h3>
+                <p class="text-gray-700 mb-4">
+                    This dashboard provides a high-level overview of our Quality Assurance (QA) testing metrics.
+                </p>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">1. Overall Automation Coverage:</h4>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>**Total Tests Currently Automated vs. Planned:** High-level view of all automation efforts.</li>
+                    <li>**Overall Automation Progress Bar:** Visual indicator of automation completion.
+                        <ul class="list-circle list-inside ml-4">
+                            <li><span class="font-semibold text-green-700">Green:</span> > 80% Automated.</li>
+                            <li><span class="font-semibold text-yellow-600">Yellow:</span> > 60% &lt;= 80% Automated.</li>
+                            <li><span class="font-semibold text-red-600">Red:</span> &lt;= 60% Automated.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">2. Automation Coverage by Testing Team:</h4>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>For each team (CSM, Imaging, Phoenix, Ace), you'll see:
+                        <ul class="list-circle list-inside ml-4">
+                            <li>**Total Tests, Planned to Automate, Tests Automated:** Key metrics for the team.</li>
+                            <li>**Automation Progress Bar:** Visual progress for the team.</li>
+                            <li>**Breakdown by Test Type:** Detailed progress for Unit, Functional, API tests, etc., within each team, including individual progress bars.</li>
+                            <li>**Roll-up Warning:** Appears if the sum of individual test types' automated counts doesn't match the team's overall "Tests Automated" from CSV.</li>
+                        </ul>
+                    </li>
+                    <li>**Team Card Color Coding:**
+                        <ul class="list-circle list-inside ml-4">
+                            <li><span class="font-semibold text-green-700">Green Background:</span> > 80% automation coverage.</li>
+                            <li><span class="font-semibold text-yellow-700">Yellow Background:</span> > 50% but &lt;= 80% automation coverage.</li>
+                            <li><span class="font-semibold text-red-700">Red Background:</span> &lt;= 50% automation coverage.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">3. Updating the Data:</h4>
+                <p class="text-gray-700 mb-2">
+                    Update data by pasting CSV content directly into the text area below.
+                </p>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>**CSV Format:** Two columns: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric</code> and <code class="font-mono text-sm bg-gray-200 p-1 rounded">Value</code>.</li>
+                    <li>**Data Structure:** Include specific metrics for each team and test type (e.g., `CSM_Unit_Automated`). The team's `_Automated` value should be the sum of its test types.</li>
+                    <li>**Process:** Copy CSV from a text editor, paste into the text area, and click "Load Data."</li>
+                </ul>
+                <p class="text-gray-700">
+                    This dashboard is a living document for monitoring QA health and identifying risks.
+                </p>
+            </section>
+
+            <!-- Section: Understanding the Overall Automation Warning -->
+            <section class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Understanding the Overall Automation Warning</h3>
+                <p class="text-gray-700 mb-4">
+                    The <span class="text-red-600">red</span> warning message, "Warning: Total Automated Tests exceed Tests Planned for Automation. Please verify data," highlights potential data inconsistency.
+                </p>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">What it means:</h4>
+                <p class="text-gray-700 mb-2">
+                    Automated tests should not exceed planned tests. This warning appears if total automated tests (sum of all team/type automated counts) are higher than the overall "Tests Planned for Automation."
+                </p>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">Why it might appear:</h4>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>**Data Entry Error:** Most common reason is a typo in your CSV data.</li>
+                    <li>**Unexpected Automation:** More tests automated than planned, requiring a review to update the "Planned to Automate" metric.</li>
+                </ul>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2">What to do if you see it:</h4>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    <li>**Review CSV data:** Double-check all "Tests Automated" and "PlannedToAutomate" values for logical alignment.</li>
+                    <li>**Adjust "Planned" if necessary:** Update the overall "PlannedToAutomate" value to reflect new targets if more tests were genuinely automated.</li>
+                </ul>
+                <p class="text-gray-700">
+                    This warning helps maintain data integrity and accurate reporting.
+                </p>
             </section>
 
             <!-- Section: Update Data via CSV (Moved to bottom) -->
@@ -202,141 +324,673 @@
                 <p class="text-gray-700 mb-4">
                     You can update the dashboard data by pasting CSV content from your Excel file below.
                     Ensure your CSV has two columns: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric</code> and <code class="font-mono text-sm bg-gray-200 p-1 rounded">Value</code>.
-                    <br>
-                    <span class="font-semibold">Example CSV format:</span>
-                    <pre class="bg-gray-100 p-2 rounded text-sm mt-2 overflow-auto"><code>Metric,Value
-PlannedToAutomate,1500
-CRMTotal,550
-CRMAutomated,450
-CRMPlannedToAutomate,500
-UnitTotal,300
-UnitAutomated,285
-UnitPlannedToAutomate,290
-DataTotal,180
-DataAutomated,120
-DataPlannedToAutomate,150
-IntegrationTotal,220
-IntegrationAutomated,100
-IntegrationPlannedToAutomate,180
-SmokeTotal,80
-SmokeAutomated,20
-SmokePlannedToAutomate,40
-UITotal,120
-UIAutomated,80
-UIPlannedToAutomate,100</code></pre>
-                    <span class="text-sm text-gray-600">
-                        To export from Excel: Go to File > Save As > Browse, then select "CSV (Comma delimited) (*.csv)" from the "Save as type" dropdown. Open the .csv file with a text editor and copy its content.
-                    </span>
+                </p>
+                <p class="text-gray-700 mb-4">
+                    Below is sample data you can copy and paste into the text area to see how the dashboard works with different values and color shadings.
+                </p>
+                <div class="relative mb-4">
+                    <pre id="csvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto pr-10"><code>Metric,Value
+PlannedToAutomate,250
+CSM_Total,100
+CSM_PlannedToAutomate,80
+CSM_Automated,70
+CSM_Unit_Total,20
+CSM_Unit_PlannedToAutomate,15
+CSM_Unit_Automated,15
+CSM_Functional_Total,30
+CSM_Functional_PlannedToAutomate,25
+CSM_Functional_Automated,25
+CSM_IncrementalDataLoad_Total,10
+CSM_IncrementalDataLoad_PlannedToAutomate,8
+CSM_IncrementalDataLoad_Automated,10
+CSM_FullLoadDataValidation_Total,15
+CSM_FullLoadDataValidation_PlannedToAutomate,12
+CSM_FullLoadDataValidation_Automated,15
+CSM_UserAcceptance_Total,10
+CSM_UserAcceptance_PlannedToAutomate,8
+CSM_UserAcceptance_Automated,10
+CSM_API_Total,5
+CSM_API_PlannedToAutomate,4
+CSM_API_Automated,5
+CSM_Regression_Total,5
+CSM_Regression_PlannedToAutomate,4
+CSM_Regression_Automated,4
+CSM_Smoke_Total,5
+CSM_Smoke_PlannedToAutomate,4
+CSM_Smoke_Automated,20
+Imaging_Total,100
+Imaging_PlannedToAutomate,90
+Imaging_Automated,95
+Imaging_Unit_Total,20
+Imaging_Unit_PlannedToAutomate,18
+Imaging_Unit_Automated,17
+Imaging_Functional_Total,30
+Imaging_Functional_PlannedToAutomate,27
+Imaging_Functional_Automated,25
+Imaging_IncrementalDataLoad_Total,10
+Imaging_IncrementalDataLoad_PlannedToAutomate,9
+Imaging_IncrementalDataLoad_Automated,8
+Imaging_FullLoadDataValidation_Total,15
+Imaging_FullLoadDataValidation_PlannedToAutomate,13
+Imaging_FullLoadDataValidation_Automated,12
+Imaging_UserAcceptance_Total,10
+Imaging_UserAcceptance_PlannedToAutomate,9
+Imaging_UserAcceptance_Automated,8
+Imaging_API_Total,5
+Imaging_API_PlannedToAutomate,4
+Imaging_API_Automated,3
+Imaging_Regression_Total,5
+Imaging_Regression_PlannedToAutomate,4
+Imaging_Regression_Automated,3
+Imaging_Smoke_Total,5
+Imaging_Smoke_PlannedToAutomate,4
+Imaging_Smoke_Automated,2
+Phoenix_Total,100
+Phoenix_PlannedToAutomate,80
+Phoenix_Automated,70
+Phoenix_Unit_Total,20
+Phoenix_Unit_PlannedToAutomate,16
+Phoenix_Unit_Automated,18
+Phoenix_Functional_Total,30
+Phoenix_Functional_PlannedToAutomate,24
+Phoenix_Functional_Automated,30
+Phoenix_IncrementalDataLoad_Total,10
+Phoenix_IncrementalDataLoad_PlannedToAutomate,8
+Phoenix_IncrementalDataLoad_Automated,12
+Phoenix_FullLoadDataValidation_Total,35
+Phoenix_FullLoadDataValidation_PlannedToAutomate,12
+Phoenix_FullLoadDataValidation_Automated,18
+Phoenix_UserAcceptance_Total,10
+Phoenix_UserAcceptance_PlannedToAutomate,8
+Phoenix_UserAcceptance_Automated,12
+Phoenix_API_Total,5
+Phoenix_API_PlannedToAutomate,4
+Phoenix_API_Automated,7
+Phoenix_Regression_Total,5
+Phoenix_Regression_PlannedToAutomate,4
+Phoenix_Regression_Automated,7
+Phoenix_Smoke_Total,5
+Phoenix_Smoke_PlannedToAutomate,4
+Phoenix_Smoke_Automated,15
+Ace_Total,100
+Ace_PlannedToAutomate,80
+Ace_Automated,70
+Ace_Unit_Total,20
+Ace_Unit_PlannedToAutomate,16
+Ace_Unit_Automated,18
+Ace_Functional_Total,30
+Ace_Functional_PlannedToAutomate,24
+Ace_Functional_Automated,30
+Ace_IncrementalDataLoad_Total,10
+Ace_IncrementalDataLoad_PlannedToAutomate,8
+Ace_IncrementalDataLoad_Automated,12
+Ace_FullLoadDataValidation_Total,35
+Ace_FullLoadDataValidation_PlannedToAutomate,12
+Ace_FullLoadDataValidation_Automated,18
+Ace_UserAcceptance_Total,10
+Ace_UserAcceptance_PlannedToAutomate,8
+Ace_UserAcceptance_Automated,12
+Ace_API_Total,5
+Ace_API_PlannedToAutomate,4
+Ace_API_Automated,7
+Ace_Regression_Total,5
+Ace_Regression_PlannedToAutomate,4
+Ace_Regression_Automated,7
+Ace_Smoke_Total,5
+Ace_Smoke_PlannedToAutomate,4
+Ace_Smoke_Automated,15
+</code></pre>
+                    <span id="copyConfirmMessage" class="absolute top-2 right-16 text-xs text-green-600 hidden">Copied!</span>
+                </div>
+                <a href="#" id="copyCsvExampleLink" class="inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold mb-2 transition duration-200">
+                    Copy Sample Data
+                </a>
+                <p class="text-sm text-gray-600 mb-4">
+                    To export from Excel: Go to File > Save As > Browse, then select "CSV (Comma delimited) (*.csv)" from the "Save as type" dropdown. Open the .csv file with a simple text editor and copy its content.
                 </p>
                 <textarea id="csvInput" rows="10" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" placeholder="Paste your CSV data here..."></textarea>
-                <button id="loadDataBtn" class="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
-                    Load Data
-                </button>
+                <div class="mt-4 flex items-center space-x-4">
+                    <button id="loadDataBtn" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                        Load Data
+                    </button>
+                    <a href="#top" class="inline-block px-6 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition duration-200">
+                        Back to Top
+                    </a>
+                </div>
                 <p id="dataLoadMessage" class="mt-2 text-sm text-red-600 hidden"></p>
-            </section>
-
-            <!-- Section: How to Use This Dashboard -->
-            <section class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">How to Use This Dashboard</h3>
-                <p class="text-gray-700 mb-4">
-                    This dashboard provides a high-level overview of our Quality Assurance (QA) testing metrics, designed to give you quick insights into the health and progress of our testing efforts.
-                </p>
-
-                <h4 class="text-xl font-medium text-gray-800 mb-2">1. Overall Automation Coverage:</h4>
-                <p class="text-gray-700 mb-2">
-                    This section focuses on our progress in automating tests across all categories.
-                </p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>**Total Tests Currently Automated vs. Tests Planned for Automation (Overall):** Provides a high-level view of our automation efforts across all test types.</li>
-                    <li>**Overall Automation Progress Bar:** This visual bar indicates the overall completion percentage of automation.
-                        <ul class="list-circle list-inside ml-4">
-                            <li><span class="font-semibold text-green-700">Green:</span> Excellent progress (> 80% Automated).</li>
-                            <li><span class="font-semibold text-yellow-600">Yellow:</span> Good progress (> 60% &lt;= 80% Automated).</li>
-                            <li><span class="font-semibold text-red-600">Red:</span> Critical progress (&lt;= 60% Automated).</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h4 class="text-xl font-medium text-gray-800 mb-2">2. Automation Coverage by Test Type:</h4>
-                <p class="text-gray-700 mb-2">
-                    This section provides a detailed breakdown of automation progress for each test category.
-                </p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>For each test category (CRM, Unit, Data, etc.), you'll see:
-                        <ul class="list-circle list-inside ml-4">
-                            <li>**Total Tests in Category:** The total number of tests within that type.</li>
-                            <li><span class="font-semibold text-indigo-700">Planned to Automate:</span> The specific number of tests within this category that are targeted for automation.</li>
-                            <li>**Tests Automated:** The count of tests that have been automated for that specific type.</li>
-                            <li>**% Automated for Category:** The percentage of tests within that category that are currently automated, calculated against the "Planned to Automate" figure for that category.</li>
-                        </ul>
-                    </li>
-                    <li>**Color Coding (Key for Quick Assessment of Automation):**
-                        <ul class="list-circle list-inside ml-4">
-                            <li><span class="font-semibold text-green-700">Green Background:</span> Indicates excellent automation coverage, specifically **above 80%**.</li>
-                            <li><span class="font-semibold text-yellow-700">Yellow Background:</span> Indicates good automation coverage, **above 50% but 80% or less**.</li>
-                            <li><span class="font-semibold text-red-700">Red Background:</span> Indicates critical automation coverage, **50% or less**. This highlights an area where automation efforts may need acceleration.</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h4 class="text-xl font-medium text-gray-800 mb-2">3. Updating the Data:</h4>
-                <p class="text-gray-700 mb-2">
-                    This dashboard is currently designed to be updated by pasting CSV (Comma Separated Values) data directly into the text area.
-                </p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>Prepare your testing metrics in an Excel spreadsheet.</li>
-                    <li>Ensure your Excel data is in a two-column format: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric</code> and <code class="font-mono text-sm bg-gray-200 p-1 rounded">Value</code> (as shown in the example CSV on the dashboard).</li>
-                    <li>Save your Excel file as a CSV (<code class="font-mono text-sm bg-gray-200 p-1 rounded">.csv</code>) file.</li>
-                    <li>Open the saved <code class="font-mono text-sm bg-gray-200 p-1 rounded">.csv</code> file with a simple text editor (like Notepad or TextEdit) and copy its entire content.</li>
-                    <li>Paste this copied CSV content into the large text area on the dashboard.</li>
-                    <li>Click the "Load Data" button. The dashboard will automatically recalculate and update all metrics and colors based on your new data.</li>
-                </ul>
-                <p class="text-gray-700">
-                    This dashboard is intended to be a living document that provides a snapshot of our QA health, helping us proactively identify and address potential quality risks.
-                </p>
             </section>
 
             <!-- Section: Developer Readme -->
             <section class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Developer Readme</h3>
-                <p class="text-gray-700 mb-4">
-                    This section provides instructions for developers or advanced users who wish to modify the dashboard's default data loading behavior.
-                </p>
+                <h3 id="developerReadmeHeading" class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">
+                    Developer Readme
+                </h3>
+                <div id="developerReadmeContent">
+                    <p class="text-gray-700 mb-4">
+                        This section provides instructions for developers or advanced users who wish to modify the dashboard's default data loading behavior.
+                    </p>
 
-                <h4 class="text-xl font-medium text-gray-800 mb-2">Data Loading Configuration:</h4>
-                <p class="text-gray-700 mb-2">
-                    The dashboard can be configured to load data automatically from a hardcoded string when the page loads, or to rely on random default data until the user manually loads data via the CSV input.
-                </p>
-                <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-                    <li>
-                        To control this behavior, locate the following JavaScript constant at the top of the `&lt;script&gt;` block:
-                        <pre class="bg-gray-100 p-2 rounded text-sm mt-1 mb-1 overflow-auto"><code>const LOAD_FROM_HARDCODED_ON_STARTUP = true;</code></pre>
-                        <ul>
-                            <li>Set `true`: The dashboard will load data from the `HARDCODED_CSV_DATA` string immediately upon page load.</li>
-                            <li>Set `false`: The dashboard will load random data initially. The "Update Data via CSV" section will then be the primary way to input data.</li>
-                        </ul>
-                    </li>
-                    <li>
-                        To modify the hardcoded data, edit the `HARDCODED_CSV_DATA` multiline string constant:
-                        <pre class="bg-gray-100 p-2 rounded text-sm mt-1 mb-1 overflow-auto"><code>const HARDCODED_CSV_DATA = `Metric,Value
+                    <h4 class="text-xl font-medium text-gray-800 mb-2">Data Loading Configuration:</h4>
+                    <p class="text-gray-700 mb-2">
+                        The dashboard can be configured to load data automatically from a hardcoded string when the page loads, or to rely on random default data until the user manually loads data via the CSV input.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                        <li>
+                            To control this behavior, locate the following JavaScript constant at the top of the `&lt;script&gt;` block:
+                            <pre class="bg-gray-100 p-2 rounded text-sm mt-1 mb-1 overflow-auto"><code>const LOAD_FROM_HARDCODED_ON_STARTUP = true;</code></pre>
+                            <ul>
+                                <li>Set `true`: The dashboard will load data from the `HARDCODED_CSV_DATA` string immediately upon page load.</li>
+                                <li>Set `false`: The dashboard will load random data initially. The "Update Data via CSV" section will then be the primary way to input data.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            To modify the hardcoded data, edit the `HARDCODED_CSV_DATA` multiline string constant:
+                            <pre class="bg-gray-100 p-2 rounded text-sm mt-1 mb-1 overflow-auto"><code>const HARDCODED_CSV_DATA = `Metric,Value
 ... your CSV data here ...
 `;</code></pre>
-                        <p class="text-sm text-gray-600 mt-1">
-                            Ensure the CSV format matches the example provided in the "Update Data via CSV" section.
-                            Remember, direct file system access (e.g., `C:\temp\rawdata.csv`) is not possible due to browser security policies.
-                        </p>
-                    </li>
-                </ul>
-                <p class="text-gray-700">
-                    After making changes to these constants, save the HTML file and refresh your browser to see the effects.
-                </p>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Ensure the CSV format matches the example provided in the "Update Data via CSV" section.
+                                Remember, direct file system access (e.g., `C:\temp\rawdata.csv`) is not possible due to browser security policies.
+                            </p>
+                        </li>
+                    </ul>
+
+                    <h4 class="text-xl font-medium text-gray-800 mb-2 mt-6">Regression Test Scenarios:</h4>
+                    <p class="text-gray-700 mb-4">
+                        Use the following scenarios to validate the dashboard's logic and calculations. Copy the CSV data and paste it into the "Update Data via CSV" text area to test each case.
+                    </p>
+
+                    <div class="mb-8">
+                        <h5 class="text-lg font-semibold text-gray-900 mb-2">Scenario 1: All Green (High Automation Across the Board)</h5>
+                        <p class="text-gray-700 mb-2">This scenario aims for high automation percentages for all teams and test types, resulting in a generally "green" dashboard.</p>
+                        <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
+                        <pre class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
+PlannedToAutomate,1000
+CSM_Total,200
+CSM_PlannedToAutomate,180
+CSM_Automated,170
+CSM_Unit_Total,40
+CSM_Unit_PlannedToAutomate,35
+CSM_Unit_Automated,34
+CSM_Functional_Total,50
+CSM_Functional_PlannedToAutomate,45
+CSM_Functional_Automated,42
+CSM_IncrementalDataLoad_Total,20
+CSM_IncrementalDataLoad_PlannedToAutomate,18
+CSM_IncrementalDataLoad_Automated,17
+CSM_FullLoadDataValidation_Total,30
+CSM_FullLoadDataValidation_PlannedToAutomate,28
+CSM_FullLoadDataValidation_Automated,26
+CSM_UserAcceptance_Total,20
+CSM_UserAcceptance_PlannedToAutomate,18
+CSM_UserAcceptance_Automated,17
+CSM_API_Total,15
+CSM_API_PlannedToAutomate,14
+CSM_API_Automated,13
+CSM_Regression_Total,15
+CSM_Regression_PlannedToAutomate,14
+CSM_Regression_Automated,13
+CSM_Smoke_Total,10
+CSM_Smoke_PlannedToAutomate,8
+CSM_Smoke_Automated,8
+Imaging_Total,300
+Imaging_PlannedToAutomate,280
+Imaging_Automated,260
+Imaging_Unit_Total,60
+Imaging_Unit_PlannedToAutomate,55
+Imaging_Unit_Automated,52
+Imaging_Functional_Total,80
+Imaging_Functional_PlannedToAutomate,75
+Imaging_Functional_Automated,70
+Imaging_IncrementalDataLoad_Total,30
+Imaging_IncrementalDataLoad_PlannedToAutomate,28
+Imaging_IncrementalDataLoad_Automated,26
+Imaging_FullLoadDataValidation_Total,40
+Imaging_FullLoadDataValidation_PlannedToAutomate,38
+Imaging_FullLoadDataValidation_Automated,36
+Imaging_UserAcceptance_Total,30
+Imaging_UserAcceptance_PlannedToAutomate,28
+Imaging_UserAcceptance_Automated,26
+Imaging_API_Total,20
+Imaging_API_PlannedToAutomate,18
+Imaging_API_Automated,17
+Imaging_Regression_Total,20
+Imaging_Regression_PlannedToAutomate,18
+Imaging_Regression_Automated,17
+Imaging_Smoke_Total,20
+Imaging_Smoke_PlannedToAutomate,20
+Imaging_Smoke_Automated,16
+Phoenix_Total,250
+Phoenix_PlannedToAutomate,220
+Phoenix_Automated,200
+Phoenix_Unit_Total,50
+Phoenix_Unit_PlannedToAutomate,45
+Phoenix_Unit_Automated,40
+Phoenix_Functional_Total,70
+Phoenix_Functional_PlannedToAutomate,65
+Phoenix_Functional_Automated,60
+Phoenix_IncrementalDataLoad_Total,25
+Phoenix_IncrementalDataLoad_PlannedToAutomate,22
+Phoenix_IncrementalDataLoad_Automated,20
+Phoenix_FullLoadDataValidation_Total,35
+Phoenix_FullLoadDataValidation_PlannedToAutomate,32
+Phoenix_FullLoadDataValidation_Automated,28
+Phoenix_UserAcceptance_Total,25
+Phoenix_UserAcceptance_PlannedToAutomate,22
+Phoenix_UserAcceptance_Automated,20
+Phoenix_API_Total,15
+Phoenix_API_PlannedToAutomate,13
+Phoenix_API_Automated,12
+Phoenix_Regression_Total,15
+Phoenix_Regression_PlannedToAutomate,13
+Phoenix_Regression_Automated,10
+Phoenix_Smoke_Total,15
+Phoenix_Smoke_PlannedToAutomate,8
+Phoenix_Smoke_Automated,10
+Ace_Total,250
+Ace_PlannedToAutomate,200
+Ace_Automated,180
+Ace_Unit_Total,50
+Ace_Unit_PlannedToAutomate,40
+Ace_Unit_Automated,38
+Ace_Functional_Total,70
+Ace_Functional_PlannedToAutomate,60
+Ace_Functional_Automated,55
+Ace_IncrementalDataLoad_Total,25
+Ace_IncrementalDataLoad_PlannedToAutomate,20
+Ace_IncrementalDataLoad_Automated,18
+Ace_FullLoadDataValidation_Total,35
+Ace_FullLoadDataValidation_PlannedToAutomate,30
+Ace_FullLoadDataValidation_Automated,27
+Ace_UserAcceptance_Total,25
+Ace_UserAcceptance_PlannedToAutomate,20
+Ace_UserAcceptance_Automated,18
+Ace_API_Total,15
+Ace_API_PlannedToAutomate,10
+Ace_API_Automated,9
+Ace_Regression_Total,15
+Ace_Regression_PlannedToAutomate,10
+Ace_Regression_Automated,8
+Ace_Smoke_Total,15
+Ace_Smoke_PlannedToAutomate,10
+Ace_Smoke_Automated,7
+</code></pre>
+                        <h6 class="text-md font-medium text-gray-800 mb-1">Expected Outcomes:</h6>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
+                            <li>**Overall Automation Coverage:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests Currently Automated: **810**</li>
+                                    <li>Tests Planned for Automation (Overall): **1000**</li>
+                                    <li>Overall Automation Progress: **81.0% (Green bar)**</li>
+                                    <li>Overall Automation Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**CSM Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **170** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **180**</li>
+                                    <li>Automation Progress: **94.4% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Imaging Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **260** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **280**</li>
+                                    <li>Automation Progress: **92.9% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Phoenix Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **200** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **220**</li>
+                                    <li>Automation Progress: **90.9% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Ace Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **180** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **200**</li>
+                                    <li>Automation Progress: **90.0% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-8">
+                        <h5 class="text-lg font-semibold text-gray-900 mb-2">Scenario 2: Mixed Coverage (Green, Yellow, Red)</h5>
+                        <p class="text-gray-700 mb-2">This scenario introduces varying levels of automation to see how the color coding and progress bars respond.</p>
+                        <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
+                        <pre class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
+PlannedToAutomate,1200
+CSM_Total,200
+CSM_PlannedToAutomate,180
+CSM_Automated,100
+CSM_Unit_Total,40
+CSM_Unit_PlannedToAutomate,35
+CSM_Unit_Automated,20
+CSM_Functional_Total,50
+CSM_Functional_PlannedToAutomate,45
+CSM_Functional_Automated,25
+CSM_IncrementalDataLoad_Total,20
+CSM_IncrementalDataLoad_PlannedToAutomate,18
+CSM_IncrementalDataLoad_Automated,10
+CSM_FullLoadDataValidation_Total,30
+CSM_FullLoadDataValidation_PlannedToAutomate,28
+CSM_FullLoadDataValidation_Automated,15
+CSM_UserAcceptance_Total,20
+CSM_UserAcceptance_PlannedToAutomate,18
+CSM_UserAcceptance_Automated,10
+CSM_API_Total,15
+CSM_API_PlannedToAutomate,14
+CSM_API_Automated,8
+CSM_Regression_Total,15
+CSM_Regression_PlannedToAutomate,14
+CSM_Regression_Automated,7
+CSM_Smoke_Total,10
+CSM_Smoke_PlannedToAutomate,8
+CSM_Smoke_Automated,5
+Imaging_Total,300
+Imaging_PlannedToAutomate,280
+Imaging_Automated,260
+Imaging_Unit_Total,60
+Imaging_Unit_PlannedToAutomate,55
+Imaging_Unit_Automated,52
+Imaging_Functional_Total,80
+Imaging_Functional_PlannedToAutomate,75
+Imaging_Functional_Automated,70
+Imaging_IncrementalDataLoad_Total,30
+Imaging_IncrementalDataLoad_PlannedToAutomate,28
+Imaging_IncrementalDataLoad_Automated,26
+Imaging_FullLoadDataValidation_Total,40
+Imaging_FullLoadDataValidation_PlannedToAutomate,38
+Imaging_FullLoadDataValidation_Automated,36
+Imaging_UserAcceptance_Total,30
+Imaging_UserAcceptance_PlannedToAutomate,28
+Imaging_UserAcceptance_Automated,26
+Imaging_API_Total,20
+Imaging_API_PlannedToAutomate,18
+Imaging_API_Automated,17
+Imaging_Regression_Total,20
+Imaging_Regression_PlannedToAutomate,18
+Imaging_Regression_Automated,17
+Imaging_Smoke_Total,20
+Imaging_Smoke_PlannedToAutomate,20
+Imaging_Smoke_Automated,16
+Phoenix_Total,250
+Phoenix_PlannedToAutomate,220
+Phoenix_Automated,130
+Phoenix_Unit_Total,50
+Phoenix_Unit_PlannedToAutomate,45
+Phoenix_Unit_Automated,25
+Phoenix_Functional_Total,70
+Phoenix_Functional_PlannedToAutomate,65
+Phoenix_Functional_Automated,35
+Phoenix_IncrementalDataLoad_Total,25
+Phoenix_IncrementalDataLoad_PlannedToAutomate,22
+Phoenix_IncrementalDataLoad_Automated,12
+Phoenix_FullLoadDataValidation_Total,35
+Phoenix_FullLoadDataValidation_PlannedToAutomate,32
+Phoenix_FullLoadDataValidation_Automated,18
+Phoenix_UserAcceptance_Total,25
+Phoenix_UserAcceptance_PlannedToAutomate,22
+Phoenix_UserAcceptance_Automated,12
+Phoenix_API_Total,15
+Phoenix_API_PlannedToAutomate,13
+Phoenix_API_Automated,7
+Phoenix_Regression_Total,15
+Phoenix_Regression_PlannedToAutomate,13
+Phoenix_Regression_Automated,7
+Phoenix_Smoke_Total,15
+Phoenix_Smoke_PlannedToAutomate,8
+Phoenix_Smoke_Automated,14
+Ace_Total,250
+Ace_PlannedToAutomate,200
+Ace_Automated,100
+Ace_Unit_Total,50
+Ace_Unit_PlannedToAutomate,40
+Ace_Unit_Automated,20
+Ace_Functional_Total,70
+Ace_Functional_PlannedToAutomate,60
+Ace_Functional_Automated,30
+Ace_IncrementalDataLoad_Total,25
+Ace_IncrementalDataLoad_PlannedToAutomate,20
+Ace_IncrementalDataLoad_Automated,10
+Ace_FullLoadDataValidation_Total,35
+Ace_FullLoadDataValidation_PlannedToAutomate,30
+Ace_FullLoadDataValidation_Automated,15
+Ace_UserAcceptance_Total,25
+Ace_UserAcceptance_PlannedToAutomate,20
+Ace_UserAcceptance_Automated,10
+Ace_API_Total,15
+Ace_API_PlannedToAutomate,10
+Ace_API_Automated,5
+Ace_Regression_Total,15
+Ace_Regression_PlannedToAutomate,10
+Ace_Regression_Automated,5
+Ace_Smoke_Total,15
+Ace_Smoke_PlannedToAutomate,10
+Ace_Smoke_Automated,5
+</code></pre>
+                        <h6 class="text-md font-medium text-gray-800 mb-1">Expected Outcomes:</h6>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
+                            <li>**Overall Automation Coverage:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests Currently Automated: **590**</li>
+                                    <li>Tests Planned for Automation (Overall): **1200**</li>
+                                    <li>Overall Automation Progress: **49.2% (Red bar)**</li>
+                                    <li>Overall Automation Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**CSM Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **100** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **180**</li>
+                                    <li>Automation Progress: **55.6% (Red bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Imaging Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **260** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **280**</li>
+                                    <li>Automation Progress: **92.9% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Phoenix Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **130** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **220**</li>
+                                    <li>Automation Progress: **59.1% (Red bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Ace Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **100** (Calculated sum matches CSV)</li>
+                                    <li>Planned to Automate: **200**</li>
+                                    <li>Automation Progress: **50.0% (Red bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-8">
+                        <h5 class="text-lg font-semibold text-gray-900 mb-2">Scenario 3: Data Inconsistencies (Triggering Warnings)</h5>
+                        <p class="text-gray-700 mb-2">This scenario is designed to trigger both the overall "Automated &gt; Planned" warning and a team-specific "Roll-up Mismatch" warning.</p>
+                        <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
+                        <pre class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
+PlannedToAutomate,250
+CSM_Total,100
+CSM_PlannedToAutomate,80
+CSM_Automated,70
+CSM_Unit_Total,20
+CSM_Unit_PlannedToAutomate,15
+CSM_Unit_Automated,15
+CSM_Functional_Total,30
+CSM_Functional_PlannedToAutomate,25
+CSM_Functional_Automated,25
+CSM_IncrementalDataLoad_Total,10
+CSM_IncrementalDataLoad_PlannedToAutomate,8
+CSM_IncrementalDataLoad_Automated,10
+CSM_FullLoadDataValidation_Total,15
+CSM_FullLoadDataValidation_PlannedToAutomate,12
+CSM_FullLoadDataValidation_Automated,15
+CSM_UserAcceptance_Total,10
+CSM_UserAcceptance_PlannedToAutomate,8
+CSM_UserAcceptance_Automated,10
+CSM_API_Total,5
+CSM_API_PlannedToAutomate,4
+CSM_API_Automated,5
+CSM_Regression_Total,5
+CSM_Regression_PlannedToAutomate,4
+CSM_Regression_Automated,4
+CSM_Smoke_Total,5
+CSM_Smoke_PlannedToAutomate,4
+CSM_Smoke_Automated,20
+Imaging_Total,100
+Imaging_PlannedToAutomate,90
+Imaging_Automated,95
+Imaging_Unit_Total,20
+Imaging_Unit_PlannedToAutomate,18
+Imaging_Unit_Automated,17
+Imaging_Functional_Total,30
+Imaging_Functional_PlannedToAutomate,27
+Imaging_Functional_Automated,25
+Imaging_IncrementalDataLoad_Total,10
+Imaging_IncrementalDataLoad_PlannedToAutomate,9
+Imaging_IncrementalDataLoad_Automated,8
+Imaging_FullLoadDataValidation_Total,15
+Imaging_FullLoadDataValidation_PlannedToAutomate,13
+Imaging_FullLoadDataValidation_Automated,12
+Imaging_UserAcceptance_Total,10
+Imaging_UserAcceptance_PlannedToAutomate,9
+Imaging_UserAcceptance_Automated,8
+Imaging_API_Total,5
+Imaging_API_PlannedToAutomate,4
+Imaging_API_Automated,3
+Imaging_Regression_Total,5
+Imaging_Regression_PlannedToAutomate,4
+Imaging_Regression_Automated,3
+Imaging_Smoke_Total,5
+Imaging_Smoke_PlannedToAutomate,4
+Imaging_Smoke_Automated,2
+Phoenix_Total,100
+Phoenix_PlannedToAutomate,80
+Phoenix_Automated,70
+Phoenix_Unit_Total,20
+Phoenix_Unit_PlannedToAutomate,16
+Phoenix_Unit_Automated,18
+Phoenix_Functional_Total,30
+Phoenix_Functional_PlannedToAutomate,24
+Phoenix_Functional_Automated,30
+Phoenix_IncrementalDataLoad_Total,10
+Phoenix_IncrementalDataLoad_PlannedToAutomate,8
+Phoenix_IncrementalDataLoad_Automated,12
+Phoenix_FullLoadDataValidation_Total,35
+Phoenix_FullLoadDataValidation_PlannedToAutomate,12
+Phoenix_FullLoadDataValidation_Automated,18
+Phoenix_UserAcceptance_Total,10
+Phoenix_UserAcceptance_PlannedToAutomate,8
+Phoenix_UserAcceptance_Automated,12
+Phoenix_API_Total,5
+Phoenix_API_PlannedToAutomate,4
+Phoenix_API_Automated,7
+Phoenix_Regression_Total,5
+Phoenix_Regression_PlannedToAutomate,4
+Phoenix_Regression_Automated,7
+Phoenix_Smoke_Total,5
+Phoenix_Smoke_PlannedToAutomate,4
+Phoenix_Smoke_Automated,15
+Ace_Total,100
+Ace_PlannedToAutomate,80
+Ace_Automated,70
+Ace_Unit_Total,20
+Ace_Unit_PlannedToAutomate,16
+Ace_Unit_Automated,18
+Ace_Functional_Total,30
+Ace_Functional_PlannedToAutomate,24
+Ace_Functional_Automated,30
+Ace_IncrementalDataLoad_Total,10
+Ace_IncrementalDataLoad_PlannedToAutomate,8
+Ace_IncrementalDataLoad_Automated,12
+Ace_FullLoadDataValidation_Total,35
+Ace_FullLoadDataValidation_PlannedToAutomate,12
+Ace_FullLoadDataValidation_Automated,18
+Ace_UserAcceptance_Total,10
+Ace_UserAcceptance_PlannedToAutomate,8
+Ace_UserAcceptance_Automated,12
+Ace_API_Total,5
+Ace_API_PlannedToAutomate,4
+Ace_API_Automated,7
+Ace_Regression_Total,5
+Ace_Regression_PlannedToAutomate,4
+Ace_Regression_Automated,7
+Ace_Smoke_Total,5
+Ace_Smoke_PlannedToAutomate,4
+Ace_Smoke_Automated,15
+</code></pre>
+                        <h6 class="text-md font-medium text-gray-800 mb-1">Expected Outcomes:</h6>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
+                            <li>**Overall Automation Coverage:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests Currently Automated: **434**</li>
+                                    <li>Tests Planned for Automation (Overall): **250**</li>
+                                    <li>Overall Automation Progress: **173.6% (Green bar, but will show warning)**</li>
+                                    <li>Overall Automation Warning: **Visible**</li>
+                                </ul>
+                            </li>
+                            <li>**CSM Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **104** (Calculated sum of 15+25+10+15+10+5+4+20 = 104)</li>
+                                    <li>Planned to Automate: **80**</li>
+                                    <li>Automation Progress: **130.0% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Visible** (Calculated 104 ≠ CSV 70)</li>
+                                </ul>
+                            </li>
+                            <li>**Imaging Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **78** (Calculated sum of 17+25+8+12+8+3+3+2 = 78)</li>
+                                    <li>Planned to Automate: **90**</li>
+                                    <li>Automation Progress: **86.7% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Visible** (Calculated 78 ≠ CSV 95)</li>
+                                </ul>
+                            </li>
+                            <li>**Phoenix Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **119** (Calculated sum of 18+30+12+18+12+7+7+15 = 119)</li>
+                                    <li>Planned to Automate: **80**</li>
+                                    <li>Automation Progress: **148.8% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Visible** (Calculated 119 ≠ CSV 70)</li>
+                                </ul>
+                            </li>
+                            <li>**Ace Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Tests Automated: **119** (Calculated sum of 18+30+12+18+12+7+7+15 = 119)</li>
+                                    <li>Planned to Automate: **80**</li>
+                                    <li>Automation Progress: **148.8% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Visible** (Calculated 119 ≠ CSV 70)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p class="text-gray-700 mt-6">
+                        After making changes to these constants, save the HTML file and refresh your browser to see the effects.
+                    </p>
+                </div>
             </section>
 
         </main>
 
         <!-- Footer -->
         <footer class="bg-gray-800 text-white p-4 text-center text-sm mt-8 rounded-t-lg">
-            <p>&copy; 2025 Sammons Financial Group - QA Dashboard. Data as of <span id="currentDate"></span>.</p>
+            <p>&copy; 2025 Acme Software Co - QA Dashboard. Data as of <span id="currentDate"></span>.</p>
         </footer>
     </div>
 
@@ -350,25 +1004,228 @@ UIPlannedToAutomate,100</code></pre>
         // NOTE: Due to browser security, you cannot directly load from a local file path like C:\temp\rawdata.csv.
         // This string serves as the "hardcoded" data source.
         const HARDCODED_CSV_DATA = `Metric,Value
-PlannedToAutomate,1260
-CRMTotal,550
-CRMAutomated,350
-CRMPlannedToAutomate,500
-UnitTotal,300
-UnitAutomated,200
-UnitPlannedToAutomate,290
-DataTotal,180
-DataAutomated,100
-DataPlannedToAutomate,150
-IntegrationTotal,220
-IntegrationAutomated,120
-IntegrationPlannedToAutomate,180
-SmokeTotal,80
-SmokeAutomated,25
-SmokePlannedToAutomate,40
-UITotal,120
-UIAutomated,70
-UIPlannedToAutomate,100`;
+PlannedToAutomate,1000
+CSM_Total,200
+CSM_PlannedToAutomate,200
+CSM_Automated,180
+CSM_Unit_Total,40
+CSM_Unit_PlannedToAutomate,35
+CSM_Unit_Automated,30
+CSM_Functional_Total,50
+CSM_Functional_PlannedToAutomate,45
+CSM_Functional_Automated,40
+CSM_IncrementalDataLoad_Total,20
+CSM_IncrementalDataLoad_PlannedToAutomate,20
+CSM_IncrementalDataLoad_Automated,20
+CSM_FullLoadDataValidation_Total,30
+CSM_FullLoadDataValidation_PlannedToAutomate,28
+CSM_FullLoadDataValidation_Automated,25
+CSM_UserAcceptance_Total,20
+CSM_UserAcceptance_PlannedToAutomate,20
+CSM_UserAcceptance_Automated,20
+CSM_API_Total,15
+CSM_API_PlannedToAutomate,15
+CSM_API_Automated,15
+CSM_Regression_Total,15
+CSM_Regression_PlannedToAutomate,15
+CSM_Regression_Automated,15
+CSM_Smoke_Total,10
+CSM_Smoke_PlannedToAutomate,10
+CSM_Smoke_Automated,15
+Imaging_Total,300
+Imaging_PlannedToAutomate,300
+Imaging_Automated,230
+Imaging_Unit_Total,60
+Imaging_Unit_PlannedToAutomate,55
+Imaging_Unit_Automated,40
+Imaging_Functional_Total,80
+Imaging_Functional_PlannedToAutomate,75
+Imaging_Functional_Automated,60
+Imaging_IncrementalDataLoad_Total,30
+Imaging_IncrementalDataLoad_PlannedToAutomate,28
+Imaging_IncrementalDataLoad_Automated,25
+Imaging_FullLoadDataValidation_Total,40
+Imaging_FullLoadDataValidation_PlannedToAutomate,38
+Imaging_FullLoadDataValidation_Automated,35
+Imaging_UserAcceptance_Total,30
+Imaging_UserAcceptance_PlannedToAutomate,28
+Imaging_UserAcceptance_Automated,25
+Imaging_API_Total,20
+Imaging_API_PlannedToAutomate,18
+Imaging_API_Automated,15
+Imaging_Regression_Total,20
+Imaging_Regression_PlannedToAutomate,18
+Imaging_Regression_Automated,15
+Imaging_Smoke_Total,20
+Imaging_Smoke_PlannedToAutomate,20
+Imaging_Smoke_Automated,15
+Phoenix_Total,250
+Phoenix_PlannedToAutomate,200
+Phoenix_Automated,100
+Phoenix_Unit_Total,50
+Phoenix_Unit_PlannedToAutomate,45
+Phoenix_Unit_Automated,20
+Phoenix_Functional_Total,70
+Phoenix_Functional_PlannedToAutomate,65
+Phoenix_Functional_Automated,30
+Phoenix_IncrementalDataLoad_Total,25
+Phoenix_IncrementalDataLoad_PlannedToAutomate,22
+Phoenix_IncrementalDataLoad_Automated,10
+Phoenix_FullLoadDataValidation_Total,35
+Phoenix_FullLoadDataValidation_PlannedToAutomate,32
+Phoenix_FullLoadDataValidation_Automated,15
+Phoenix_UserAcceptance_Total,25
+Phoenix_UserAcceptance_PlannedToAutomate,22
+Phoenix_UserAcceptance_Automated,10
+Phoenix_API_Total,15
+Phoenix_API_PlannedToAutomate,13
+Phoenix_API_Automated,5
+Phoenix_Regression_Total,15
+Phoenix_Regression_PlannedToAutomate,13
+Phoenix_Regression_Automated,5
+Phoenix_Smoke_Total,15
+Phoenix_Smoke_PlannedToAutomate,8
+Phoenix_Smoke_Automated,5
+Ace_Total,300
+Ace_PlannedToAutomate,300
+Ace_Automated,300
+Ace_Unit_Total,50
+Ace_Unit_PlannedToAutomate,50
+Ace_Unit_Automated,50
+Ace_Functional_Total,70
+Ace_Functional_PlannedToAutomate,70
+Ace_Functional_Automated,70
+Ace_IncrementalDataLoad_Total,25
+Ace_IncrementalDataLoad_PlannedToAutomate,25
+Ace_IncrementalDataLoad_Automated,25
+Ace_FullLoadDataValidation_Total,35
+Ace_FullLoadDataValidation_PlannedToAutomate,35
+Ace_FullLoadDataValidation_Automated,35
+Ace_UserAcceptance_Total,25
+Ace_UserAcceptance_PlannedToAutomate,25
+Ace_UserAcceptance_Automated,25
+Ace_API_Total,20
+Ace_API_PlannedToAutomate,20
+Ace_API_Automated,20
+Ace_Regression_Total,20
+Ace_Regression_PlannedToAutomate,20
+Ace_Regression_Automated,20
+Ace_Smoke_Total,55
+Ace_Smoke_PlannedToAutomate,55
+Ace_Smoke_Automated,55
+`;
+
+        const CSV_EXAMPLE_DATA = `Metric,Value
+PlannedToAutomate,250
+CSM_Total,100
+CSM_PlannedToAutomate,80
+CSM_Automated,70
+CSM_Unit_Total,20
+CSM_Unit_PlannedToAutomate,15
+CSM_Unit_Automated,15
+CSM_Functional_Total,30
+CSM_Functional_PlannedToAutomate,25
+CSM_Functional_Automated,25
+CSM_IncrementalDataLoad_Total,10
+CSM_IncrementalDataLoad_PlannedToAutomate,8
+CSM_IncrementalDataLoad_Automated,10
+CSM_FullLoadDataValidation_Total,15
+CSM_FullLoadDataValidation_PlannedToAutomate,12
+CSM_FullLoadDataValidation_Automated,15
+CSM_UserAcceptance_Total,10
+CSM_UserAcceptance_PlannedToAutomate,8
+CSM_UserAcceptance_Automated,10
+CSM_API_Total,5
+CSM_API_PlannedToAutomate,4
+CSM_API_Automated,5
+CSM_Regression_Total,5
+CSM_Regression_PlannedToAutomate,4
+CSM_Regression_Automated,4
+CSM_Smoke_Total,5
+CSM_Smoke_PlannedToAutomate,4
+CSM_Smoke_Automated,20
+Imaging_Total,100
+Imaging_PlannedToAutomate,90
+Imaging_Automated,95
+Imaging_Unit_Total,20
+Imaging_Unit_PlannedToAutomate,18
+Imaging_Unit_Automated,17
+Imaging_Functional_Total,30
+Imaging_Functional_PlannedToAutomate,27
+Imaging_Functional_Automated,25
+Imaging_IncrementalDataLoad_Total,10
+Imaging_IncrementalDataLoad_PlannedToAutomate,9
+Imaging_IncrementalDataLoad_Automated,8
+Imaging_FullLoadDataValidation_Total,15
+Imaging_FullLoadDataValidation_PlannedToAutomate,13
+Imaging_FullLoadDataValidation_Automated,12
+Imaging_UserAcceptance_Total,10
+Imaging_UserAcceptance_PlannedToAutomate,9
+Imaging_UserAcceptance_Automated,8
+Imaging_API_Total,5
+Imaging_API_PlannedToAutomate,4
+Imaging_API_Automated,3
+Imaging_Regression_Total,5
+Imaging_Regression_PlannedToAutomate,4
+Imaging_Regression_Automated,3
+Imaging_Smoke_Total,5
+Imaging_Smoke_PlannedToAutomate,4
+Imaging_Smoke_Automated,2
+Phoenix_Total,100
+Phoenix_PlannedToAutomate,80
+Phoenix_Automated,70
+Phoenix_Unit_Total,20
+Phoenix_Unit_PlannedToAutomate,16
+Phoenix_Unit_Automated,18
+Phoenix_Functional_Total,30
+Phoenix_Functional_PlannedToAutomate,24
+Phoenix_Functional_Automated,30
+Phoenix_IncrementalDataLoad_Total,10
+Phoenix_IncrementalDataLoad_PlannedToAutomate,8
+Phoenix_IncrementalDataLoad_Automated,12
+Phoenix_FullLoadDataValidation_Total,35
+Phoenix_FullLoadDataValidation_PlannedToAutomate,12
+Phoenix_FullLoadDataValidation_Automated,18
+Phoenix_UserAcceptance_Total,10
+Phoenix_UserAcceptance_PlannedToAutomate,8
+Phoenix_UserAcceptance_Automated,12
+Phoenix_API_Total,5
+Phoenix_API_PlannedToAutomate,4
+Phoenix_API_Automated,7
+Phoenix_Regression_Total,5
+Phoenix_Regression_PlannedToAutomate,4
+Phoenix_Regression_Automated,7
+Phoenix_Smoke_Total,5
+Phoenix_Smoke_PlannedToAutomate,4
+Phoenix_Smoke_Automated,15
+Ace_Total,100
+Ace_PlannedToAutomate,80
+Ace_Automated,70
+Ace_Unit_Total,20
+Ace_Unit_PlannedToAutomate,16
+Ace_Unit_Automated,18
+Ace_Functional_Total,30
+Ace_Functional_PlannedToAutomate,24
+Ace_Functional_Automated,30
+Ace_IncrementalDataLoad_Total,10
+Ace_IncrementalDataLoad_PlannedToAutomate,8
+Ace_IncrementalDataLoad_Automated,12
+Ace_FullLoadDataValidation_Total,35
+Ace_FullLoadDataValidation_PlannedToAutomate,12
+Ace_FullLoadDataValidation_Automated,18
+Ace_UserAcceptance_Total,10
+Ace_UserAcceptance_PlannedToAutomate,8
+Ace_UserAcceptance_Automated,12
+Ace_API_Total,5
+Ace_API_PlannedToAutomate,4
+Ace_API_Automated,7
+Ace_Regression_Total,5
+Ace_Regression_PlannedToAutomate,4
+Ace_Regression_Automated,7
+Ace_Smoke_Total,5
+Ace_Smoke_PlannedToAutomate,4
+Ace_Smoke_Automated,15
+`;
 
 
         document.addEventListener('DOMContentLoaded', initializeDashboard);
@@ -389,6 +1246,10 @@ UIPlannedToAutomate,100`;
                 loadDefaultRandomData();
             }
 
+            // Set the CSV example data
+            document.getElementById('csvExampleData').textContent = CSV_EXAMPLE_DATA;
+
+
             // Event listener for the Load Data button (always active to allow manual updates)
             document.getElementById('loadDataBtn').addEventListener('click', () => {
                 const csvInput = document.getElementById('csvInput').value;
@@ -407,43 +1268,77 @@ UIPlannedToAutomate,100`;
                     dataLoadMessage.classList.add('text-red-600');
                 }
             });
+
+            // Event listener for the Copy CSV Example link
+            document.getElementById('copyCsvExampleLink').addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default anchor link behavior (e.g., navigating to #)
+                const csvExampleData = document.getElementById('csvExampleData').textContent;
+                const copyConfirmMessage = document.getElementById('copyConfirmMessage');
+
+                // Use a temporary textarea to copy text to clipboard
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = csvExampleData.trim(); // Trim to remove any leading/trailing whitespace from the pre tag
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand('copy'); // Deprecated but widely supported for iframes
+                document.body.removeChild(tempTextArea);
+
+                copyConfirmMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    copyConfirmMessage.classList.add('hidden');
+                }, 2000); // Hide "Copied!" message after 2 seconds
+            });
         }
 
         // Helper function to generate random data for demonstration
         function loadDefaultRandomData() {
-            function generateTestData() {
-                const totalTests = Math.floor(Math.random() * 500) + 100;
-                const plannedToAutomate = Math.floor(totalTests * (0.5 + Math.random() * 0.5));
-                const automatedTests = Math.floor(plannedToAutomate * (0.4 + Math.random() * 0.5));
-
-                return {
-                    total: totalTests,
-                    plannedToAutomate: plannedToAutomate,
-                    automated: automatedTests
-                };
+            // This function is now less critical as HARDCODED_CSV_DATA is primary default.
+            // It could be removed if random data generation is no longer desired.
+            // For now, keeping it as a fallback if LOAD_FROM_HARDCODED_ON_STARTUP is false.
+            function generateRandomMetric(baseTotal) {
+                const total = Math.floor(baseTotal * (0.8 + Math.random() * 0.4)); // +/- 20%
+                const plannedToAutomate = Math.floor(total * (0.5 + Math.random() * 0.5));
+                const automated = Math.floor(plannedToAutomate * (0.3 + Math.random() * 0.6)); // Wide range for colors
+                return { total, plannedToAutomate, automated };
             }
 
-            const testTypesData = {
-                crm: generateTestData(),
-                unit: generateTestData(),
-                data: generateTestData(),
-                integration: generateTestData(),
-                smoke: generateTestData(),
-                ui: generateTestData()
-            };
+            const data = {};
+            const teamNames = ['CSM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            const testTypeNames = ['Unit', 'Functional', 'IncrementalDataLoad', 'FullLoadDataValidation', 'UserAcceptance', 'API', 'Regression', 'Smoke'];
 
-            const plannedToAutomateOverall = 1500;
+            let overallPlannedSum = 0;
+            let overallAutomatedSum = 0;
 
-            const defaultData = {
-                PlannedToAutomate: plannedToAutomateOverall
-            };
-            for (const type in testTypesData) {
-                defaultData[`${type.toUpperCase()}Total`] = testTypesData[type].total; // Ensure uppercase for CRM, etc.
-                defaultData[`${type.toUpperCase()}PlannedToAutomate`] = testTypesData[type].plannedToAutomate;
-                defaultData[`${type.toUpperCase()}Automated`] = testTypesData[type].automated;
-            }
-            applyData(defaultData);
+            teamNames.forEach(team => {
+                let teamTotal = 0;
+                let teamPlannedToAutomate = 0;
+                let teamAutomated = 0; // This will be the sum of its test types
+
+                testTypeNames.forEach(testType => {
+                    const metrics = generateRandomMetric(100); // Base for individual test types
+                    data[`${team}_${testType}_Total`] = metrics.total;
+                    data[`${team}_${testType}_PlannedToAutomate`] = metrics.plannedToAutomate;
+                    data[`${team}_${testType}_Automated`] = metrics.automated;
+
+                    teamTotal += metrics.total;
+                    teamPlannedToAutomate += metrics.plannedToAutomate;
+                    teamAutomated += metrics.automated; // Summing up for the team's automated total
+                });
+
+                data[`${team}_Total`] = teamTotal;
+                data[`${team}_PlannedToAutomate`] = teamPlannedToAutomate;
+                data[`${team}_Automated`] = teamAutomated; // Store the calculated sum as the team's automated total
+
+                overallPlannedSum += teamPlannedToAutomate;
+                overallAutomatedSum += teamAutomated;
+            });
+
+            data['PlannedToAutomate'] = overallPlannedSum; // Overall planned is sum of team planned
+            // The overall current automated will be calculated by applyData from team_Automated sums
+
+            applyData(data);
         }
+
 
         // Helper function to parse CSV string into a data object
         function parseCSV(csvString) {
@@ -455,7 +1350,6 @@ UIPlannedToAutomate,100`;
                 return parsedData;
             }
 
-            // FIX: Removed the unexpected '.1' from lines[0].1
             const headers = lines[0].split(',').map(h => h.trim());
             if (headers[0] !== 'Metric' || headers[1] !== 'Value') {
                 console.error('CSV headers must be "Metric" and "Value".');
@@ -484,54 +1378,132 @@ UIPlannedToAutomate,100`;
 
             // Overall Automation Coverage Metrics
             const plannedToAutomateOverall = data.PlannedToAutomate || 0;
-            let totalCurrentlyAutomated = 0;
+            let totalCurrentlyAutomated = 0; // This will be the sum of team-level automated counts
 
-            const testTypePrefixes = ['CRM', 'Unit', 'Data', 'Integration', 'Smoke', 'UI']; // Use uppercase to match CSV
-            const testTypeDataMap = {};
+            // Define team prefixes in the desired order
+            const teamPrefixes = ['CSM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            // Define test type names for iteration and display
+            const testTypeDisplayNames = {
+                'Unit': 'Unit Tests',
+                'Functional': 'Functional Tests',
+                'IncrementalDataLoad': 'Incremental Data Load Tests',
+                'FullLoadDataValidation': 'Full Load Data Validation Tests',
+                'UserAcceptance': 'User Acceptance Tests',
+                'API': 'API Tests',
+                'Regression': 'Regression Tests',
+                'Smoke': 'Smoke Tests'
+            };
+            const testTypeMetricPrefixes = Object.keys(testTypeDisplayNames); // e.g., ['Unit', 'Functional', ...]
 
-            testTypePrefixes.forEach(type => {
-                const lowerCaseType = type.toLowerCase();
-                const total = data[`${type}Total`] || 0;
-                const plannedToAutomate = data[`${type}PlannedToAutomate`] || 0;
-                const automated = data[`${type}Automated`] || 0;
+            // Process Team Data
+            teamPrefixes.forEach(teamPrefix => {
+                const lowerCaseTeamPrefix = teamPrefix.toLowerCase(); // e.g., 'csm'
 
-                testTypeDataMap[lowerCaseType] = {
-                    total: total,
-                    plannedToAutomate: plannedToAutomate,
-                    automated: automated
-                };
-                totalCurrentlyAutomated += automated;
+                const teamTotal = data[`${teamPrefix}_Total`] || 0;
+                const teamPlannedToAutomate = data[`${teamPrefix}_PlannedToAutomate`] || 0;
+                // Get the 'team_Automated' value directly from CSV for comparison/warning
+                const csvTeamAutomated = data[`${teamPrefix}_Automated`] || 0;
 
-                // Inlined logic for individual test type cards
-                const cardElement = document.getElementById(`${lowerCaseType}Card`);
+                let calculatedTeamAutomated = 0; // This will be the sum of automated tests from its constituent test types
+
+                const cardElement = document.getElementById(`${lowerCaseTeamPrefix}Card`);
+                const testTypeBreakdownDiv = document.getElementById(`${lowerCaseTeamPrefix}TestTypeBreakdown`);
+                const rollupWarningDiv = document.getElementById(`${lowerCaseTeamPrefix}RollupWarning`);
+                const teamAutomationProgressBar = document.getElementById(`${lowerCaseTeamPrefix}AutomationProgressBar`);
+                const teamAutomationProgressText = document.getElementById(`${lowerCaseTeamPrefix}AutomationProgressText`);
+
+
+                // Clear previous breakdown content
+                if (testTypeBreakdownDiv) {
+                    testTypeBreakdownDiv.innerHTML = '';
+                }
+
                 if (cardElement) {
-                    document.getElementById(`${lowerCaseType}Total`).textContent = total.toLocaleString();
-                    document.getElementById(`${lowerCaseType}PlannedToAutomate`).textContent = plannedToAutomate.toLocaleString();
-                    document.getElementById(`${lowerCaseType}Automated`).textContent = automated.toLocaleString();
+                    document.getElementById(`${lowerCaseTeamPrefix}Total`).textContent = teamTotal.toLocaleString();
+                    document.getElementById(`${lowerCaseTeamPrefix}PlannedToAutomate`).textContent = teamPlannedToAutomate.toLocaleString();
+                    // document.getElementById(`${lowerCaseTeamPrefix}Automated`).textContent = teamAutomated.toLocaleString(); // This line will be updated later
 
-                    const automationCoverage = plannedToAutomate > 0 ? ((automated / plannedToAutomate) * 100).toFixed(1) : 0;
-                    document.getElementById(`${lowerCaseType}AutomationCoverage`).textContent = `${automationCoverage}%`;
+                    // Populate Test Type Breakdown for the current team and calculate calculatedTeamAutomated
+                    testTypeMetricPrefixes.forEach(testTypePrefix => {
+                        const testTypeTotal = data[`${teamPrefix}_${testTypePrefix}_Total`] || 0;
+                        const testTypePlannedToAutomate = data[`${teamPrefix}_${testTypePrefix}_PlannedToAutomate`] || 0;
+                        const testTypeAutomated = data[`${teamPrefix}_${testTypePrefix}_Automated`] || 0;
 
+                        calculatedTeamAutomated += testTypeAutomated; // Summing up automated tests for the team
+
+                        const testTypeCoverage = testTypePlannedToAutomate > 0 ? ((testTypeAutomated / testTypePlannedToAutomate) * 100).toFixed(1) : 0;
+
+                        let testTypeProgressBarColorClass;
+                        if (testTypeCoverage > 80) {
+                            testTypeProgressBarColorClass = 'bg-green-600';
+                        } else if (testTypeCoverage > 50) {
+                            testTypeProgressBarColorClass = 'bg-yellow-600';
+                        } else {
+                            testTypeProgressBarColorClass = 'bg-red-600';
+                        }
+
+                        if (testTypeBreakdownDiv) {
+                            const div = document.createElement('div');
+                            div.className = 'mb-1'; // Add some margin between test types
+                            div.innerHTML = `
+                                <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span> / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
+                                </div>
+                                <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
+                            `;
+                            testTypeBreakdownDiv.appendChild(div);
+                        }
+                    });
+
+                    // Now update the team's main "Tests Automated" display with the calculated sum
+                    document.getElementById(`${lowerCaseTeamPrefix}Automated`).textContent = calculatedTeamAutomated.toLocaleString();
+
+                    const teamAutomationCoverage = teamPlannedToAutomate > 0 ? ((calculatedTeamAutomated / teamPlannedToAutomate) * 100).toFixed(1) : 0;
+                    
+                    // Update team-level progress bar
+                    if (teamAutomationProgressBar && teamAutomationProgressText) {
+                        teamAutomationProgressBar.style.width = `${Math.min(100, teamAutomationCoverage)}%`;
+                        teamAutomationProgressBar.className = `h-3 rounded-full ${teamAutomationCoverage <= 60 ? 'bg-red-600' : (teamAutomationCoverage > 60 && teamAutomationCoverage <= 80 ? 'bg-yellow-600' : 'bg-green-600')}`;
+                        teamAutomationProgressText.textContent = `${teamAutomationCoverage}% Automated`;
+                    }
+
+
+                    // Apply color coding for the team card based on calculated coverage
                     cardElement.classList.remove(
                         'bg-green-50', 'border-green-200',
                         'bg-yellow-50', 'border-yellow-200',
                         'bg-red-50', 'border-red-200'
                     );
 
-                    let bgColorClass, borderColorClass;
-                    if (automationCoverage > 80) {
-                        bgColorClass = 'bg-green-50';
-                        borderColorClass = 'border-green-200';
-                    } else if (automationCoverage > 50) {
-                        bgColorClass = 'bg-yellow-50';
-                        borderColorClass = 'border-yellow-200';
+                    let teamBgColorClass, teamBorderColorClass;
+                    if (teamAutomationCoverage > 80) {
+                        teamBgColorClass = 'bg-green-50';
+                        teamBorderColorClass = 'border-green-200';
+                    } else if (teamAutomationCoverage > 50) {
+                        teamBgColorClass = 'bg-yellow-50';
+                        teamBorderColorClass = 'border-yellow-200';
                     } else {
-                        bgColorClass = 'bg-red-50';
-                        borderColorClass = 'border-red-200';
+                        teamBgColorClass = 'bg-red-50';
+                        teamBorderColorClass = 'border-red-200';
                     }
-                    cardElement.classList.add(bgColorClass, borderColorClass);
+                    cardElement.classList.add(teamBgColorClass, teamBorderColorClass);
+
+                    // Check for roll-up consistency and display warning
+                    // Only show warning if csvTeamAutomated was explicitly provided (not 0) and it doesn't match the calculated sum
+                    if (csvTeamAutomated !== 0 && calculatedTeamAutomated !== csvTeamAutomated) {
+                        if (rollupWarningDiv) {
+                             rollupWarningDiv.classList.remove('hidden');
+                        }
+                    } else {
+                        if (rollupWarningDiv) {
+                            rollupWarningDiv.classList.add('hidden');
+                        }
+                    }
                 }
+                totalCurrentlyAutomated += calculatedTeamAutomated; // Sum up calculated team-level automated counts for overall total
             });
+
 
             document.getElementById('currentAutomatedCount').textContent = totalCurrentlyAutomated.toLocaleString();
             document.getElementById('plannedAutomationCount').textContent = plannedToAutomateOverall.toLocaleString();
@@ -539,10 +1511,19 @@ UIPlannedToAutomate,100`;
             const overallAutomationProgress = plannedToAutomateOverall > 0 ? (totalCurrentlyAutomated / plannedToAutomateOverall) * 100 : 0;
             const overallAutomationProgressBar = document.getElementById('overallAutomationProgressBar');
             const overallAutomationProgressText = document.getElementById('overallAutomationProgressText');
+            const overallAutomationWarning = document.getElementById('overallAutomationWarning');
+
 
             overallAutomationProgressBar.style.width = `${Math.min(100, overallAutomationProgress)}%`;
             overallAutomationProgressBar.className = `h-4 rounded-full ${overallAutomationProgress <= 60 ? 'bg-red-600' : (overallAutomationProgress > 60 && overallAutomationProgress <= 80 ? 'bg-yellow-600' : 'bg-green-600')}`;
             overallAutomationProgressText.textContent = `${overallAutomationProgress.toFixed(1)}% Automated`;
+
+            // Display warning if automated tests exceed planned tests overall
+            if (totalCurrentlyAutomated > plannedToAutomateOverall) {
+                overallAutomationWarning.classList.remove('hidden');
+            } else {
+                overallAutomationWarning.classList.add('hidden');
+            }
         }
     </script>
 </body>
