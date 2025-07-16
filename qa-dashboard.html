@@ -90,6 +90,24 @@
                     </svg>
                     Print Dashboard
                 </button>
+                <!-- Export as CSV Button (Commented Out) -->
+                <!--
+                <button id="exportCsvBtn" class="inline-flex items-center bg-white text-blue-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-100 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Export as CSV
+                </button>
+                -->
+                <!-- Export as JSON Button (Commented Out) -->
+                <!--
+                <button id="exportJsonBtn" class="inline-flex items-center bg-white text-blue-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-100 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                    Export as JSON
+                </button>
+                -->
             </div>
         </header>
 
@@ -139,20 +157,19 @@
                             <p class="text-indigo-600">Planned to Automate: <span id="csmPlannedToAutomate" class="font-semibold">0</span></p>
                             <p class="text-blue-600">Tests Automated: <span id="csmAutomated" class="font-semibold">0</span></p>
                             <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div id="csmAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                <h5 class="text-md font-medium text-gray-800 mb-1">
+                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="csmTestTypeBreakdownContent">
+                                        Click to see Breakdown by Test Type
+                                    </a>
+                                </h5>
+                                <div id="csmTestTypeBreakdownContent" class="space-y-1 text-sm hidden">
+                                    <div id="csmTestTypeBreakdown">
+                                        <!-- Test type details will be populated here by JavaScript -->
+                                    </div>
                                 </div>
-                                <p id="csmAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
-                            <div id="csmTestTypeBreakdown" class="space-y-1 text-sm">
-                                <!-- Test type details will be populated here by JavaScript -->
-                            </div>
-                            <div id="csmRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                Warning: Sum of automated test types does not match team's total automated.
+                                <div id="csmRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                    Warning: Sum of automated test types does not match team's total automated.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,20 +182,19 @@
                             <p class="text-indigo-600">Planned to Automate: <span id="imagingPlannedToAutomate" class="font-semibold">0</span></p>
                             <p class="text-blue-600">Tests Automated: <span id="imagingAutomated" class="font-semibold">0</span></p>
                             <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div id="imagingAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                <h5 class="text-md font-medium text-gray-800 mb-1">
+                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="imagingTestTypeBreakdownContent">
+                                        Click to see Breakdown by Test Type
+                                    </a>
+                                </h5>
+                                <div id="imagingTestTypeBreakdownContent" class="space-y-1 text-sm hidden">
+                                    <div id="imagingTestTypeBreakdown">
+                                        <!-- Test type details will be populated here by JavaScript -->
+                                    </div>
                                 </div>
-                                <p id="imagingAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
-                            <div id="imagingTestTypeBreakdown" class="space-y-1 text-sm">
-                                <!-- Test type details will be populated here by JavaScript -->
-                            </div>
-                            <div id="imagingRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                Warning: Sum of automated test types does not match team's total automated.
+                                <div id="imagingRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                    Warning: Sum of automated test types does not match team's total automated.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -191,20 +207,19 @@
                             <p class="text-indigo-600">Planned to Automate: <span id="phoenixPlannedToAutomate" class="font-semibold">0</span></p>
                             <p class="text-blue-600">Tests Automated: <span id="phoenixAutomated" class="font-semibold">0</span></p>
                             <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div id="phoenixAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                <h5 class="text-md font-medium text-gray-800 mb-1">
+                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="phoenixTestTypeBreakdownContent">
+                                        Click to see Breakdown by Test Type
+                                    </a>
+                                </h5>
+                                <div id="phoenixTestTypeBreakdownContent" class="space-y-1 text-sm hidden">
+                                    <div id="phoenixTestTypeBreakdown">
+                                        <!-- Test type details will be populated here by JavaScript -->
+                                    </div>
                                 </div>
-                                <p id="phoenixAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
-                            <div id="phoenixTestTypeBreakdown" class="space-y-1 text-sm">
-                                <!-- Test type details will be populated here by JavaScript -->
-                            </div>
-                            <div id="phoenixRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                Warning: Sum of automated test types does not match team's total automated.
+                                <div id="phoenixRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                    Warning: Sum of automated test types does not match team's total automated.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -217,20 +232,19 @@
                             <p class="text-indigo-600">Planned to Automate: <span id="acePlannedToAutomate" class="font-semibold">0</span></p>
                             <p class="text-blue-600">Tests Automated: <span id="aceAutomated" class="font-semibold">0</span></p>
                             <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">Automation Progress:</h5>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div id="aceAutomationProgressBar" class="h-3 rounded-full" style="width: 0%;"></div>
+                                <h5 class="text-md font-medium text-gray-800 mb-1">
+                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="aceTestTypeBreakdownContent">
+                                        Click to see Breakdown by Test Type
+                                    </a>
+                                </h5>
+                                <div id="aceTestTypeBreakdownContent" class="space-y-1 text-sm hidden">
+                                    <div id="aceTestTypeBreakdown">
+                                        <!-- Test type details will be populated here by JavaScript -->
+                                    </div>
                                 </div>
-                                <p id="aceAutomationProgressText" class="text-right text-xs text-gray-600 mt-1">0% Automated</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <h5 class="text-lg font-medium text-gray-700 mb-2">Breakdown by Test Type:</h5>
-                            <div id="aceTestTypeBreakdown" class="space-y-1 text-sm">
-                                <!-- Test type details will be populated here by JavaScript -->
-                            </div>
-                            <div id="aceRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                Warning: Sum of automated test types does not match team's total automated.
+                                <div id="aceRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                    Warning: Sum of automated test types does not match team's total automated.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -330,115 +344,115 @@
                 </p>
                 <div class="relative mb-4">
                     <pre id="csvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto pr-10"><code>Metric,Value
-PlannedToAutomate,250
-CSM_Total,100
-CSM_PlannedToAutomate,80
-CSM_Automated,70
-CSM_Unit_Total,20
-CSM_Unit_PlannedToAutomate,15
-CSM_Unit_Automated,15
-CSM_Functional_Total,30
-CSM_Functional_PlannedToAutomate,25
-CSM_Functional_Automated,25
-CSM_IncrementalDataLoad_Total,10
-CSM_IncrementalDataLoad_PlannedToAutomate,8
-CSM_IncrementalDataLoad_Automated,10
-CSM_FullLoadDataValidation_Total,15
-CSM_FullLoadDataValidation_PlannedToAutomate,12
-CSM_FullLoadDataValidation_Automated,15
-CSM_UserAcceptance_Total,10
-CSM_UserAcceptance_PlannedToAutomate,8
-CSM_UserAcceptance_Automated,10
-CSM_API_Total,5
-CSM_API_PlannedToAutomate,4
-CSM_API_Automated,5
-CSM_Regression_Total,5
-CSM_Regression_PlannedToAutomate,4
-CSM_Regression_Automated,4
-CSM_Smoke_Total,5
-CSM_Smoke_PlannedToAutomate,4
-CSM_Smoke_Automated,20
-Imaging_Total,100
-Imaging_PlannedToAutomate,90
-Imaging_Automated,95
-Imaging_Unit_Total,20
-Imaging_Unit_PlannedToAutomate,18
-Imaging_Unit_Automated,17
-Imaging_Functional_Total,30
-Imaging_Functional_PlannedToAutomate,27
-Imaging_Functional_Automated,25
-Imaging_IncrementalDataLoad_Total,10
-Imaging_IncrementalDataLoad_PlannedToAutomate,9
-Imaging_IncrementalDataLoad_Automated,8
-Imaging_FullLoadDataValidation_Total,15
-Imaging_FullLoadDataValidation_PlannedToAutomate,13
-Imaging_FullLoadDataValidation_Automated,12
-Imaging_UserAcceptance_Total,10
-Imaging_UserAcceptance_PlannedToAutomate,9
-Imaging_UserAcceptance_Automated,8
-Imaging_API_Total,5
-Imaging_API_PlannedToAutomate,4
-Imaging_API_Automated,3
-Imaging_Regression_Total,5
-Imaging_Regression_PlannedToAutomate,4
-Imaging_Regression_Automated,3
-Imaging_Smoke_Total,5
-Imaging_Smoke_PlannedToAutomate,4
-Imaging_Smoke_Automated,2
-Phoenix_Total,100
-Phoenix_PlannedToAutomate,80
-Phoenix_Automated,70
-Phoenix_Unit_Total,20
-Phoenix_Unit_PlannedToAutomate,16
-Phoenix_Unit_Automated,18
-Phoenix_Functional_Total,30
-Phoenix_Functional_PlannedToAutomate,24
-Phoenix_Functional_Automated,30
-Phoenix_IncrementalDataLoad_Total,10
-Phoenix_IncrementalDataLoad_PlannedToAutomate,8
-Phoenix_IncrementalDataLoad_Automated,12
+PlannedToAutomate,880
+CSM_Total,200
+CSM_PlannedToAutomate,180
+CSM_Automated,117
+CSM_Unit_Total,40
+CSM_Unit_PlannedToAutomate,35
+CSM_Unit_Automated,20
+CSM_Functional_Total,50
+CSM_Functional_PlannedToAutomate,45
+CSM_Functional_Automated,30
+CSM_IncrementalDataLoad_Total,20
+CSM_IncrementalDataLoad_PlannedToAutomate,18
+CSM_IncrementalDataLoad_Automated,17
+CSM_FullLoadDataValidation_Total,30
+CSM_FullLoadDataValidation_PlannedToAutomate,28
+CSM_FullLoadDataValidation_Automated,12
+CSM_UserAcceptance_Total,20
+CSM_UserAcceptance_PlannedToAutomate,18
+CSM_UserAcceptance_Automated,14
+CSM_API_Total,15
+CSM_API_PlannedToAutomate,14
+CSM_API_Automated,13
+CSM_Regression_Total,15
+CSM_Regression_PlannedToAutomate,14
+CSM_Regression_Automated,5
+CSM_Smoke_Total,10
+CSM_Smoke_PlannedToAutomate,8
+CSM_Smoke_Automated,6
+Imaging_Total,300
+Imaging_PlannedToAutomate,280
+Imaging_Automated,238
+Imaging_Unit_Total,60
+Imaging_Unit_PlannedToAutomate,55
+Imaging_Unit_Automated,52
+Imaging_Functional_Total,80
+Imaging_Functional_PlannedToAutomate,75
+Imaging_Functional_Automated,55
+Imaging_IncrementalDataLoad_Total,30
+Imaging_IncrementalDataLoad_PlannedToAutomate,28
+Imaging_IncrementalDataLoad_Automated,20
+Imaging_FullLoadDataValidation_Total,40
+Imaging_FullLoadDataValidation_PlannedToAutomate,38
+Imaging_FullLoadDataValidation_Automated,36
+Imaging_UserAcceptance_Total,30
+Imaging_UserAcceptance_PlannedToAutomate,28
+Imaging_UserAcceptance_Automated,18
+Imaging_API_Total,20
+Imaging_API_PlannedToAutomate,18
+Imaging_API_Automated,17
+Imaging_Regression_Total,20
+Imaging_Regression_PlannedToAutomate,18
+Imaging_Regression_Automated,17
+Imaging_Smoke_Total,20
+Imaging_Smoke_PlannedToAutomate,20
+Imaging_Smoke_Automated,23
+Phoenix_Total,250
+Phoenix_PlannedToAutomate,220
+Phoenix_Automated,163
+Phoenix_Unit_Total,50
+Phoenix_Unit_PlannedToAutomate,45
+Phoenix_Unit_Automated,30
+Phoenix_Functional_Total,70
+Phoenix_Functional_PlannedToAutomate,65
+Phoenix_Functional_Automated,60
+Phoenix_IncrementalDataLoad_Total,25
+Phoenix_IncrementalDataLoad_PlannedToAutomate,22
+Phoenix_IncrementalDataLoad_Automated,10
 Phoenix_FullLoadDataValidation_Total,35
-Phoenix_FullLoadDataValidation_PlannedToAutomate,12
-Phoenix_FullLoadDataValidation_Automated,18
-Phoenix_UserAcceptance_Total,10
-Phoenix_UserAcceptance_PlannedToAutomate,8
-Phoenix_UserAcceptance_Automated,12
-Phoenix_API_Total,5
-Phoenix_API_PlannedToAutomate,4
-Phoenix_API_Automated,7
-Phoenix_Regression_Total,5
-Phoenix_Regression_PlannedToAutomate,4
-Phoenix_Regression_Automated,7
-Phoenix_Smoke_Total,5
-Phoenix_Smoke_PlannedToAutomate,4
-Phoenix_Smoke_Automated,15
-Ace_Total,100
-Ace_PlannedToAutomate,80
-Ace_Automated,70
-Ace_Unit_Total,20
-Ace_Unit_PlannedToAutomate,16
-Ace_Unit_Automated,18
-Ace_Functional_Total,30
-Ace_Functional_PlannedToAutomate,24
-Ace_Functional_Automated,30
-Ace_IncrementalDataLoad_Total,10
-Ace_IncrementalDataLoad_PlannedToAutomate,8
-Ace_IncrementalDataLoad_Automated,12
+Phoenix_FullLoadDataValidation_PlannedToAutomate,32
+Phoenix_FullLoadDataValidation_Automated,20
+Phoenix_UserAcceptance_Total,25
+Phoenix_UserAcceptance_PlannedToAutomate,22
+Phoenix_UserAcceptance_Automated,20
+Phoenix_API_Total,15
+Phoenix_API_PlannedToAutomate,13
+Phoenix_API_Automated,5
+Phoenix_Regression_Total,15
+Phoenix_Regression_PlannedToAutomate,13
+Phoenix_Regression_Automated,8
+Phoenix_Smoke_Total,15
+Phoenix_Smoke_PlannedToAutomate,15
+Phoenix_Smoke_Automated,10
+Ace_Total,250
+Ace_PlannedToAutomate,200
+Ace_Automated,90
+Ace_Unit_Total,50
+Ace_Unit_PlannedToAutomate,40
+Ace_Unit_Automated,15
+Ace_Functional_Total,70
+Ace_Functional_PlannedToAutomate,60
+Ace_Functional_Automated,25
+Ace_IncrementalDataLoad_Total,25
+Ace_IncrementalDataLoad_PlannedToAutomate,20
+Ace_IncrementalDataLoad_Automated,13
 Ace_FullLoadDataValidation_Total,35
-Ace_FullLoadDataValidation_PlannedToAutomate,12
-Ace_FullLoadDataValidation_Automated,18
-Ace_UserAcceptance_Total,10
-Ace_UserAcceptance_PlannedToAutomate,8
-Ace_UserAcceptance_Automated,12
-Ace_API_Total,5
-Ace_API_PlannedToAutomate,4
-Ace_API_Automated,7
-Ace_Regression_Total,5
-Ace_Regression_PlannedToAutomate,4
-Ace_Regression_Automated,7
-Ace_Smoke_Total,5
-Ace_Smoke_PlannedToAutomate,4
-Ace_Smoke_Automated,15
+Ace_FullLoadDataValidation_PlannedToAutomate,30
+Ace_FullLoadDataValidation_Automated,10
+Ace_UserAcceptance_Total,25
+Ace_UserAcceptance_PlannedToAutomate,20
+Ace_UserAcceptance_Automated,8
+Ace_API_Total,15
+Ace_API_PlannedToAutomate,10
+Ace_API_Automated,9
+Ace_Regression_Total,15
+Ace_Regression_PlannedToAutomate,10
+Ace_Regression_Automated,4
+Ace_Smoke_Total,15
+Ace_Smoke_PlannedToAutomate,10
+Ace_Smoke_Automated,6
 </code></pre>
                     <span id="copyConfirmMessage" class="absolute top-2 right-16 text-xs text-green-600 hidden">Copied!</span>
                 </div>
@@ -504,7 +518,7 @@ Ace_Smoke_Automated,15
                         <h5 class="text-lg font-semibold text-gray-900 mb-2">Scenario 1: All Green (High Automation Across the Board)</h5>
                         <p class="text-gray-700 mb-2">This scenario aims for high automation percentages for all teams and test types, resulting in a generally "green" dashboard.</p>
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
-                        <pre class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
+                        <pre id="scenario1CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,1000
 CSM_Total,200
 CSM_PlannedToAutomate,180
@@ -615,7 +629,16 @@ Ace_Smoke_Total,15
 Ace_Smoke_PlannedToAutomate,10
 Ace_Smoke_Automated,7
 </code></pre>
-                        <h6 class="text-md font-medium text-gray-800 mb-1">Expected Outcomes:</h6>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario1CsvData">
+                                Copy CSV Data
+                            </a>
+                            <button class="load-scenario-data px-4 py-1 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 text-sm" data-scenario-id="scenario1CsvData">
+                                Load CSV Data
+                            </button>
+                            <span id="scenario1ConfirmMessage" class="text-xs text-green-600 hidden">Copied/Loaded!</span>
+                        </div>
+                        <h6 class="text-md font-medium text-gray-800 mb-1 mt-4">Expected Outcomes:</h6>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
                             <li>**Overall Automation Coverage:**
                                 <ul class="list-circle list-inside ml-4">
@@ -664,7 +687,7 @@ Ace_Smoke_Automated,7
                         <h5 class="text-lg font-semibold text-gray-900 mb-2">Scenario 2: Mixed Coverage (Green, Yellow, Red)</h5>
                         <p class="text-gray-700 mb-2">This scenario introduces varying levels of automation to see how the color coding and progress bars respond.</p>
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
-                        <pre class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
+                        <pre id="scenario2CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,1200
 CSM_Total,200
 CSM_PlannedToAutomate,180
@@ -775,7 +798,16 @@ Ace_Smoke_Total,15
 Ace_Smoke_PlannedToAutomate,10
 Ace_Smoke_Automated,5
 </code></pre>
-                        <h6 class="text-md font-medium text-gray-800 mb-1">Expected Outcomes:</h6>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario2CsvData">
+                                Copy CSV Data
+                            </a>
+                            <button class="load-scenario-data px-4 py-1 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 text-sm" data-scenario-id="scenario2CsvData">
+                                Load CSV Data
+                            </button>
+                            <span id="scenario2ConfirmMessage" class="text-xs text-green-600 hidden">Copied/Loaded!</span>
+                        </div>
+                        <h6 class="text-md font-medium text-gray-800 mb-1 mt-4">Expected Outcomes:</h6>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
                             <li>**Overall Automation Coverage:**
                                 <ul class="list-circle list-inside ml-4">
@@ -824,7 +856,7 @@ Ace_Smoke_Automated,5
                         <h5 class="text-lg font-semibold text-gray-900 mb-2">Scenario 3: Data Inconsistencies (Triggering Warnings)</h5>
                         <p class="text-gray-700 mb-2">This scenario is designed to trigger both the overall "Automated &gt; Planned" warning and a team-specific "Roll-up Mismatch" warning.</p>
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
-                        <pre class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
+                        <pre id="scenario3CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,250
 CSM_Total,100
 CSM_PlannedToAutomate,80
@@ -935,13 +967,22 @@ Ace_Smoke_Total,5
 Ace_Smoke_PlannedToAutomate,4
 Ace_Smoke_Automated,15
 </code></pre>
-                        <h6 class="text-md font-medium text-gray-800 mb-1">Expected Outcomes:</h6>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario3CsvData">
+                                Copy CSV Data
+                            </a>
+                            <button class="load-scenario-data px-4 py-1 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 text-sm" data-scenario-id="scenario3CsvData">
+                                Load CSV Data
+                            </button>
+                            <span id="scenario3ConfirmMessage" class="text-xs text-green-600 hidden">Copied/Loaded!</span>
+                        </div>
+                        <h6 class="text-md font-medium text-gray-800 mb-1 mt-4">Expected Outcomes:</h6>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
                             <li>**Overall Automation Coverage:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests Currently Automated: **434**</li>
+                                    <li>Total Tests Currently Automated: **420**</li>
                                     <li>Tests Planned for Automation (Overall): **250**</li>
-                                    <li>Overall Automation Progress: **173.6% (Green bar, but will show warning)**</li>
+                                    <li>Overall Automation Progress: **168.0% (Green bar, but will show warning)**</li>
                                     <li>Overall Automation Warning: **Visible**</li>
                                 </ul>
                             </li>
@@ -1288,6 +1329,72 @@ Ace_Smoke_Automated,15
                     copyConfirmMessage.classList.add('hidden');
                 }, 2000); // Hide "Copied!" message after 2 seconds
             });
+
+            // Add event listeners for scenario specific copy/load buttons
+            document.querySelectorAll('.copy-scenario-data').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const scenarioId = event.target.dataset.scenarioId;
+                    const csvDataElement = document.getElementById(scenarioId);
+                    const csvData = csvDataElement.textContent;
+                    const confirmMessageElement = document.getElementById(`${scenarioId.replace('CsvData', 'ConfirmMessage')}`);
+
+                    const tempTextArea = document.createElement('textarea');
+                    tempTextArea.value = csvData.trim();
+                    document.body.appendChild(tempTextArea);
+                    tempTextArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempTextArea);
+
+                    confirmMessageElement.textContent = 'Copied!';
+                    confirmMessageElement.classList.remove('hidden', 'text-red-600');
+                    confirmMessageElement.classList.add('text-green-600');
+                    setTimeout(() => confirmMessageElement.classList.add('hidden'), 2000);
+                });
+            });
+
+            document.querySelectorAll('.load-scenario-data').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const scenarioId = event.target.dataset.scenarioId;
+                    const csvDataElement = document.getElementById(scenarioId);
+                    const csvData = csvDataElement.textContent;
+                    const confirmMessageElement = document.getElementById(`${scenarioId.replace('CsvData', 'ConfirmMessage')}`);
+
+                    const parsed = parseCSV(csvData);
+                    if (Object.keys(parsed).length > 0) {
+                        applyData(parsed);
+                        confirmMessageElement.textContent = 'Loaded!';
+                        confirmMessageElement.classList.remove('hidden', 'text-red-600');
+                        confirmMessageElement.classList.add('text-green-600');
+                        setTimeout(() => confirmMessageElement.classList.add('hidden'), 2000);
+                    } else {
+                        confirmMessageElement.textContent = 'Error loading data!';
+                        confirmMessageElement.classList.remove('hidden', 'text-green-600');
+                        confirmMessageElement.classList.add('text-red-600');
+                    }
+                });
+            });
+
+            // Event listeners for Export buttons (now commented out in HTML, but kept here for reference if re-enabled)
+            // document.getElementById('exportCsvBtn').addEventListener('click', exportDataAsCsv);
+            // document.getElementById('exportJsonBtn').addEventListener('click', exportDataAsJson);
+
+            // Add event listeners for the new toggle breakdown links
+            document.querySelectorAll('.toggle-breakdown-link').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetId = event.target.dataset.target;
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.classList.toggle('hidden');
+                        if (targetElement.classList.contains('hidden')) {
+                            event.target.textContent = 'Click to see Breakdown by Test Type';
+                        } else {
+                            event.target.textContent = 'Hide Breakdown by Test Type';
+                        }
+                    }
+                });
+            });
         }
 
         // Helper function to generate random data for demonstration
@@ -1407,6 +1514,7 @@ Ace_Smoke_Automated,15
                 let calculatedTeamAutomated = 0; // This will be the sum of automated tests from its constituent test types
 
                 const cardElement = document.getElementById(`${lowerCaseTeamPrefix}Card`);
+                // Note: The ID for the content div changed to `teamTestTypeBreakdownContent`
                 const testTypeBreakdownDiv = document.getElementById(`${lowerCaseTeamPrefix}TestTypeBreakdown`);
                 const rollupWarningDiv = document.getElementById(`${lowerCaseTeamPrefix}RollupWarning`);
                 const teamAutomationProgressBar = document.getElementById(`${lowerCaseTeamPrefix}AutomationProgressBar`);
@@ -1524,6 +1632,36 @@ Ace_Smoke_Automated,15
             } else {
                 overallAutomationWarning.classList.add('hidden');
             }
+        }
+
+        // Function to export data as CSV
+        function exportDataAsCsv() {
+            let csvContent = "Metric,Value\n";
+            for (const key in currentDashboardData) {
+                if (currentDashboardData.hasOwnProperty(key)) {
+                    csvContent += `${key},${currentDashboardData[key]}\n`;
+                }
+            }
+            downloadFile(csvContent, 'qa_dashboard_data.csv', 'text/csv');
+        }
+
+        // Function to export data as JSON
+        function exportDataAsJson() {
+            const jsonContent = JSON.stringify(currentDashboardData, null, 2); // Pretty print JSON
+            downloadFile(jsonContent, 'qa_dashboard_data.json', 'application/json');
+        }
+
+        // Generic function to trigger file download
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a); // Required for Firefox
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url); // Clean up the URL object
         }
     </script>
 </body>
