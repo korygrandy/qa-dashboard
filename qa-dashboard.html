@@ -30,13 +30,12 @@
         }
         /* Hide sections and header links when printing */
         @media print {
-            /* Hide the "How to Use" section and all sections below it, plus header links and footer */
             #howToUseSection,
             #understandingWarningSection,
             #update-data-section,
             #developerReadmeSection,
             .header-links,
-            footer {
+            footer { /* Added footer to hide it during print */
                 display: none !important;
             }
             body {
@@ -349,7 +348,7 @@
                 </p>
                 <div class="relative mb-4">
                     <pre id="csvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto pr-10"><code>Metric,Value
-PlannedToAutomate,150
+PlannedToAutomate,110
 Avengers_Total,120
 Avengers_PlannedToAutomate,90
 Avengers_Automated,40
@@ -894,7 +893,7 @@ Imaging_Total,100
 Imaging_PlannedToAutomate,90
 Imaging_Automated,95
 Imaging_Unit_Total,20
-Imaging_Unit_PlannedToAutomate,15
+Imaging_Unit_PlannedToAutomate,18
 Imaging_Unit_Automated,17
 Imaging_Functional_Total,30
 Imaging_Functional_PlannedToAutomate,27
@@ -971,7 +970,7 @@ Ace_Regression_Automated,0
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
-`;
+</code></pre>
                         <div class="flex items-center space-x-4 mt-2">
                             <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario3CsvData">
                                 Copy CSV Data
@@ -1050,7 +1049,7 @@ Ace_Smoke_Automated,0
         // NOTE: Due to browser security, you cannot directly load from a local file path like C:\temp\rawdata.csv.
         // This string serves as the "hardcoded" data source.
         const HARDCODED_CSV_DATA = `Metric,Value
-PlannedToAutomate,150
+PlannedToAutomate,110
 Avengers_Total,120
 Avengers_PlannedToAutomate,90
 Avengers_Automated,40
@@ -1162,7 +1161,7 @@ Ace_Smoke_Automated,0
 `;
 
         const CSV_EXAMPLE_DATA = `Metric,Value
-PlannedToAutomate,150
+PlannedToAutomate,110
 Avengers_Total,120
 Avengers_PlannedToAutomate,90
 Avengers_Automated,40
