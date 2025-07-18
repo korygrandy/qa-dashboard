@@ -30,12 +30,13 @@
         }
         /* Hide sections and header links when printing */
         @media print {
+            /* Hide the "How to Use" section and all sections below it, plus header links and footer */
             #howToUseSection,
             #understandingWarningSection,
             #update-data-section,
             #developerReadmeSection,
             .header-links,
-            footer { /* Added footer to hide it during print */
+            footer {
                 display: none !important;
             }
             body {
@@ -348,118 +349,116 @@
                 </p>
                 <div class="relative mb-4">
                     <pre id="csvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto pr-10"><code>Metric,Value
-PlannedToAutomate,500
-Avengers_Total,150
-Avengers_PlannedToAutomate,100
-Avengers_Automated,85
-Avengers_Unit_Total,20
-Avengers_Unit_PlannedToAutomate,15
-Avengers_Unit_Automated,13
-Avengers_Functional_Total,30
-Avengers_Functional_Automated,28
-Avengers_IncrementalDataLoad_Total,10
-Avengers_IncrementalDataLoad_PlannedToAutomate,8
-Avengers_IncrementalDataLoad_Automated,7
-Avengers_FullLoadDataValidation_Total,15
-Avengers_FullLoadDataValidation_PlannedToAutomate,12
-Avengers_FullLoadDataValidation_Automated,10
-Avengers_UserAcceptance_Total,10
-Avengers_UserAcceptance_PlannedToAutomate,8
-Avengers_UserAcceptance_Automated,7
-Avengers_API_Total,5
-Avengers_API_PlannedToAutomate,4
-Avengers_API_Automated,3
-Avengers_Regression_Total,60
-Avengers_Regression_PlannedToAutomate,35
-Avengers_Regression_Automated,25
-Avengers_Smoke_Total,10
-Avengers_Smoke_PlannedToAutomate,5
-Avengers_Smoke_Automated,2
-
-Imaging_Total,200
-Imaging_PlannedToAutomate,150
-Imaging_Automated,80
-Imaging_Unit_Total,40
-Imaging_Unit_PlannedToAutomate,30
-Imaging_Unit_Automated,15
-Imaging_Functional_Total,50
-Imaging_Functional_PlannedToAutomate,40
-Imaging_Functional_Automated,25
-Imaging_IncrementalDataLoad_Total,20
-Imaging_IncrementalDataLoad_PlannedToAutomate,15
-Imaging_IncrementalDataLoad_Automated,10
-Imaging_FullLoadDataValidation_Total,25
-Imaging_FullLoadDataValidation_PlannedToAutomate,20
-Imaging_FullLoadDataValidation_Automated,12
-Imaging_UserAcceptance_Total,20
-Imaging_UserAcceptance_PlannedToAutomate,15
-Imaging_UserAcceptance_Automated,8
-Imaging_API_Total,10
-Imaging_API_PlannedToAutomate,8
-Imaging_API_Automated,5
-Imaging_Regression_Total,30
-Imaging_Regression_PlannedToAutomate,20
-Imaging_Regression_Automated,5
-Imaging_Smoke_Total,5
-Imaging_Smoke_PlannedToAutomate,2
+PlannedToAutomate,150
+Avengers_Total,120
+Avengers_PlannedToAutomate,90
+Avengers_Automated,40
+Avengers_Unit_Total,0
+Avengers_Unit_PlannedToAutomate,0
+Avengers_Unit_Automated,0
+Avengers_Functional_Total,0
+Avengers_Functional_PlannedToAutomate,0
+Avengers_Functional_Automated,0
+Avengers_IncrementalDataLoad_Total,0
+Avengers_IncrementalDataLoad_PlannedToAutomate,0
+Avengers_IncrementalDataLoad_Automated,0
+Avengers_FullLoadDataValidation_Total,0
+Avengers_FullLoadDataValidation_PlannedToAutomate,0
+Avengers_FullLoadDataValidation_Automated,0
+Avengers_UserAcceptance_Total,0
+Avengers_UserAcceptance_PlannedToAutomate,0
+Avengers_UserAcceptance_Automated,0
+Avengers_API_Total,0
+Avengers_API_PlannedToAutomate,0
+Avengers_API_Automated,0
+Avengers_Regression_Total,120
+Avengers_Regression_PlannedToAutomate,90
+Avengers_Regression_Automated,40
+Avengers_Smoke_Total,0
+Avengers_Smoke_PlannedToAutomate,0
+Avengers_Smoke_Automated,0
+Imaging_Total,100
+Imaging_PlannedToAutomate,50
+Imaging_Automated,0
+Imaging_Unit_Total,0
+Imaging_Unit_PlannedToAutomate,0
+Imaging_Unit_Automated,0
+Imaging_Functional_Total,0
+Imaging_Functional_PlannedToAutomate,0
+Imaging_Functional_Automated,0
+Imaging_IncrementalDataLoad_Total,0
+Imaging_IncrementalDataLoad_PlannedToAutomate,0
+Imaging_IncrementalDataLoad_Automated,0
+Imaging_FullLoadDataValidation_Total,0
+Imaging_FullLoadDataValidation_PlannedToAutomate,0
+Imaging_FullLoadDataValidation_Automated,0
+Imaging_UserAcceptance_Total,0
+Imaging_UserAcceptance_PlannedToAutomate,0
+Imaging_UserAcceptance_Automated,0
+Imaging_API_Total,0
+Imaging_API_PlannedToAutomate,0
+Imaging_API_Automated,0
+Imaging_Regression_Total,100
+Imaging_Regression_PlannedToAutomate,50
+Imaging_Regression_Automated,0
+Imaging_Smoke_Total,12
+Imaging_Smoke_PlannedToAutomate,0
 Imaging_Smoke_Automated,0
-
-Phoenix_Total,100
-Phoenix_PlannedToAutomate,80
-Phoenix_Automated,40
-Phoenix_Unit_Total,15
-Phoenix_Unit_PlannedToAutomate,10
-Phoenix_Unit_Automated,5
-Phoenix_Functional_Total,25
-Phoenix_Functional_PlannedToAutomate,20
-Phoenix_Functional_Automated,10
-Phoenix_IncrementalDataLoad_Total,10
-Phoenix_IncrementalDataLoad_PlannedToAutomate,8
-Phoenix_IncrementalDataLoad_Automated,4
-Phoenix_FullLoadDataValidation_Total,15
-Phoenix_FullLoadDataValidation_PlannedToAutomate,12
-Phoenix_FullLoadDataValidation_Automated,6
-Phoenix_UserAcceptance_Total,10
-Phoenix_UserAcceptance_PlannedToAutomate,8
-Phoenix_UserAcceptance_Automated,4
-Phoenix_API_Total,5
-Phoenix_API_PlannedToAutomate,4
-Phoenix_API_Automated,2
-Phoenix_Regression_Total,15
+Phoenix_Total,69
+Phoenix_PlannedToAutomate,10
+Phoenix_Automated,0
+Phoenix_Unit_Total,0
+Phoenix_Unit_PlannedToAutomate,0
+Phoenix_Unit_Automated,0
+Phoenix_Functional_Total,0
+Phoenix_Functional_PlannedToAutomate,0
+Phoenix_Functional_Automated,0
+Phoenix_IncrementalDataLoad_Total,0
+Phoenix_IncrementalDataLoad_PlannedToAutomate,0
+Phoenix_IncrementalDataLoad_Automated,0
+Phoenix_FullLoadDataValidation_Total,0
+Phoenix_FullLoadDataValidation_PlannedToAutomate,0
+Phoenix_FullLoadDataValidation_Automated,0
+Phoenix_UserAcceptance_Total,0
+Phoenix_UserAcceptance_PlannedToAutomate,0
+Phoenix_UserAcceptance_Automated,0
+Phoenix_API_Total,0
+Phoenix_API_PlannedToAutomate,0
+Phoenix_API_Automated,0
+Phoenix_Regression_Total,50
 Phoenix_Regression_PlannedToAutomate,10
-Phoenix_Regression_Automated,8
-Phoenix_Smoke_Total,5
-Phoenix_Smoke_PlannedToAutomate,8
-Phoenix_Smoke_Automated,1
-
-Ace_Total,80
-Ace_PlannedToAutomate,30
-Ace_Automated,10
-Ace_Unit_Total,10
-Ace_Unit_PlannedToAutomate,5
-Ace_Unit_Automated,2
-Ace_Functional_Total,20
-Ace_Functional_PlannedToAutomate,10
-Ace_Functional_Automated,3
-Ace_IncrementalDataLoad_Total,5
-Ace_IncrementalDataLoad_PlannedToAutomate,3
-Ace_IncrementalDataLoad_Automated,1
-Ace_FullLoadDataValidation_Total,10
-Ace_FullLoadDataValidation_PlannedToAutomate,5
-Ace_FullLoadDataValidation_Automated,1
-Ace_UserAcceptance_Total,5
-Ace_UserAcceptance_PlannedToAutomate,2
-Ace_UserAcceptance_Automated,1
-Ace_API_Total,5
-Ace_API_PlannedToAutomate,2
-Ace_API_Automated,1
-Ace_Regression_Total,20
-Ace_Regression_PlannedToAutomate,3
-Ace_Regression_Automated,1
-Ace_Smoke_Total,5
+Phoenix_Regression_Automated,0
+Phoenix_Smoke_Total,19
+Phoenix_Smoke_PlannedToAutomate,0
+Phoenix_Smoke_Automated,0
+Ace_Total,0
+Ace_PlannedToAutomate,0
+Ace_Automated,0
+Ace_Unit_Total,0
+Ace_Unit_PlannedToAutomate,0
+Ace_Unit_Automated,0
+Ace_Functional_Total,0
+Ace_Functional_PlannedToAutomate,0
+Ace_Functional_Automated,0
+Ace_IncrementalDataLoad_Total,0
+Ace_IncrementalDataLoad_PlannedToAutomate,0
+Ace_IncrementalDataLoad_Automated,0
+Ace_FullLoadDataValidation_Total,0
+Ace_FullLoadDataValidation_PlannedToAutomate,0
+Ace_FullLoadDataValidation_Automated,0
+Ace_UserAcceptance_Total,0
+Ace_UserAcceptance_PlannedToAutomate,0
+Ace_UserAcceptance_Automated,0
+Ace_API_Total,0
+Ace_API_PlannedToAutomate,0
+Ace_API_Automated,0
+Ace_Regression_Total,0
+Ace_Regression_PlannedToAutomate,0
+Ace_Regression_Automated,0
+Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
-</code></pre>
+`;
                     <span id="copyConfirmMessage" class="absolute top-2 right-16 text-xs text-green-600 hidden">Copied!</span>
                 </div>
                 <a href="#" id="copyCsvExampleLink" class="inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold mb-2 transition duration-200">
@@ -533,6 +532,7 @@ Avengers_Unit_Total,40
 Avengers_Unit_PlannedToAutomate,35
 Avengers_Unit_Automated,34
 Avengers_Functional_Total,50
+Avengers_Functional_PlannedToAutomate,42
 Avengers_Functional_Automated,42
 Avengers_IncrementalDataLoad_Total,20
 Avengers_IncrementalDataLoad_PlannedToAutomate,18
@@ -701,6 +701,7 @@ Avengers_Unit_Total,40
 Avengers_Unit_PlannedToAutomate,35
 Avengers_Unit_Automated,20
 Avengers_Functional_Total,50
+Avengers_Functional_PlannedToAutomate,25
 Avengers_Functional_Automated,25
 Avengers_IncrementalDataLoad_Total,20
 Avengers_IncrementalDataLoad_PlannedToAutomate,18
@@ -869,6 +870,7 @@ Avengers_Unit_Total,20
 Avengers_Unit_PlannedToAutomate,15
 Avengers_Unit_Automated,15
 Avengers_Functional_Total,30
+Avengers_Functional_PlannedToAutomate,25
 Avengers_Functional_Automated,25
 Avengers_IncrementalDataLoad_Total,10
 Avengers_IncrementalDataLoad_PlannedToAutomate,8
@@ -892,7 +894,7 @@ Imaging_Total,100
 Imaging_PlannedToAutomate,90
 Imaging_Automated,95
 Imaging_Unit_Total,20
-Imaging_Unit_PlannedToAutomate,18
+Imaging_Unit_PlannedToAutomate,15
 Imaging_Unit_Automated,17
 Imaging_Functional_Total,30
 Imaging_Functional_PlannedToAutomate,27
@@ -969,7 +971,7 @@ Ace_Regression_Automated,0
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
-</code></pre>
+`;
                         <div class="flex items-center space-x-4 mt-2">
                             <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario3CsvData">
                                 Copy CSV Data
@@ -1048,7 +1050,7 @@ Ace_Smoke_Automated,0
         // NOTE: Due to browser security, you cannot directly load from a local file path like C:\temp\rawdata.csv.
         // This string serves as the "hardcoded" data source.
         const HARDCODED_CSV_DATA = `Metric,Value
-PlannedToAutomate,110
+PlannedToAutomate,150
 Avengers_Total,120
 Avengers_PlannedToAutomate,90
 Avengers_Automated,40
@@ -1160,115 +1162,113 @@ Ace_Smoke_Automated,0
 `;
 
         const CSV_EXAMPLE_DATA = `Metric,Value
-PlannedToAutomate,500
-Avengers_Total,150
-Avengers_PlannedToAutomate,100
-Avengers_Automated,85
-Avengers_Unit_Total,20
-Avengers_Unit_PlannedToAutomate,15
-Avengers_Unit_Automated,13
-Avengers_Functional_Total,30
-Avengers_Functional_Automated,28
-Avengers_IncrementalDataLoad_Total,10
-Avengers_IncrementalDataLoad_PlannedToAutomate,8
-Avengers_IncrementalDataLoad_Automated,7
-Avengers_FullLoadDataValidation_Total,15
-Avengers_FullLoadDataValidation_PlannedToAutomate,12
-Avengers_FullLoadDataValidation_Automated,10
-Avengers_UserAcceptance_Total,10
-Avengers_UserAcceptance_PlannedToAutomate,8
-Avengers_UserAcceptance_Automated,7
-Avengers_API_Total,5
-Avengers_API_PlannedToAutomate,4
-Avengers_API_Automated,3
-Avengers_Regression_Total,60
-Avengers_Regression_PlannedToAutomate,35
-Avengers_Regression_Automated,25
-Avengers_Smoke_Total,10
-Avengers_Smoke_PlannedToAutomate,5
-Avengers_Smoke_Automated,2
-
-Imaging_Total,200
-Imaging_PlannedToAutomate,150
-Imaging_Automated,80
-Imaging_Unit_Total,40
-Imaging_Unit_PlannedToAutomate,30
-Imaging_Unit_Automated,15
-Imaging_Functional_Total,50
-Imaging_Functional_PlannedToAutomate,40
-Imaging_Functional_Automated,25
-Imaging_IncrementalDataLoad_Total,20
-Imaging_IncrementalDataLoad_PlannedToAutomate,15
-Imaging_IncrementalDataLoad_Automated,10
-Imaging_FullLoadDataValidation_Total,25
-Imaging_FullLoadDataValidation_PlannedToAutomate,20
-Imaging_FullLoadDataValidation_Automated,12
-Imaging_UserAcceptance_Total,20
-Imaging_UserAcceptance_PlannedToAutomate,15
-Imaging_UserAcceptance_Automated,8
-Imaging_API_Total,10
-Imaging_API_PlannedToAutomate,8
-Imaging_API_Automated,5
-Imaging_Regression_Total,30
-Imaging_Regression_PlannedToAutomate,20
-Imaging_Regression_Automated,5
-Imaging_Smoke_Total,5
-Imaging_Smoke_PlannedToAutomate,2
+PlannedToAutomate,150
+Avengers_Total,120
+Avengers_PlannedToAutomate,90
+Avengers_Automated,40
+Avengers_Unit_Total,0
+Avengers_Unit_PlannedToAutomate,0
+Avengers_Unit_Automated,0
+Avengers_Functional_Total,0
+Avengers_Functional_PlannedToAutomate,0
+Avengers_Functional_Automated,0
+Avengers_IncrementalDataLoad_Total,0
+Avengers_IncrementalDataLoad_PlannedToAutomate,0
+Avengers_IncrementalDataLoad_Automated,0
+Avengers_FullLoadDataValidation_Total,0
+Avengers_FullLoadDataValidation_PlannedToAutomate,0
+Avengers_FullLoadDataValidation_Automated,0
+Avengers_UserAcceptance_Total,0
+Avengers_UserAcceptance_PlannedToAutomate,0
+Avengers_UserAcceptance_Automated,0
+Avengers_API_Total,0
+Avengers_API_PlannedToAutomate,0
+Avengers_API_Automated,0
+Avengers_Regression_Total,120
+Avengers_Regression_PlannedToAutomate,90
+Avengers_Regression_Automated,40
+Avengers_Smoke_Total,0
+Avengers_Smoke_PlannedToAutomate,0
+Avengers_Smoke_Automated,0
+Imaging_Total,100
+Imaging_PlannedToAutomate,50
+Imaging_Automated,0
+Imaging_Unit_Total,0
+Imaging_Unit_PlannedToAutomate,0
+Imaging_Unit_Automated,0
+Imaging_Functional_Total,0
+Imaging_Functional_PlannedToAutomate,0
+Imaging_Functional_Automated,0
+Imaging_IncrementalDataLoad_Total,0
+Imaging_IncrementalDataLoad_PlannedToAutomate,0
+Imaging_IncrementalDataLoad_Automated,0
+Imaging_FullLoadDataValidation_Total,0
+Imaging_FullLoadDataValidation_PlannedToAutomate,0
+Imaging_FullLoadDataValidation_Automated,0
+Imaging_UserAcceptance_Total,0
+Imaging_UserAcceptance_PlannedToAutomate,0
+Imaging_UserAcceptance_Automated,0
+Imaging_API_Total,0
+Imaging_API_PlannedToAutomate,0
+Imaging_API_Automated,0
+Imaging_Regression_Total,100
+Imaging_Regression_PlannedToAutomate,50
+Imaging_Regression_Automated,0
+Imaging_Smoke_Total,12
+Imaging_Smoke_PlannedToAutomate,0
 Imaging_Smoke_Automated,0
-
-Phoenix_Total,100
-Phoenix_PlannedToAutomate,80
-Phoenix_Automated,40
-Phoenix_Unit_Total,15
-Phoenix_Unit_PlannedToAutomate,10
-Phoenix_Unit_Automated,5
-Phoenix_Functional_Total,25
-Phoenix_Functional_PlannedToAutomate,20
-Phoenix_Functional_Automated,10
-Phoenix_IncrementalDataLoad_Total,10
-Phoenix_IncrementalDataLoad_PlannedToAutomate,8
-Phoenix_IncrementalDataLoad_Automated,4
-Phoenix_FullLoadDataValidation_Total,15
-Phoenix_FullLoadDataValidation_PlannedToAutomate,12
-Phoenix_FullLoadDataValidation_Automated,6
-Phoenix_UserAcceptance_Total,10
-Phoenix_UserAcceptance_PlannedToAutomate,8
-Phoenix_UserAcceptance_Automated,4
-Phoenix_API_Total,5
-Phoenix_API_PlannedToAutomate,4
-Phoenix_API_Automated,2
-Phoenix_Regression_Total,15
+Phoenix_Total,69
+Phoenix_PlannedToAutomate,10
+Phoenix_Automated,0
+Phoenix_Unit_Total,0
+Phoenix_Unit_PlannedToAutomate,0
+Phoenix_Unit_Automated,0
+Phoenix_Functional_Total,0
+Phoenix_Functional_PlannedToAutomate,0
+Phoenix_Functional_Automated,0
+Phoenix_IncrementalDataLoad_Total,0
+Phoenix_IncrementalDataLoad_PlannedToAutomate,0
+Phoenix_IncrementalDataLoad_Automated,0
+Phoenix_FullLoadDataValidation_Total,0
+Phoenix_FullLoadDataValidation_PlannedToAutomate,0
+Phoenix_FullLoadDataValidation_Automated,0
+Phoenix_UserAcceptance_Total,0
+Phoenix_UserAcceptance_PlannedToAutomate,0
+Phoenix_UserAcceptance_Automated,0
+Phoenix_API_Total,0
+Phoenix_API_PlannedToAutomate,0
+Phoenix_API_Automated,0
+Phoenix_Regression_Total,50
 Phoenix_Regression_PlannedToAutomate,10
-Phoenix_Regression_Automated,8
-Phoenix_Smoke_Total,5
-Phoenix_Smoke_PlannedToAutomate,8
-Phoenix_Smoke_Automated,1
-
-Ace_Total,80
-Ace_PlannedToAutomate,30
-Ace_Automated,10
-Ace_Unit_Total,10
-Ace_Unit_PlannedToAutomate,5
-Ace_Unit_Automated,2
-Ace_Functional_Total,20
-Ace_Functional_PlannedToAutomate,10
-Ace_Functional_Automated,3
-Ace_IncrementalDataLoad_Total,5
-Ace_IncrementalDataLoad_PlannedToAutomate,3
-Ace_IncrementalDataLoad_Automated,1
-Ace_FullLoadDataValidation_Total,10
-Ace_FullLoadDataValidation_PlannedToAutomate,5
-Ace_FullLoadDataValidation_Automated,1
-Ace_UserAcceptance_Total,5
-Ace_UserAcceptance_PlannedToAutomate,2
-Ace_UserAcceptance_Automated,1
-Ace_API_Total,5
-Ace_API_PlannedToAutomate,2
-Ace_API_Automated,1
-Ace_Regression_Total,20
-Ace_Regression_PlannedToAutomate,3
-Ace_Regression_Automated,1
-Ace_Smoke_Total,5
+Phoenix_Regression_Automated,0
+Phoenix_Smoke_Total,19
+Phoenix_Smoke_PlannedToAutomate,0
+Phoenix_Smoke_Automated,0
+Ace_Total,0
+Ace_PlannedToAutomate,0
+Ace_Automated,0
+Ace_Unit_Total,0
+Ace_Unit_PlannedToAutomate,0
+Ace_Unit_Automated,0
+Ace_Functional_Total,0
+Ace_Functional_PlannedToAutomate,0
+Ace_Functional_Automated,0
+Ace_IncrementalDataLoad_Total,0
+Ace_IncrementalDataLoad_PlannedToAutomate,0
+Ace_IncrementalDataLoad_Automated,0
+Ace_FullLoadDataValidation_Total,0
+Ace_FullLoadDataValidation_PlannedToAutomate,0
+Ace_FullLoadDataValidation_Automated,0
+Ace_UserAcceptance_Total,0
+Ace_UserAcceptance_PlannedToAutomate,0
+Ace_UserAcceptance_Automated,0
+Ace_API_Total,0
+Ace_API_PlannedToAutomate,0
+Ace_API_Automated,0
+Ace_Regression_Total,0
+Ace_Regression_PlannedToAutomate,0
+Ace_Regression_Automated,0
+Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
 `;
@@ -1559,24 +1559,14 @@ Ace_Smoke_Automated,0
                             const div = document.createElement('div');
                             div.className = 'mb-1'; // Add some margin between test types
 
-                            // Special handling for Avengers Functional Tests
-                            if (teamPrefix === 'Avengers' && testTypePrefix === 'Functional') {
-                                div.innerHTML = `
-                                    <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
-                                    <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                                        <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
-                                    </div>
-                                    <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
-                                `;
-                            } else {
-                                div.innerHTML = `
-                                    <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span> / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span>
-                                    <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                                        <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
-                                    </div>
-                                    <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
-                                `;
-                            }
+                            // Updated: Removed "Planned:" from all test type breakdowns
+                            div.innerHTML = `
+                                <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
+                                </div>
+                                <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
+                            `;
                             testTypeBreakdownDiv.appendChild(div);
                         }
                     });
