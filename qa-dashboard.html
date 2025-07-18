@@ -124,125 +124,8 @@
 
             <section class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Coverage by Testing Team</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <div id="avengersCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Avengers Team</h4>
-                        <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="avengersTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="avengersPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="avengersAutomated" class="font-semibold">0</span></p>
-                            <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">
-                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="avengersTestTypeBreakdownContent">
-                                        Hide Breakdown by Test Type
-                                    </a>
-                                </h5>
-                                <div id="avengersTestTypeBreakdownContent" class="space-y-1 text-sm">
-                                    <div id="avengersTestTypeBreakdown">
-                                        </div>
-                                </div>
-                                <div id="avengersRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                    Warning: Sum of automated test types does not match team's total automated.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="imagingCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Imaging Team</h4>
-                        <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="imagingTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="imagingPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="imagingAutomated" class="font-semibold">0</span></p>
-                            <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">
-                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="imagingTestTypeBreakdownContent">
-                                        Hide Breakdown by Test Type
-                                    </a>
-                                </h5>
-                                <div id="imagingTestTypeBreakdownContent" class="space-y-1 text-sm">
-                                    <div id="imagingTestTypeBreakdown">
-                                        </div>
-                                </div>
-                                <div id="imagingRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                    Warning: Sum of automated test types does not match team's total automated.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="phoenixCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Phoenix Team</h4>
-                        <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="phoenixTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="phoenixPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="phoenixAutomated" class="font-semibold">0</span></p>
-                            <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">
-                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="phoenixTestTypeBreakdownContent">
-                                        Hide Breakdown by Test Type
-                                    </a>
-                                </h5>
-                                <div id="phoenixTestTypeBreakdownContent" class="space-y-1 text-sm">
-                                    <div id="phoenixTestTypeBreakdown">
-                                        </div>
-                                </div>
-                                <div id="phoenixRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                    Warning: Sum of automated test types does not match team's total automated.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="aceCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Ace Team</h4>
-                        <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="aceTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="acePlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="aceAutomated" class="font-semibold">0</span></p>
-                            <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">
-                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="aceTestTypeBreakdownContent">
-                                        Hide Breakdown by Test Type
-                                    </a>
-                                </h5>
-                                <div id="aceTestTypeBreakdownContent" class="space-y-1 text-sm">
-                                    <div id="aceTestTypeBreakdown">
-                                        </div>
-                                </div>
-                                <div id="aceRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                    Warning: Sum of automated test types does not match team's total automated.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- New: Agency Team Card -->
-                    <div id="agencyCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">Agency Team</h4>
-                        <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="agencyTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="agencyPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="agencyAutomated" class="font-semibold">0</span></p>
-                            <div class="mt-2">
-                                <h5 class="text-md font-medium text-gray-800 mb-1">
-                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="agencyTestTypeBreakdownContent">
-                                        Hide Breakdown by Test Type
-                                    </a>
-                                </h5>
-                                <div id="agencyTestTypeBreakdownContent" class="space-y-1 text-sm">
-                                    <div id="agencyTestTypeBreakdown">
-                                        </div>
-                                </div>
-                                <div id="agencyRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
-                                    Warning: Sum of automated test types does not match team's total automated.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End New: Agency Team Card -->
-
+                <div id="teamCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Team cards will be dynamically inserted here by JavaScript -->
                 </div>
             </section>
 
@@ -298,29 +181,56 @@
             </section>
 
             <section id="understandingWarningSection" class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Understanding the Overall Automation Warning</h3>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Understanding Dashboard Warnings</h3>
                 <p class="text-gray-700 mb-4">
-                    The <span class="text-red-600">red</span> warning message, "Warning: Total Automated Tests exceed Tests Planned for Automation. Please verify data," highlights potential data inconsistency.
+                    This dashboard provides two types of warning messages to help identify potential data inconsistencies or areas needing attention.
                 </p>
 
-                <h4 class="text-xl font-medium text-gray-800 mb-2">What it means:</h4>
+                <h4 class="text-xl font-medium text-gray-800 mb-2">1. Overall Automation Warning:</h4>
                 <p class="text-gray-700 mb-2">
-                    Automated tests should not exceed planned tests. This warning appears if total automated tests (sum of all team/type automated counts) are higher than the overall "Tests Planned for Automation."
+                    The <span class="text-red-600">red</span> warning message, "Warning: Total Automated Tests exceed Tests Planned for Automation. Please verify data," highlights potential data inconsistency at the overall dashboard level.
                 </p>
 
-                <h4 class="text-xl font-medium text-gray-800 mb-2">Why it might appear:</h4>
-                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>**Data Entry Error:** Most common reason is a typo in your CSV data.</li>
-                    <li>**Unexpected Automation:** More tests automated than planned, requiring a review to update the "Planned to Automate" metric.</li>
+                <h5 class="text-lg font-medium text-gray-800 mb-1">What it means:</h5>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4 ml-4">
+                    <li>Automated tests should ideally not exceed planned tests. This warning appears if the sum of all automated tests across all teams is higher than the overall "Tests Planned for Automation" metric provided in the CSV.</li>
                 </ul>
 
-                <h4 class="text-xl font-medium text-gray-800 mb-2">What to do if you see it:</h4>
-                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>**Review CSV data:** Double-check all "Tests Automated" and "PlannedToAutomate" values for logical alignment.</li>
-                    <li>**Adjust "Planned" if necessary:** Update the overall "PlannedToAutomate" value to reflect new targets if more tests were genuinely automated.</li>
+                <h5 class="text-lg font-medium text-gray-800 mb-1">Why it might appear:</h5>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4 ml-4">
+                    <li>**Data Entry Error:** The most common reason is a typo or incorrect data entry in your CSV data for either the total automated tests or the overall planned tests.</li>
+                    <li>**Unexpected Automation Progress:** More tests were automated than initially planned, requiring a review to update the overall "Planned to Automate" metric to reflect the new target.</li>
+                </ul>
+
+                <h5 class="text-lg font-medium text-gray-800 mb-1">What to do if you see it:</h5>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4 ml-4">
+                    <li>**Review CSV data:** Double-check all "Tests Automated" and "PlannedToAutomate" values for logical alignment across the entire dataset.</li>
+                    <li>**Adjust "Planned" if necessary:** If more tests were genuinely automated, update the overall "PlannedToAutomate" value in your CSV to reflect the new, higher target.</li>
+                </ul>
+
+                <h4 class="text-xl font-medium text-gray-800 mb-2 mt-6">2. Team-Specific Roll-up Warning:</h4>
+                <p class="text-gray-700 mb-2">
+                    This <span class="text-red-600">red</span> warning message, "Warning: Sum of automated test types does not match team's total automated," appears within individual team cards.
+                </p>
+
+                <h5 class="text-lg font-medium text-gray-800 mb-1">What it means:</h5>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4 ml-4">
+                    <li>For each team, the dashboard calculates the sum of automated tests from its individual test types (e.g., Unit, Functional, API, Regression). This warning appears if this calculated sum does not match the "Tests Automated" value explicitly provided for that team in the CSV data.</li>
+                </ul>
+
+                <h5 class="text-lg font-medium text-gray-800 mb-1">Why it might appear:</h5>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4 ml-4">
+                    <li>**Data Entry Inconsistency:** The most common cause is a mismatch between the sum of the detailed test type automated counts and the overall team automated count in your CSV. For instance, if `Avengers_Unit_Automated` + `Avengers_Functional_Automated`... sums to 100, but `Avengers_Automated` is listed as 90 in the CSV.</li>
+                    <li>**Incomplete Data:** Some test type automated counts might be missing or incorrect, leading to an inaccurate sum.</li>
+                </ul>
+
+                <h5 class="text-lg font-medium text-gray-800 mb-1">What to do if you see it:</h5>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4 ml-4">
+                    <li>**Verify Test Type Breakdown:** Review the automated counts for each individual test type within the affected team in your CSV data. Ensure their sum correctly adds up to the team's total "Tests Automated" value.</li>
+                    <li>**Correct Discrepancies:** Adjust either the individual test type automated counts or the team's overall "Tests Automated" value in your CSV to ensure consistency.</li>
                 </ul>
                 <p class="text-gray-700">
-                    This warning helps maintain data integrity and accurate reporting.
+                    These warnings are crucial for maintaining data integrity and accurate reporting across the dashboard.
                 </p>
             </section>
 
@@ -471,7 +381,7 @@ Agency_Regression_Automated,0
 Agency_Smoke_Total,13
 Agency_Smoke_PlannedToAutomate,0
 Agency_Smoke_Automated,0
-`;
+</code></pre>
                     <span id="copyConfirmMessage" class="absolute top-2 right-16 text-xs text-green-600 hidden">Copied!</span>
                 </div>
                 <a href="#" id="copyCsvExampleLink" class="inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold mb-2 transition duration-200">
@@ -511,7 +421,7 @@ Agency_Smoke_Automated,0
                             <pre class="bg-gray-100 p-2 rounded text-sm mt-1 mb-1 overflow-auto"><code>const LOAD_FROM_HARDCODED_ON_STARTUP = true;</code></pre>
                             <ul>
                                 <li>Set `true`: The dashboard will load data from the `HARDCODED_CSV_DATA` string immediately upon page load.</li>
-                                <li>Set `false`: The dashboard will load random data initially. The "Update Data via CSV" section will then be the primary way to input data.</li>
+                                <li>Set to `false`: The dashboard will load random data initially. The "Update Data via CSV" section will then be the primary way to input data.</li>
                             </ul>
                         </li>
                         <li>
@@ -672,15 +582,12 @@ Agency_Regression_Automated,0
 Agency_Smoke_Total,13
 Agency_Smoke_PlannedToAutomate,0
 Agency_Smoke_Automated,0
-`;
-                        <div class="flex items-center space-x-4 mt-2">
-                            <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario1CsvData">
-                                Copy CSV Data
+</code></pre>
+                        <div class="mt-2">
+                            <a href="#" class="run-scenario-data text-blue-600 hover:underline text-sm font-semibold transition duration-200" data-scenario-id="scenario1CsvData">
+                                Run Test Scenario
                             </a>
-                            <button class="load-scenario-data px-4 py-1 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 text-sm" data-scenario-id="scenario1CsvData">
-                                Load CSV Data
-                            </button>
-                            <span id="scenario1ConfirmMessage" class="text-xs text-green-600 hidden">Copied/Loaded!</span>
+                            <span id="scenario1ConfirmMessage" class="text-xs text-green-600 hidden">Loaded!</span>
                         </div>
                         <h6 class="text-md font-medium text-gray-800 mb-1 mt-4">Expected Outcomes:</h6>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
@@ -841,15 +748,12 @@ Ace_Regression_Automated,5
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,5
 Ace_Smoke_Automated,5
-`;
-                        <div class="flex items-center space-x-4 mt-2">
-                            <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario2CsvData">
-                                Copy CSV Data
+</code></pre>
+                        <div class="mt-2">
+                            <a href="#" class="run-scenario-data text-blue-600 hover:underline text-sm font-semibold transition duration-200" data-scenario-id="scenario2CsvData">
+                                Run Test Scenario
                             </a>
-                            <button class="load-scenario-data px-4 py-1 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 text-sm" data-scenario-id="scenario2CsvData">
-                                Load CSV Data
-                            </button>
-                            <span id="scenario2ConfirmMessage" class="text-xs text-green-600 hidden">Copied/Loaded!</span>
+                            <span id="scenario2ConfirmMessage" class="text-xs text-green-600 hidden">Loaded!</span>
                         </div>
                         <h6 class="text-md font-medium text-gray-800 mb-1 mt-4">Expected Outcomes:</h6>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
@@ -889,7 +793,7 @@ Ace_Smoke_Automated,5
                                 <ul class="list-circle list-inside ml-4">
                                     <li>Tests Automated: **100** (Calculated sum matches CSV)</li>
                                     <li>Planned to Automate: **200**</li>
-                                    <li>Automation Progress: **50.0% (Red bar)**</li>
+                                    <li><li>Automation Progress: **50.0% (Red bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
@@ -1010,15 +914,12 @@ Ace_Regression_Automated,0
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
-`;
-                        <div class="flex items-center space-x-4 mt-2">
-                            <a href="#" class="copy-scenario-data inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold transition duration-200" data-scenario-id="scenario3CsvData">
-                                Copy CSV Data
+</code></pre>
+                        <div class="mt-2">
+                            <a href="#" class="run-scenario-data text-blue-600 hover:underline text-sm font-semibold transition duration-200" data-scenario-id="scenario3CsvData">
+                                Run Test Scenario
                             </a>
-                            <button class="load-scenario-data px-4 py-1 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 text-sm" data-scenario-id="scenario3CsvData">
-                                Load CSV Data
-                            </button>
-                            <span id="scenario3ConfirmMessage" class="text-xs text-green-600 hidden">Copied/Loaded!</span>
+                            <span id="scenario3ConfirmMessage" class="text-xs text-green-600 hidden">Loaded!</span>
                         </div>
                         <h6 class="text-md font-medium text-gray-800 mb-1 mt-4">Expected Outcomes:</h6>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
@@ -1069,6 +970,67 @@ Ace_Smoke_Automated,0
                         After making changes to these constants, save the HTML file and refresh your browser to see the effects.
                     </p>
                 </div>
+                <!-- New Change Log Section -->
+                <div class="mt-8">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Change Log</h3>
+                    <div class="mb-6">
+                        <h4 class="text-xl font-medium text-gray-800 mb-2">July 18, 2025</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>
+                                **Clarified Dashboard Warning Messages:**
+                                <p class="ml-4">
+                                    **Explanation:** The "Understanding Dashboard Warnings" section has been updated to explicitly cover both the "Overall Automation Warning" and the "Team-Specific Roll-up Warning." This provides a comprehensive explanation of what each warning means, why it might appear (including data entry errors and inconsistencies), and what steps users should take to resolve them. This ensures all potential red warning messages are clearly documented for better user understanding and troubleshooting.
+                                </p>
+                            </li>
+                            <li>
+                                **Implemented Dynamic Team Card Generation:**
+                                <p class="ml-4">
+                                    **Explanation:** The HTML for each team card is no longer hardcoded. Instead, the `initializeDashboard` function now iterates through a `teamNames` array and calls the `createTeamCardHtml` function for each team. This function dynamically generates the HTML structure for each team's card, significantly reducing HTML redundancy and making it easier to add or remove teams.
+                                </p>
+                            </li>
+                            <li>
+                                **Implemented Centralized Team Data Processing:**
+                                <p class="ml-4">
+                                    **Explanation:** The `applyData` function now iterates through the `teamNames` array and calls a dedicated `updateTeamCard` function for each team. The `updateTeamCard` function encapsulates all the logic for updating a single team's metrics, progress bars, and breakdown. This centralizes data processing logic, improving modularity and maintainability.
+                                </p>
+                            </li>
+                            <li>
+                                **Added Helper Functions for Styling:**
+                                <p class="ml-4">
+                                    **Explanation:** Two new helper functions were introduced for consistent styling:
+                                    <ul class="list-circle list-inside ml-4">
+                                        <li>`getProgressBarColorClass(percentage)`: Determines the appropriate Tailwind CSS class (e.g., `bg-green-600`, `bg-yellow-600`, `bg-red-600`) for progress bar colors based on a given automation percentage.</li>
+                                        <li>`getCardColorClasses(percentage)`: Determines the background and border Tailwind CSS classes (e.g., `bg-green-50`, `border-green-200`) for team cards based on their overall automation percentage.</li>
+                                    </ul>
+                                </p>
+                            </li>
+                            <li>
+                                **Refactored `loadDefaultRandomData`:**
+                                <p class="ml-4">
+                                    **Explanation:** The `loadDefaultRandomData` function was updated to correctly generate data for the new 'Agency' team and to align with the dynamic card generation process. This ensures that when random data is loaded, it properly populates all defined teams and their respective metrics.
+                                </p>
+                            </li>
+                            <li>
+                                **Streamlined Regression Test Data Loading:**
+                                <p class="ml-4">
+                                    **Explanation:** The manual "Copy CSV Data" links for regression test scenarios have been replaced with "Run Test Scenario" links. Clicking these links now automatically loads the corresponding CSV data into the dashboard. After loading, the page automatically scrolls to the top, allowing users to immediately view and validate the updated dashboard metrics against the expected outcomes for each scenario, significantly simplifying the testing workflow.
+                                </p>
+                            </li>
+                            <li>
+                                **Refactored Clipboard Copy Logic into Reusable Function:**
+                                <p class="ml-4">
+                                    **Explanation:** The logic responsible for copying text to the clipboard (previously used by the "Copy Sample Data" link) has been extracted into a new, reusable function named `copyTextToClipboard(text, confirmElement)`. This improves code modularity and readability. Now, any part of the dashboard needing to copy text can simply call this function, passing the desired text and an element to display a temporary "Copied!" message.
+                                </p>
+                            </li>
+                            <li>
+                                **Fixed data loading and missing team cards issue:**
+                                <p class="ml-4">
+                                    **Explanation:** The dashboard previously experienced issues where the default dataset wasn't loading and test team cards were missing. This was due to HTML closing tags (`<code>` and `</code>`) being inadvertently included *inside* JavaScript string literals (`HARDCODED_CSV_DATA` and `CSV_EXAMPLE_DATA`). This caused JavaScript syntax errors ("Unexpected end of input" / "Unexpected )"), preventing the `parseCSV` function from correctly reading data and subsequently impacting the `initializeDashboard` and `applyData` functions from generating and populating team cards. The fix involved removing these extraneous HTML tags from within the JavaScript string literals, ensuring the strings contain only raw CSV data.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
         </main>
@@ -1079,6 +1041,10 @@ Ace_Smoke_Automated,0
     </div>
 
     <script>
+        // --- Configuration for Color Thresholds ---
+        const GREEN_THRESHOLD = 80; // Percentage above which progress is considered 'green'
+        const YELLOW_THRESHOLD = 50; // Percentage above which progress is considered 'yellow' (and below green)
+
         // --- Configuration for Data Loading ---
         // Set this to 'true' to load data from the HARDCODED_CSV_DATA string when the page first loads.
         // Set to 'false' to load random data initially (and then rely on the UI 'Load Data' button).
@@ -1368,6 +1334,48 @@ Agency_Smoke_Automated,0
 
         document.addEventListener('DOMContentLoaded', initializeDashboard);
 
+        // Global variable to store the last loaded data
+        let currentDashboardData = {};
+
+        // Define team names and their display names. This array controls which teams appear on the dashboard.
+        const teamNames = [
+            { prefix: 'Avengers', displayName: 'Avengers Team' },
+            { prefix: 'Imaging', displayName: 'Imaging Team' },
+            { prefix: 'Phoenix', displayName: 'Phoenix Team' },
+            { prefix: 'Ace', displayName: 'Ace Team' },
+            { prefix: 'Agency', displayName: 'Agency Team' } // New team added
+        ];
+
+        // Define test type names for iteration and display
+        const testTypeDisplayNames = {
+            'Unit': 'Unit Tests',
+            'Functional': 'Functional Tests',
+            'IncrementalDataLoad': 'Incremental Data Load Tests',
+            'FullLoadDataValidation': 'Full Load Data Validation Tests',
+            'UserAcceptance': 'User Acceptance Tests',
+            'API': 'API Tests',
+            'Regression': 'Regression Tests',
+            'Smoke': 'Smoke Tests'
+        };
+        const testTypeMetricPrefixes = Object.keys(testTypeDisplayNames); // e.g., ['Unit', 'Functional', ...]
+
+        /**
+         * Helper function to display a temporary confirmation or error message.
+         * @param {HTMLElement} element - The DOM element where the message should be displayed.
+         * @param {string} message - The text message to display.
+         * @param {boolean} [isError=false] - If true, the message will be styled as an error (red text).
+         */
+        function showConfirmation(element, message, isError = false) {
+            element.textContent = message;
+            element.classList.remove('hidden', isError ? 'text-green-600' : 'text-red-600');
+            element.classList.add(isError ? 'text-red-600' : 'text-green-600');
+            setTimeout(() => element.classList.add('hidden'), 2000);
+        }
+
+        /**
+         * Initializes the dashboard: sets current date, loads initial data,
+         * generates team cards dynamically, and sets up event listeners.
+         */
         function initializeDashboard() {
             // Set current date in footer
             const today = new Date();
@@ -1377,6 +1385,13 @@ Agency_Smoke_Automated,0
                 day: 'numeric'
             });
 
+            // Dynamically generate team cards
+            const teamCardsContainer = document.getElementById('teamCardsContainer');
+            teamCardsContainer.innerHTML = ''; // Clear existing content
+            teamNames.forEach(team => {
+                teamCardsContainer.innerHTML += createTeamCardHtml(team.prefix, team.displayName);
+            });
+
             // Load initial data based on configuration flag
             if (LOAD_FROM_HARDCODED_ON_STARTUP) {
                 applyData(parseCSV(HARDCODED_CSV_DATA));
@@ -1384,74 +1399,35 @@ Agency_Smoke_Automated,0
                 loadDefaultRandomData();
             }
 
-            // Set the CSV example data
+            // Set the CSV example data in the textarea
             document.getElementById('csvExampleData').textContent = CSV_EXAMPLE_DATA;
-
 
             // Event listener for the Load Data button (always active to allow manual updates)
             document.getElementById('loadDataBtn').addEventListener('click', () => {
                 const csvInput = document.getElementById('csvInput').value;
                 const parsed = parseCSV(csvInput);
+                const dataLoadMessage = document.getElementById('dataLoadMessage');
+
                 if (Object.keys(parsed).length > 0) {
                     applyData(parsed);
-                    const dataLoadMessage = document.getElementById('dataLoadMessage');
-                    dataLoadMessage.textContent = 'Data loaded successfully!';
-                    dataLoadMessage.classList.remove('hidden', 'text-red-600');
-                    dataLoadMessage.classList.add('text-green-600');
-                    setTimeout(() => dataLoadMessage.classList.add('hidden'), 3000);
+                    showConfirmation(dataLoadMessage, 'Data loaded successfully!');
                 } else {
-                    const dataLoadMessage = document.getElementById('dataLoadMessage');
-                    dataLoadMessage.textContent = 'No valid data found in CSV. Please check format.';
-                    dataLoadMessage.classList.remove('hidden', 'text-green-600');
-                    dataLoadMessage.classList.add('text-red-600');
+                    showConfirmation(dataLoadMessage, 'No valid data found in CSV. Please check format.', true);
                 }
             });
 
             // Event listener for the Copy CSV Example link
             document.getElementById('copyCsvExampleLink').addEventListener('click', (event) => {
-                event.preventDefault(); // Prevent default anchor link behavior (e.g., navigating to #)
+                event.preventDefault(); // Prevent default anchor link behavior
                 const csvExampleData = document.getElementById('csvExampleData').textContent;
                 const copyConfirmMessage = document.getElementById('copyConfirmMessage');
-
-                // Use a temporary textarea to copy text to clipboard
-                const tempTextArea = document.createElement('textarea');
-                tempTextArea.value = csvExampleData.trim(); // Trim to remove any leading/trailing whitespace from the pre tag
-                document.body.appendChild(tempTextArea);
-                tempTextArea.select();
-                document.execCommand('copy'); // Deprecated but widely supported for iframes
-                document.body.removeChild(tempTextArea);
-
-                copyConfirmMessage.classList.remove('hidden');
-                setTimeout(() => {
-                    copyConfirmMessage.classList.add('hidden');
-                }, 2000); // Hide "Copied!" message after 2 seconds
+                copyTextToClipboard(csvExampleData, copyConfirmMessage);
             });
 
-            // Add event listeners for scenario specific copy/load buttons
-            document.querySelectorAll('.copy-scenario-data').forEach(link => {
+            // Add event listeners for scenario specific "Run Test Scenario" links
+            document.querySelectorAll('.run-scenario-data').forEach(link => {
                 link.addEventListener('click', (event) => {
                     event.preventDefault();
-                    const scenarioId = event.target.dataset.scenarioId;
-                    const csvDataElement = document.getElementById(scenarioId);
-                    const csvData = csvDataElement.textContent;
-                    const confirmMessageElement = document.getElementById(`${scenarioId.replace('CsvData', 'ConfirmMessage')}`);
-
-                    const tempTextArea = document.createElement('textarea');
-                    tempTextArea.value = csvData.trim();
-                    document.body.appendChild(tempTextArea);
-                    tempTextArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempTextArea);
-
-                    confirmMessageElement.textContent = 'Copied!';
-                    confirmMessageElement.classList.remove('hidden', 'text-red-600');
-                    confirmMessageElement.classList.add('text-green-600');
-                    setTimeout(() => confirmMessageElement.classList.add('hidden'), 2000);
-                });
-            });
-
-            document.querySelectorAll('.load-scenario-data').forEach(button => {
-                button.addEventListener('click', (event) => {
                     const scenarioId = event.target.dataset.scenarioId;
                     const csvDataElement = document.getElementById(scenarioId);
                     const csvData = csvDataElement.textContent;
@@ -1460,25 +1436,18 @@ Agency_Smoke_Automated,0
                     const parsed = parseCSV(csvData);
                     if (Object.keys(parsed).length > 0) {
                         applyData(parsed);
-                        confirmMessageElement.textContent = 'Loaded!';
-                        confirmMessageElement.classList.remove('hidden', 'text-red-600');
-                        confirmMessageElement.classList.add('text-green-600');
-                        setTimeout(() => confirmMessageElement.classList.add('hidden'), 2000);
+                        showConfirmation(confirmMessageElement, 'Loaded!');
+                        // Scroll to the top of the page after loading data
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     } else {
-                        confirmMessageElement.textContent = 'Error loading data!';
-                        confirmMessageElement.classList.remove('hidden', 'text-green-600');
-                        confirmMessageElement.classList.add('text-red-600');
+                        showConfirmation(confirmMessageElement, 'Error loading data!', true);
                     }
                 });
             });
 
-            // Event listeners for Export buttons (now commented out in HTML, but kept here for reference if re-enabled)
-            // document.getElementById('exportCsvBtn').addEventListener('click', exportDataAsCsv);
-            // document.getElementById('exportJsonBtn').addEventListener('click', exportDataAsJson);
-
-            // Add event listeners for the new toggle breakdown links
-            document.querySelectorAll('.toggle-breakdown-link').forEach(link => {
-                link.addEventListener('click', (event) => {
+            // Event listener for the new toggle breakdown links using event delegation on the container
+            teamCardsContainer.addEventListener('click', (event) => {
+                if (event.target.classList.contains('toggle-breakdown-link')) {
                     event.preventDefault();
                     const targetId = event.target.dataset.target;
                     const targetElement = document.getElementById(targetId);
@@ -1490,15 +1459,85 @@ Agency_Smoke_Automated,0
                             event.target.textContent = 'Hide Breakdown by Test Type';
                         }
                     }
-                });
+                }
             });
         }
 
-        // Helper function to generate random data for demonstration
+        /**
+         * Generates the HTML string for a single team card.
+         * @param {string} prefix - The unique prefix for the team (e.g., 'Avengers').
+         * @param {string} displayName - The display name of the team (e.g., 'Avengers Team').
+         * @returns {string} The HTML string for the team card.
+         */
+        function createTeamCardHtml(prefix, displayName) {
+            const lowerCasePrefix = prefix.toLowerCase();
+            return `
+                <div id="${lowerCasePrefix}Card" class="test-type-card p-5 rounded-lg shadow-sm border">
+                    <h4 class="text-xl font-medium text-gray-800 mb-3">${displayName}</h4>
+                    <div class="space-y-1">
+                        <p class="text-gray-700">Total Tests in Category: <span id="${lowerCasePrefix}Total" class="font-semibold">0</span></p>
+                        <p class="text-indigo-600">Planned to Automate: <span id="${lowerCasePrefix}PlannedToAutomate" class="font-semibold">0</span></p>
+                        <p class="text-blue-600">Tests Automated: <span id="${lowerCasePrefix}Automated" class="font-semibold">0</span></p>
+                        <div class="mt-2">
+                            <h5 class="text-md font-medium text-gray-800 mb-1">
+                                <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="${lowerCasePrefix}TestTypeBreakdownContent">
+                                    Hide Breakdown by Test Type
+                                </a>
+                            </h5>
+                            <div id="${lowerCasePrefix}TestTypeBreakdownContent" class="space-y-1 text-sm">
+                                <div id="${lowerCasePrefix}TestTypeBreakdown">
+                                    <!-- Test type breakdown will be dynamically inserted here -->
+                                </div>
+                            </div>
+                            <div id="${lowerCasePrefix}RollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                Warning: Sum of automated test types does not match team's total automated.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Returns the appropriate Tailwind CSS class for a progress bar color based on percentage.
+         * @param {number} percentage - The automation percentage.
+         * @returns {string} Tailwind CSS color class.
+         */
+        function getProgressBarColorClass(percentage) {
+            if (percentage > GREEN_THRESHOLD) {
+                return 'bg-green-600';
+            } else if (percentage > YELLOW_THRESHOLD) {
+                return 'bg-yellow-600';
+            } else {
+                return 'bg-red-600';
+            }
+        }
+
+        /**
+         * Returns the appropriate Tailwind CSS classes for a card's background and border color based on percentage.
+         * @param {number} percentage - The automation percentage.
+         * @returns {object} An object with `bgColorClass` and `borderColorClass` properties.
+         */
+        function getCardColorClasses(percentage) {
+            let bgColorClass, borderColorClass;
+            if (percentage > GREEN_THRESHOLD) {
+                bgColorClass = 'bg-green-50';
+                borderColorClass = 'border-green-200';
+            } else if (percentage > YELLOW_THRESHOLD) {
+                bgColorClass = 'bg-yellow-50';
+                borderColorClass = 'border-yellow-200';
+            } else {
+                bgColorClass = 'bg-red-50';
+                borderColorClass = 'border-red-200';
+            }
+            return { bgColorClass, borderColorClass };
+        }
+
+        /**
+         * Helper function to generate random data for demonstration.
+         * This function is primarily for initial random loading if LOAD_FROM_HARDCODED_ON_STARTUP is false.
+         */
         function loadDefaultRandomData() {
-            // This function is now less critical as HARDCODED_CSV_DATA is primary default.
-            // It could be removed if random data generation is no longer desired.
-            // For now, keeping it as a fallback if LOAD_FROM_HARDCODED_ON_STARTUP is false.
             function generateRandomMetric(baseTotal) {
                 const total = Math.floor(baseTotal * (0.8 + Math.random() * 0.4)); // +/- 20%
                 const plannedToAutomate = Math.floor(total * (0.5 + Math.random() * 0.5));
@@ -1507,44 +1546,41 @@ Agency_Smoke_Automated,0
             }
 
             const data = {};
-            const teamNames = ['Avengers', 'Imaging', 'Phoenix', 'Ace', 'Agency']; // Order updated
-            const testTypeNames = ['Unit', 'Functional', 'IncrementalDataLoad', 'FullLoadDataValidation', 'UserAcceptance', 'API', 'Regression', 'Smoke'];
-
             let overallPlannedSum = 0;
-            let overallAutomatedSum = 0;
 
             teamNames.forEach(team => {
+                const teamPrefix = team.prefix;
                 let teamTotal = 0;
                 let teamPlannedToAutomate = 0;
                 let teamAutomated = 0; // This will be the sum of its test types
 
-                testTypeNames.forEach(testType => {
+                testTypeMetricPrefixes.forEach(testType => {
                     const metrics = generateRandomMetric(100); // Base for individual test types
-                    data[`${team}_${testType}_Total`] = metrics.total;
-                    data[`${team}_${testType}_PlannedToAutomate`] = metrics.plannedToAutomate;
-                    data[`${team}_${testType}_Automated`] = metrics.automated;
+                    data[`${teamPrefix}_${testType}_Total`] = metrics.total;
+                    data[`${teamPrefix}_${testType}_PlannedToAutomate`] = metrics.plannedToAutomate;
+                    data[`${teamPrefix}_${testType}_Automated`] = metrics.automated;
 
                     teamTotal += metrics.total;
                     teamPlannedToAutomate += metrics.plannedToAutomate;
                     teamAutomated += metrics.automated; // Summing up for the team's automated total
                 });
 
-                data[`${team}_Total`] = teamTotal;
-                data[`${team}_PlannedToAutomate`] = teamPlannedToAutomate;
-                data[`${team}_Automated`] = teamAutomated; // Store the calculated sum as the team's automated total
+                data[`${teamPrefix}_Total`] = teamTotal;
+                data[`${teamPrefix}_PlannedToAutomate`] = teamPlannedToAutomate;
+                data[`${teamPrefix}_Automated`] = teamAutomated; // Store the calculated sum as the team's automated total
 
                 overallPlannedSum += teamPlannedToAutomate;
-                overallAutomatedSum += teamAutomated;
             });
 
             data['PlannedToAutomate'] = overallPlannedSum; // Overall planned is sum of team planned
-            // The overall current automated will be calculated by applyData from team_Automated sums
-
             applyData(data);
         }
 
-
-        // Helper function to parse CSV string into a data object
+        /**
+         * Parses a CSV string into a data object.
+         * @param {string} csvString - The CSV data as a string.
+         * @returns {object} An object where keys are metric names and values are their integer values.
+         */
         function parseCSV(csvString) {
             const parsedData = {};
             const lines = csvString.trim().split('\n');
@@ -1575,144 +1611,22 @@ Agency_Smoke_Automated,0
             return parsedData;
         }
 
-        let currentDashboardData = {}; // Store the last loaded data globally
-
+        /**
+         * Applies the parsed data to update all dashboard elements.
+         * @param {object} data - The data object parsed from CSV.
+         */
         function applyData(data) {
             currentDashboardData = data; // Update global data
 
-            // Overall Automation Coverage Metrics
             const plannedToAutomateOverall = data.PlannedToAutomate || 0;
             let totalCurrentlyAutomated = 0; // This will be the sum of team-level automated counts
 
-            // Define team prefixes in the desired order
-            const teamPrefixes = ['Avengers', 'Imaging', 'Phoenix', 'Ace', 'Agency']; // Order updated
-            // Define test type names for iteration and display
-            const testTypeDisplayNames = {
-                'Unit': 'Unit Tests',
-                'Functional': 'Functional Tests',
-                'IncrementalDataLoad': 'Incremental Data Load Tests',
-                'FullLoadDataValidation': 'Full Load Data Validation Tests',
-                'UserAcceptance': 'User Acceptance Tests',
-                'API': 'API Tests',
-                'Regression': 'Regression Tests',
-                'Smoke': 'Smoke Tests'
-            };
-            const testTypeMetricPrefixes = Object.keys(testTypeDisplayNames); // e.g., ['Unit', 'Functional', ...]
-
-            // Process Team Data
-            teamPrefixes.forEach(teamPrefix => {
-                const lowerCaseTeamPrefix = teamPrefix.toLowerCase(); // e.g., 'avengers'
-
-                const teamTotal = data[`${teamPrefix}_Total`] || 0;
-                const teamPlannedToAutomate = data[`${teamPrefix}_PlannedToAutomate`] || 0;
-                // Get the 'team_Automated' value directly from CSV for comparison/warning
-                const csvTeamAutomated = data[`${teamPrefix}_Automated`] || 0;
-
-                let calculatedTeamAutomated = 0; // This will be the sum of automated tests from its constituent test types
-
-                const cardElement = document.getElementById(`${lowerCaseTeamPrefix}Card`);
-                // Note: The ID for the content div changed to `teamTestTypeBreakdownContent`
-                const testTypeBreakdownDiv = document.getElementById(`${lowerCaseTeamPrefix}TestTypeBreakdown`);
-                const rollupWarningDiv = document.getElementById(`${lowerCaseTeamPrefix}RollupWarning`);
-                const teamAutomationProgressBar = document.getElementById(`${lowerCaseTeamPrefix}AutomationProgressBar`);
-                const teamAutomationProgressText = document.getElementById(`${lowerCaseTeamPrefix}AutomationProgressText`);
-
-
-                // Clear previous breakdown content
-                if (testTypeBreakdownDiv) {
-                    testTypeBreakdownDiv.innerHTML = '';
-                }
-
-                if (cardElement) {
-                    document.getElementById(`${lowerCaseTeamPrefix}Total`).textContent = teamTotal.toLocaleString();
-                    document.getElementById(`${lowerCaseTeamPrefix}PlannedToAutomate`).textContent = teamPlannedToAutomate.toLocaleString();
-                    // document.getElementById(`${lowerCaseTeamPrefix}Automated`).textContent = teamAutomated.toLocaleString(); // This line will be updated later
-
-                    // Populate Test Type Breakdown for the current team and calculate calculatedTeamAutomated
-                    testTypeMetricPrefixes.forEach(testTypePrefix => {
-                        const testTypeTotal = data[`${teamPrefix}_${testTypePrefix}_Total`] || 0; // Get the new Total value
-                        const testTypePlannedToAutomate = data[`${teamPrefix}_${testTypePrefix}_PlannedToAutomate`] || 0;
-                        const testTypeAutomated = data[`${teamPrefix}_${testTypePrefix}_Automated`] || 0;
-
-                        calculatedTeamAutomated += testTypeAutomated; // Summing up automated tests for the team
-
-                        const testTypeCoverage = testTypePlannedToAutomate > 0 ? ((testTypeAutomated / testTypePlannedToAutomate) * 100).toFixed(1) : 0;
-
-                        let testTypeProgressBarColorClass;
-                        if (testTypeCoverage > 80) {
-                            testTypeProgressBarColorClass = 'bg-green-600';
-                        } else if (testTypeCoverage > 50) {
-                            testTypeProgressBarColorClass = 'bg-yellow-600';
-                        } else {
-                            testTypeProgressBarColorClass = 'bg-red-600';
-                        }
-
-                        if (testTypeBreakdownDiv) {
-                            const div = document.createElement('div');
-                            div.className = 'mb-1'; // Add some margin between test types
-
-                            // Updated: Removed "Planned:" from all test type breakdowns
-                            div.innerHTML = `
-                                <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
-                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                                    <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
-                                </div>
-                                <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
-                            `;
-                            testTypeBreakdownDiv.appendChild(div);
-                        }
-                    });
-
-                    // Now update the team's main "Tests Automated" display with the calculated sum
-                    document.getElementById(`${lowerCaseTeamPrefix}Automated`).textContent = calculatedTeamAutomated.toLocaleString();
-
-                    const teamAutomationCoverage = teamPlannedToAutomate > 0 ? ((calculatedTeamAutomated / teamPlannedToAutomate) * 100).toFixed(1) : 0;
-                    
-                    // Update team-level progress bar
-                    if (teamAutomationProgressBar && teamAutomationProgressText) {
-                        teamAutomationProgressBar.style.width = `${Math.min(100, teamAutomationCoverage)}%`;
-                        teamAutomationProgressBar.className = `h-3 rounded-full ${teamAutomationCoverage <= 60 ? 'bg-red-600' : (teamAutomationCoverage > 60 && teamAutomationCoverage <= 80 ? 'bg-yellow-600' : 'bg-green-600')}`;
-                        teamAutomationProgressText.textContent = `${teamAutomationCoverage}% Automated`;
-                    }
-
-
-                    // Apply color coding for the team card based on calculated coverage
-                    cardElement.classList.remove(
-                        'bg-green-50', 'border-green-200',
-                        'bg-yellow-50', 'border-yellow-200',
-                        'bg-red-50', 'border-red-200'
-                    );
-
-                    let teamBgColorClass, teamBorderColorClass;
-                    if (teamAutomationCoverage > 80) {
-                        teamBgColorClass = 'bg-green-50';
-                        teamBorderColorClass = 'border-green-200';
-                    } else if (teamAutomationCoverage > 50) {
-                        teamBgColorClass = 'bg-yellow-50';
-                        teamBorderColorClass = 'border-yellow-200';
-                    } else {
-                        teamBgColorClass = 'bg-red-50';
-                        teamBorderColorClass = 'border-red-200';
-                    }
-                    cardElement.classList.add(teamBgColorClass, teamBorderColorClass);
-
-                    // Check for roll-up consistency and display warning
-                    // The warning should trigger if the calculated sum doesn't match the CSV value.
-                    // This is the corrected logic for the roll-up warning.
-                    if (calculatedTeamAutomated !== csvTeamAutomated) {
-                        if (rollupWarningDiv) {
-                             rollupWarningDiv.classList.remove('hidden');
-                        }
-                    } else {
-                        if (rollupWarningDiv) {
-                            rollupWarningDiv.classList.add('hidden');
-                        }
-                    }
-                }
-                totalCurrentlyAutomated += calculatedTeamAutomated; // Sum up calculated team-level automated counts for overall total
+            // Process each team's data
+            teamNames.forEach(team => {
+                totalCurrentlyAutomated += updateTeamCard(team.prefix, data);
             });
 
-
+            // Update Overall Automation Coverage Metrics
             document.getElementById('currentAutomatedCount').textContent = totalCurrentlyAutomated.toLocaleString();
             document.getElementById('plannedAutomationCount').textContent = plannedToAutomateOverall.toLocaleString();
 
@@ -1721,9 +1635,8 @@ Agency_Smoke_Automated,0
             const overallAutomationProgressText = document.getElementById('overallAutomationProgressText');
             const overallAutomationWarning = document.getElementById('overallAutomationWarning');
 
-
             overallAutomationProgressBar.style.width = `${Math.min(100, overallAutomationProgress)}%`;
-            overallAutomationProgressBar.className = `h-4 rounded-full ${overallAutomationProgress <= 60 ? 'bg-red-600' : (overallAutomationProgress > 60 && overallAutomationProgress <= 80 ? 'bg-yellow-600' : 'bg-green-600')}`;
+            overallAutomationProgressBar.className = `h-4 rounded-full ${getProgressBarColorClass(overallAutomationProgress)}`;
             overallAutomationProgressText.textContent = `${overallAutomationProgress.toFixed(1)}% Automated`;
 
             // Display warning if automated tests exceed planned tests overall
@@ -1734,7 +1647,114 @@ Agency_Smoke_Automated,0
             }
         }
 
-        // Function to export data as CSV
+        /**
+         * Updates a single team's card with data and calculates its automation metrics.
+         * @param {string} teamPrefix - The prefix for the team (e.g., 'Avengers').
+         * @param {object} data - The complete data object.
+         * @returns {number} The calculated total automated tests for this team.
+         */
+        function updateTeamCard(teamPrefix, data) {
+            const lowerCaseTeamPrefix = teamPrefix.toLowerCase();
+
+            const teamTotal = data[`${teamPrefix}_Total`] || 0;
+            const teamPlannedToAutomate = data[`${teamPrefix}_PlannedToAutomate`] || 0;
+            const csvTeamAutomated = data[`${teamPrefix}_Automated`] || 0; // Value from CSV for comparison
+
+            let calculatedTeamAutomated = 0; // Sum of automated tests from its constituent test types
+
+            const cardElement = document.getElementById(`${lowerCaseTeamPrefix}Card`);
+            const testTypeBreakdownDiv = document.getElementById(`${lowerCaseTeamPrefix}TestTypeBreakdown`);
+            const rollupWarningDiv = document.getElementById(`${lowerCaseTeamPrefix}RollupWarning`);
+
+            // Clear previous breakdown content
+            if (testTypeBreakdownDiv) {
+                testTypeBreakdownDiv.innerHTML = '';
+            }
+
+            if (cardElement) {
+                document.getElementById(`${lowerCaseTeamPrefix}Total`).textContent = teamTotal.toLocaleString();
+                document.getElementById(`${lowerCaseTeamPrefix}PlannedToAutomate`).textContent = teamPlannedToAutomate.toLocaleString();
+
+                // Populate Test Type Breakdown for the current team and calculate calculatedTeamAutomated
+                testTypeMetricPrefixes.forEach(testTypePrefix => {
+                    const testTypeTotal = data[`${teamPrefix}_${testTypePrefix}_Total`] || 0;
+                    const testTypePlannedToAutomate = data[`${teamPrefix}_${testTypePrefix}_PlannedToAutomate`] || 0;
+                    const testTypeAutomated = data[`${teamPrefix}_${testTypePrefix}_Automated`] || 0;
+
+                    calculatedTeamAutomated += testTypeAutomated; // Summing up automated tests for the team
+
+                    const testTypeCoverage = testTypePlannedToAutomate > 0 ? ((testTypeAutomated / testTypePlannedToAutomate) * 100).toFixed(1) : 0;
+                    const testTypeProgressBarColorClass = getProgressBarColorClass(testTypeCoverage);
+
+                    if (testTypeBreakdownDiv) {
+                        const div = document.createElement('div');
+                        div.className = 'mb-1';
+                        div.innerHTML = `
+                            <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
+                            </div>
+                            <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
+                        `;
+                        testTypeBreakdownDiv.appendChild(div);
+                    }
+                });
+
+                // Update the team's main "Tests Automated" display with the calculated sum
+                document.getElementById(`${lowerCaseTeamPrefix}Automated`).textContent = calculatedTeamAutomated.toLocaleString();
+
+                const teamAutomationCoverage = teamPlannedToAutomate > 0 ? ((calculatedTeamAutomated / teamPlannedToAutomate) * 100).toFixed(1) : 0;
+
+                // Update team-level progress bar
+                const teamAutomationProgressBar = cardElement.querySelector('.h-3.rounded-full'); // Assuming there's one such bar per card
+                const teamAutomationProgressText = cardElement.querySelector('.text-right.text-sm.text-gray-600'); // Assuming this is the text below the bar
+
+                if (teamAutomationProgressBar && teamAutomationProgressText) {
+                    teamAutomationProgressBar.style.width = `${Math.min(100, teamAutomationCoverage)}%`;
+                    teamAutomationProgressBar.className = `h-3 rounded-full ${getProgressBarColorClass(teamAutomationCoverage)}`;
+                    teamAutomationProgressText.textContent = `${teamAutomationCoverage}% Automated`;
+                }
+
+                // Apply color coding for the team card based on calculated coverage
+                cardElement.classList.remove(
+                    'bg-green-50', 'border-green-200',
+                    'bg-yellow-50', 'border-yellow-200',
+                    'bg-red-50', 'border-red-200'
+                );
+                const { bgColorClass, borderColorClass } = getCardColorClasses(teamAutomationCoverage);
+                cardElement.classList.add(bgColorClass, borderColorClass);
+
+                // Check for roll-up consistency and display warning
+                if (calculatedTeamAutomated !== csvTeamAutomated) {
+                    if (rollupWarningDiv) {
+                         rollupWarningDiv.classList.remove('hidden');
+                    }
+                } else {
+                    if (rollupWarningDiv) {
+                        rollupWarningDiv.classList.add('hidden');
+                    }
+                }
+            }
+            return calculatedTeamAutomated;
+        }
+
+        /**
+         * Copies text to the clipboard and shows a temporary confirmation message.
+         * @param {string} text - The text to copy.
+         * @param {HTMLElement} confirmElement - The element to show the confirmation message in.
+         */
+        function copyTextToClipboard(text, confirmElement) {
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text.trim();
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy'); // Deprecated but widely supported for iframes
+            document.body.removeChild(tempTextArea);
+
+            showConfirmation(confirmElement, 'Copied!');
+        }
+
+        // Function to export data as CSV (kept for completeness, though not explicitly requested for refactor)
         function exportDataAsCsv() {
             let csvContent = "Metric,Value\n";
             for (const key in currentDashboardData) {
@@ -1745,13 +1765,13 @@ Agency_Smoke_Automated,0
             downloadFile(csvContent, 'qa_dashboard_data.csv', 'text/csv');
         }
 
-        // Function to export data as JSON
+        // Function to export data as JSON (kept for completeness, though not explicitly requested for refactor)
         function exportDataAsJson() {
             const jsonContent = JSON.stringify(currentDashboardData, null, 2); // Pretty print JSON
             downloadFile(jsonContent, 'qa_dashboard_data.json', 'application/json');
         }
 
-        // Generic function to trigger file download
+        // Generic function to trigger file download (kept for completeness, though not explicitly requested for refactor)
         function downloadFile(content, filename, contentType) {
             const blob = new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
