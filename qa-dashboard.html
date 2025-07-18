@@ -218,6 +218,31 @@
                         </div>
                     </div>
 
+                    <!-- New: Agency Team Card -->
+                    <div id="agencyCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Agency Team</h4>
+                        <div class="space-y-1">
+                            <p class="text-gray-700">Total Tests in Category: <span id="agencyTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="agencyPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="agencyAutomated" class="font-semibold">0</span></p>
+                            <div class="mt-2">
+                                <h5 class="text-md font-medium text-gray-800 mb-1">
+                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="agencyTestTypeBreakdownContent">
+                                        Hide Breakdown by Test Type
+                                    </a>
+                                </h5>
+                                <div id="agencyTestTypeBreakdownContent" class="space-y-1 text-sm">
+                                    <div id="agencyTestTypeBreakdown">
+                                        </div>
+                                </div>
+                                <div id="agencyRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                    Warning: Sum of automated test types does not match team's total automated.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End New: Agency Team Card -->
+
                 </div>
             </section>
 
@@ -241,7 +266,7 @@
 
                 <h4 class="text-xl font-medium text-gray-800 mb-2">2. Automation Coverage by Testing Team:</h4>
                 <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>For each team (Avengers, Imaging, Phoenix, Ace), you'll see:
+                    <li>For each team (Avengers, Imaging, Phoenix, Ace, Agency), you'll see:
                         <ul class="list-circle list-inside ml-4">
                             <li>**Total Tests, Planned to Automate, Tests Automated:** Key metrics for the team.</li>
                             <li>**Automation Progress Bar:** Visual progress for the team.</li>
@@ -419,6 +444,33 @@ Ace_Regression_Automated,0
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
+Agency_Total,0
+Agency_PlannedToAutomate,0
+Agency_Automated,0
+Agency_Unit_Total,0
+Agency_Unit_PlannedToAutomate,0
+Agency_Unit_Automated,0
+Agency_Functional_Total,0
+Agency_Functional_PlannedToAutomate,0
+Agency_Functional_Automated,0
+Agency_IncrementalDataLoad_Total,0
+Agency_IncrementalDataLoad_PlannedToAutomate,0
+Agency_IncrementalDataLoad_Automated,0
+Agency_FullLoadDataValidation_Total,0
+Agency_FullLoadDataValidation_PlannedToAutomate,0
+Agency_FullLoadDataValidation_Automated,0
+Agency_UserAcceptance_Total,0
+Agency_UserAcceptance_PlannedToAutomate,0
+Agency_UserAcceptance_Automated,0
+Agency_API_Total,0
+Agency_API_PlannedToAutomate,0
+Agency_API_Automated,0
+Agency_Regression_Total,0
+Agency_Regression_PlannedToAutomate,0
+Agency_Regression_Automated,0
+Agency_Smoke_Total,0
+Agency_Smoke_PlannedToAutomate,0
+Agency_Smoke_Automated,0
 `;
                     <span id="copyConfirmMessage" class="absolute top-2 right-16 text-xs text-green-600 hidden">Copied!</span>
                 </div>
@@ -1118,6 +1170,33 @@ Ace_Regression_Automated,0
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
+Agency_Total,0
+Agency_PlannedToAutomate,0
+Agency_Automated,0
+Agency_Unit_Total,0
+Agency_Unit_PlannedToAutomate,0
+Agency_Unit_Automated,0
+Agency_Functional_Total,0
+Agency_Functional_PlannedToAutomate,0
+Agency_Functional_Automated,0
+Agency_IncrementalDataLoad_Total,0
+Agency_IncrementalDataLoad_PlannedToAutomate,0
+Agency_IncrementalDataLoad_Automated,0
+Agency_FullLoadDataValidation_Total,0
+Agency_FullLoadDataValidation_PlannedToAutomate,0
+Agency_FullLoadDataValidation_Automated,0
+Agency_UserAcceptance_Total,0
+Agency_UserAcceptance_PlannedToAutomate,0
+Agency_UserAcceptance_Automated,0
+Agency_API_Total,0
+Agency_API_PlannedToAutomate,0
+Agency_API_Automated,0
+Agency_Regression_Total,0
+Agency_Regression_PlannedToAutomate,0
+Agency_Regression_Automated,0
+Agency_Smoke_Total,0
+Agency_Smoke_PlannedToAutomate,0
+Agency_Smoke_Automated,0
 `;
 
         const CSV_EXAMPLE_DATA = `Metric,Value
@@ -1230,6 +1309,33 @@ Ace_Regression_Automated,0
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
+Agency_Total,0
+Agency_PlannedToAutomate,0
+Agency_Automated,0
+Agency_Unit_Total,0
+Agency_Unit_PlannedToAutomate,0
+Agency_Unit_Automated,0
+Agency_Functional_Total,0
+Agency_Functional_PlannedToAutomate,0
+Agency_Functional_Automated,0
+Agency_IncrementalDataLoad_Total,0
+Agency_IncrementalDataLoad_PlannedToAutomate,0
+Agency_IncrementalDataLoad_Automated,0
+Agency_FullLoadDataValidation_Total,0
+Agency_FullLoadDataValidation_PlannedToAutomate,0
+Agency_FullLoadDataValidation_Automated,0
+Agency_UserAcceptance_Total,0
+Agency_UserAcceptance_PlannedToAutomate,0
+Agency_UserAcceptance_Automated,0
+Agency_API_Total,0
+Agency_API_PlannedToAutomate,0
+Agency_API_Automated,0
+Agency_Regression_Total,0
+Agency_Regression_PlannedToAutomate,0
+Agency_Regression_Automated,0
+Agency_Smoke_Total,0
+Agency_Smoke_PlannedToAutomate,0
+Agency_Smoke_Automated,0
 `;
 
 
@@ -1374,7 +1480,7 @@ Ace_Smoke_Automated,0
             }
 
             const data = {};
-            const teamNames = ['Avengers', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            const teamNames = ['Avengers', 'Imaging', 'Phoenix', 'Ace', 'Agency']; // Order updated
             const testTypeNames = ['Unit', 'Functional', 'IncrementalDataLoad', 'FullLoadDataValidation', 'UserAcceptance', 'API', 'Regression', 'Smoke'];
 
             let overallPlannedSum = 0;
@@ -1452,7 +1558,7 @@ Ace_Smoke_Automated,0
             let totalCurrentlyAutomated = 0; // This will be the sum of team-level automated counts
 
             // Define team prefixes in the desired order
-            const teamPrefixes = ['Avengers', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            const teamPrefixes = ['Avengers', 'Imaging', 'Phoenix', 'Ace', 'Agency']; // Order updated
             // Define test type names for iteration and display
             const testTypeDisplayNames = {
                 'Unit': 'Unit Tests',
