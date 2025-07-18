@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise Applications - Automation Metrics Dashboard</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom font for a professional look */
@@ -77,13 +76,11 @@
 </head>
 <body id="top" class="bg-gray-100 text-gray-800">
     <div class="min-h-screen flex flex-col">
-        <!-- Header -->
         <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-6 shadow-lg rounded-b-lg">
             <div class="container mx-auto flex justify-between items-center">
                 <h1 class="text-3xl font-bold">Enterprise Applications</h1>
                 <h2 class="text-2xl font-semibold">Automation Metrics Dashboard</h2>
             </div>
-            <!-- Links and Print Icon -->
             <div class="container mx-auto mt-4 text-center flex justify-center items-center space-x-4 header-links">
                 <a href="#update-data-section" class="inline-block bg-white text-blue-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-100 transition duration-200">
                     Update Dashboard Data
@@ -94,41 +91,19 @@
                     </svg>
                     Print Dashboard
                 </button>
-                <!-- Export as CSV Button (Commented Out) -->
-                <!--
-                <button id="exportCsvBtn" class="inline-flex items-center bg-white text-blue-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-100 transition duration-200">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    Export as CSV
-                </button>
-                -->
-                <!-- Export as JSON Button (Commented Out) -->
-                <!--
-                <button id="exportJsonBtn" class="inline-flex items-center bg-white text-blue-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-100 transition duration-200">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                    </svg>
-                    Export as JSON
-                </button>
-                -->
-            </div>
+                </div>
         </header>
 
-        <!-- Main Content Area -->
         <main class="flex-grow container mx-auto p-6 space-y-8">
 
-            <!-- Section: Automation Coverage (Overall) -->
             <section class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Overall Automation Coverage</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Current Automated Tests Card -->
                     <div class="bg-purple-50 p-6 rounded-lg shadow-sm border border-purple-200">
                         <h4 class="text-xl font-medium text-purple-800 mb-2">Total Tests Currently Automated</h4>
                         <p id="currentAutomatedCount" class="text-5xl font-extrabold text-purple-700">0</p>
                         <p class="text-gray-600 mt-2">Sum of tests automated across all categories.</p>
                     </div>
-                    <!-- Planned Automation Card -->
                     <div class="bg-orange-50 p-6 rounded-lg shadow-sm border border-orange-200">
                         <h4 class="text-xl font-medium text-orange-800 mb-2">Tests Planned for Automation (Overall)</h4>
                         <p id="plannedAutomationCount" class="text-5xl font-extrabold text-orange-700">0</p>
@@ -141,19 +116,16 @@
                         <div id="overallAutomationProgressBar" class="bg-purple-600 h-4 rounded-full" style="width: 0%;"></div>
                     </div>
                     <p id="overallAutomationProgressText" class="text-right text-sm text-gray-600 mt-1">0% Automated</p>
-                    <!-- Warning for automated > planned -->
                     <div id="overallAutomationWarning" class="mt-2 text-red-600 font-semibold text-sm hidden">
                         Warning: Total Automated Tests exceed Tests Planned for Automation. Please verify data.
                     </div>
                 </div>
             </section>
 
-            <!-- Section: Automation Coverage by Testing Team -->
             <section class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Coverage by Testing Team</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <!-- Avengers Team Card (Previously CRM) -->
                     <div id="avengersCard" class="test-type-card p-5 rounded-lg shadow-sm border">
                         <h4 class="text-xl font-medium text-gray-800 mb-3">Avengers Team</h4>
                         <div class="space-y-1">
@@ -168,8 +140,7 @@
                                 </h5>
                                 <div id="avengersTestTypeBreakdownContent" class="space-y-1 text-sm">
                                     <div id="avengersTestTypeBreakdown">
-                                        <!-- Test type details will be populated here by JavaScript -->
-                                    </div>
+                                        </div>
                                 </div>
                                 <div id="avengersRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
                                     Warning: Sum of automated test types does not match team's total automated.
@@ -178,7 +149,6 @@
                         </div>
                     </div>
 
-                    <!-- Imaging Team Card -->
                     <div id="imagingCard" class="test-type-card p-5 rounded-lg shadow-sm border">
                         <h4 class="text-xl font-medium text-gray-800 mb-3">Imaging Team</h4>
                         <div class="space-y-1">
@@ -193,8 +163,7 @@
                                 </h5>
                                 <div id="imagingTestTypeBreakdownContent" class="space-y-1 text-sm">
                                     <div id="imagingTestTypeBreakdown">
-                                        <!-- Test type details will be populated here by JavaScript -->
-                                    </div>
+                                        </div>
                                 </div>
                                 <div id="imagingRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
                                     Warning: Sum of automated test types does not match team's total automated.
@@ -203,7 +172,6 @@
                         </div>
                     </div>
 
-                    <!-- Phoenix Team Card -->
                     <div id="phoenixCard" class="test-type-card p-5 rounded-lg shadow-sm border">
                         <h4 class="text-xl font-medium text-gray-800 mb-3">Phoenix Team</h4>
                         <div class="space-y-1">
@@ -218,8 +186,7 @@
                                 </h5>
                                 <div id="phoenixTestTypeBreakdownContent" class="space-y-1 text-sm">
                                     <div id="phoenixTestTypeBreakdown">
-                                        <!-- Test type details will be populated here by JavaScript -->
-                                    </div>
+                                        </div>
                                 </div>
                                 <div id="phoenixRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
                                     Warning: Sum of automated test types does not match team's total automated.
@@ -228,7 +195,6 @@
                         </div>
                     </div>
 
-                    <!-- Ace Team Card -->
                     <div id="aceCard" class="test-type-card p-5 rounded-lg shadow-sm border">
                         <h4 class="text-xl font-medium text-gray-800 mb-3">Ace Team</h4>
                         <div class="space-y-1">
@@ -243,8 +209,7 @@
                                 </h5>
                                 <div id="aceTestTypeBreakdownContent" class="space-y-1 text-sm">
                                     <div id="aceTestTypeBreakdown">
-                                        <!-- Test type details will be populated here by JavaScript -->
-                                    </div>
+                                        </div>
                                 </div>
                                 <div id="aceRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
                                     Warning: Sum of automated test types does not match team's total automated.
@@ -256,7 +221,6 @@
                 </div>
             </section>
 
-            <!-- Section: How to Use This Dashboard -->
             <section id="howToUseSection" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">How to Use This Dashboard</h3>
                 <p class="text-gray-700 mb-4">
@@ -308,7 +272,6 @@
                 </p>
             </section>
 
-            <!-- Section: Understanding the Overall Automation Warning -->
             <section id="understandingWarningSection" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Understanding the Overall Automation Warning</h3>
                 <p class="text-gray-700 mb-4">
@@ -336,7 +299,6 @@
                 </p>
             </section>
 
-            <!-- Section: Update Data via CSV (Moved to bottom) -->
             <section id="update-data-section" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Update Data via CSV</h3>
                 <p class="text-gray-700 mb-4">
@@ -349,8 +311,8 @@
                 <div class="relative mb-4">
                     <pre id="csvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto pr-10"><code>Metric,Value
 PlannedToAutomate,150
-Avengers_Total,120
-Avengers_PlannedToAutomate,90
+Avengers_Total,150
+Avengers_PlannedToAutomate,127
 Avengers_Automated,40
 Avengers_Unit_Total,0
 Avengers_Unit_PlannedToAutomate,0
@@ -478,7 +440,6 @@ Ace_Smoke_Automated,0
                 <p id="dataLoadMessage" class="mt-2 text-sm text-red-600 hidden"></p>
             </section>
 
-            <!-- Section: Developer Readme -->
             <section id="developerReadmeSection" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 id="developerReadmeHeading" class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">
                     Developer Readme
@@ -796,10 +757,10 @@ Ace_API_Total,15
 Ace_API_PlannedToAutomate,10
 Ace_API_Automated,5
 Ace_Regression_Total,0
-Ace_Regression_PlannedToAutomate,10
+Ace_Regression_PlannedToAutomate,5
 Ace_Regression_Automated,5
 Ace_Smoke_Total,0
-Ace_Smoke_PlannedToAutomate,10
+Ace_Smoke_PlannedToAutomate,5
 Ace_Smoke_Automated,5
 </code></pre>
                         <div class="flex items-center space-x-4 mt-2">
@@ -1033,7 +994,6 @@ Ace_Smoke_Automated,0
 
         </main>
 
-        <!-- Footer -->
         <footer class="bg-gray-800 text-white p-4 text-center text-sm mt-8 rounded-t-lg">
             <p>&copy; 2025 Enterprise Applications - Automation Dashboard. Data as of <span id="currentDate"></span>.</p>
         </footer>
@@ -1049,10 +1009,10 @@ Ace_Smoke_Automated,0
         // NOTE: Due to browser security, you cannot directly load from a local file path like C:\temp\rawdata.csv.
         // This string serves as the "hardcoded" data source.
         const HARDCODED_CSV_DATA = `Metric,Value
-PlannedToAutomate,150
-Avengers_Total,120
-Avengers_PlannedToAutomate,90
-Avengers_Automated,40
+PlannedToAutomate,147
+Avengers_Total,87
+Avengers_PlannedToAutomate,50
+Avengers_Automated,37
 Avengers_Unit_Total,0
 Avengers_Unit_PlannedToAutomate,0
 Avengers_Unit_Automated,0
@@ -1162,8 +1122,8 @@ Ace_Smoke_Automated,0
 
         const CSV_EXAMPLE_DATA = `Metric,Value
 PlannedToAutomate,150
-Avengers_Total,120
-Avengers_PlannedToAutomate,90
+Avengers_Total,150
+Avengers_PlannedToAutomate,127
 Avengers_Automated,40
 Avengers_Unit_Total,0
 Avengers_Unit_PlannedToAutomate,0
