@@ -28,10 +28,14 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
-        /* Hide update section and header links when printing */
+        /* Hide sections and header links when printing */
         @media print {
+            #howToUseSection,
+            #understandingWarningSection,
             #update-data-section,
-            .header-links {
+            #developerReadmeSection,
+            .header-links,
+            footer { /* Added footer to hide it during print */
                 display: none !important;
             }
             body {
@@ -149,25 +153,25 @@
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Coverage by Testing Team</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <!-- CRM Team Card (Previously CSM) -->
-                    <div id="crmCard" class="test-type-card p-5 rounded-lg shadow-sm border">
-                        <h4 class="text-xl font-medium text-gray-800 mb-3">CRM Team</h4>
+                    <!-- Avengers Team Card (Previously CRM) -->
+                    <div id="avengersCard" class="test-type-card p-5 rounded-lg shadow-sm border">
+                        <h4 class="text-xl font-medium text-gray-800 mb-3">Avengers Team</h4>
                         <div class="space-y-1">
-                            <p class="text-gray-700">Total Tests in Category: <span id="crmTotal" class="font-semibold">0</span></p>
-                            <p class="text-indigo-600">Planned to Automate: <span id="crmPlannedToAutomate" class="font-semibold">0</span></p>
-                            <p class="text-blue-600">Tests Automated: <span id="crmAutomated" class="font-semibold">0</span></p>
+                            <p class="text-gray-700">Total Tests in Category: <span id="avengersTotal" class="font-semibold">0</span></p>
+                            <p class="text-indigo-600">Planned to Automate: <span id="avengersPlannedToAutomate" class="font-semibold">0</span></p>
+                            <p class="text-blue-600">Tests Automated: <span id="avengersAutomated" class="font-semibold">0</span></p>
                             <div class="mt-2">
                                 <h5 class="text-md font-medium text-gray-800 mb-1">
-                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="crmTestTypeBreakdownContent">
+                                    <a href="#" class="toggle-breakdown-link text-blue-600 hover:underline text-sm" data-target="avengersTestTypeBreakdownContent">
                                         Hide Breakdown by Test Type
                                     </a>
                                 </h5>
-                                <div id="crmTestTypeBreakdownContent" class="space-y-1 text-sm">
-                                    <div id="crmTestTypeBreakdown">
+                                <div id="avengersTestTypeBreakdownContent" class="space-y-1 text-sm">
+                                    <div id="avengersTestTypeBreakdown">
                                         <!-- Test type details will be populated here by JavaScript -->
                                     </div>
                                 </div>
-                                <div id="crmRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
+                                <div id="avengersRollupWarning" class="mt-2 text-red-600 font-semibold text-xs hidden">
                                     Warning: Sum of automated test types does not match team's total automated.
                                 </div>
                             </div>
@@ -253,7 +257,7 @@
             </section>
 
             <!-- Section: How to Use This Dashboard -->
-            <section class="bg-white p-6 rounded-lg shadow-md">
+            <section id="howToUseSection" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">How to Use This Dashboard</h3>
                 <p class="text-gray-700 mb-4">
                     This dashboard provides a high-level overview of our Quality Assurance (QA) testing metrics.
@@ -273,7 +277,7 @@
 
                 <h4 class="text-xl font-medium text-gray-800 mb-2">2. Automation Coverage by Testing Team:</h4>
                 <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>For each team (CRM, Imaging, Phoenix, Ace), you'll see:
+                    <li>For each team (Avengers, Imaging, Phoenix, Ace), you'll see:
                         <ul class="list-circle list-inside ml-4">
                             <li>**Total Tests, Planned to Automate, Tests Automated:** Key metrics for the team.</li>
                             <li>**Automation Progress Bar:** Visual progress for the team.</li>
@@ -296,7 +300,7 @@
                 </p>
                 <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
                     <li>**CSV Format:** Two columns: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric</code> and <code class="font-mono text-sm bg-gray-200 p-1 rounded">Value</code>.</li>
-                    <li>**Data Structure:** Include specific metrics for each team and test type (e.g., `CRM_Unit_Automated`). The team's `_Automated` value should be the sum of its test types.</li>
+                    <li>**Data Structure:** Include specific metrics for each team and test type (e.g., `Avengers_Unit_Automated`). The team's `_Automated` value should be the sum of its test types.</li>
                     <li>**Process:** Copy CSV from a text editor, paste into the text area, and click "Load Data."</li>
                 </ul>
                 <p class="text-gray-700">
@@ -305,7 +309,7 @@
             </section>
 
             <!-- Section: Understanding the Overall Automation Warning -->
-            <section class="bg-white p-6 rounded-lg shadow-md">
+            <section id="understandingWarningSection" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Understanding the Overall Automation Warning</h3>
                 <p class="text-gray-700 mb-4">
                     The <span class="text-red-600">red</span> warning message, "Warning: Total Automated Tests exceed Tests Planned for Automation. Please verify data," highlights potential data inconsistency.
@@ -344,113 +348,115 @@
                 </p>
                 <div class="relative mb-4">
                     <pre id="csvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto pr-10"><code>Metric,Value
-PlannedToAutomate,110
-CRM_Total,120
-CRM_PlannedToAutomate,50
-CRM_Automated,0
-CRM_Unit_Total,0
-CRM_Unit_PlannedToAutomate,0
-CRM_Unit_Automated,0
-CRM_Functional_Total,0
-CRM_Functional_PlannedToAutomate,0
-CRM_Functional_Automated,0
-CRM_IncrementalDataLoad_Total,0
-CRM_IncrementalDataLoad_PlannedToAutomate,0
-CRM_IncrementalDataLoad_Automated,0
-CRM_FullLoadDataValidation_Total,0
-CRM_FullLoadDataValidation_PlannedToAutomate,0
-CRM_FullLoadDataValidation_Automated,0
-CRM_UserAcceptance_Total,0
-CRM_UserAcceptance_PlannedToAutomate,0
-CRM_UserAcceptance_Automated,0
-CRM_API_Total,0
-CRM_API_PlannedToAutomate,0
-CRM_API_Automated,0
-CRM_Regression_Total,120
-CRM_Regression_PlannedToAutomate,50
-CRM_Regression_Automated,0
-CRM_Smoke_Total,0
-CRM_Smoke_PlannedToAutomate,0
-CRM_Smoke_Automated,0
-Imaging_Total,100
-Imaging_PlannedToAutomate,50
-Imaging_Automated,0
-Imaging_Unit_Total,0
-Imaging_Unit_PlannedToAutomate,0
-Imaging_Unit_Automated,0
-Imaging_Functional_Total,0
-Imaging_Functional_PlannedToAutomate,0
-Imaging_Functional_Automated,0
-Imaging_IncrementalDataLoad_Total,0
-Imaging_IncrementalDataLoad_PlannedToAutomate,0
-Imaging_IncrementalDataLoad_Automated,0
-Imaging_FullLoadDataValidation_Total,0
-Imaging_FullLoadDataValidation_PlannedToAutomate,0
-Imaging_FullLoadDataValidation_Automated,0
-Imaging_UserAcceptance_Total,0
-Imaging_UserAcceptance_PlannedToAutomate,0
-Imaging_UserAcceptance_Automated,0
-Imaging_API_Total,0
-Imaging_API_PlannedToAutomate,0
-Imaging_API_Automated,0
-Imaging_Regression_Total,100
-Imaging_Regression_PlannedToAutomate,50
-Imaging_Regression_Automated,0
-Imaging_Smoke_Total,12
-Imaging_Smoke_PlannedToAutomate,0
+PlannedToAutomate,500
+Avengers_Total,150
+Avengers_PlannedToAutomate,100
+Avengers_Automated,85
+Avengers_Unit_Total,20
+Avengers_Unit_PlannedToAutomate,15
+Avengers_Unit_Automated,13
+Avengers_Functional_Total,30
+Avengers_Functional_Automated,28
+Avengers_IncrementalDataLoad_Total,10
+Avengers_IncrementalDataLoad_PlannedToAutomate,8
+Avengers_IncrementalDataLoad_Automated,7
+Avengers_FullLoadDataValidation_Total,15
+Avengers_FullLoadDataValidation_PlannedToAutomate,12
+Avengers_FullLoadDataValidation_Automated,10
+Avengers_UserAcceptance_Total,10
+Avengers_UserAcceptance_PlannedToAutomate,8
+Avengers_UserAcceptance_Automated,7
+Avengers_API_Total,5
+Avengers_API_PlannedToAutomate,4
+Avengers_API_Automated,3
+Avengers_Regression_Total,60
+Avengers_Regression_PlannedToAutomate,35
+Avengers_Regression_Automated,25
+Avengers_Smoke_Total,10
+Avengers_Smoke_PlannedToAutomate,5
+Avengers_Smoke_Automated,2
+
+Imaging_Total,200
+Imaging_PlannedToAutomate,150
+Imaging_Automated,80
+Imaging_Unit_Total,40
+Imaging_Unit_PlannedToAutomate,30
+Imaging_Unit_Automated,15
+Imaging_Functional_Total,50
+Imaging_Functional_PlannedToAutomate,40
+Imaging_Functional_Automated,25
+Imaging_IncrementalDataLoad_Total,20
+Imaging_IncrementalDataLoad_PlannedToAutomate,15
+Imaging_IncrementalDataLoad_Automated,10
+Imaging_FullLoadDataValidation_Total,25
+Imaging_FullLoadDataValidation_PlannedToAutomate,20
+Imaging_FullLoadDataValidation_Automated,12
+Imaging_UserAcceptance_Total,20
+Imaging_UserAcceptance_PlannedToAutomate,15
+Imaging_UserAcceptance_Automated,8
+Imaging_API_Total,10
+Imaging_API_PlannedToAutomate,8
+Imaging_API_Automated,5
+Imaging_Regression_Total,30
+Imaging_Regression_PlannedToAutomate,20
+Imaging_Regression_Automated,5
+Imaging_Smoke_Total,5
+Imaging_Smoke_PlannedToAutomate,2
 Imaging_Smoke_Automated,0
-Phoenix_Total,69
-Phoenix_PlannedToAutomate,10
-Phoenix_Automated,0
-Phoenix_Unit_Total,0
-Phoenix_Unit_PlannedToAutomate,0
-Phoenix_Unit_Automated,0
-Phoenix_Functional_Total,0
-Phoenix_Functional_PlannedToAutomate,0
-Phoenix_Functional_Automated,0
-Phoenix_IncrementalDataLoad_Total,0
-Phoenix_IncrementalDataLoad_PlannedToAutomate,0
-Phoenix_IncrementalDataLoad_Automated,0
-Phoenix_FullLoadDataValidation_Total,0
-Phoenix_FullLoadDataValidation_PlannedToAutomate,0
-Phoenix_FullLoadDataValidation_Automated,0
-Phoenix_UserAcceptance_Total,0
-Phoenix_UserAcceptance_PlannedToAutomate,0
-Phoenix_UserAcceptance_Automated,0
-Phoenix_API_Total,0
-Phoenix_API_PlannedToAutomate,0
-Phoenix_API_Automated,0
-Phoenix_Regression_Total,50
+
+Phoenix_Total,100
+Phoenix_PlannedToAutomate,80
+Phoenix_Automated,40
+Phoenix_Unit_Total,15
+Phoenix_Unit_PlannedToAutomate,10
+Phoenix_Unit_Automated,5
+Phoenix_Functional_Total,25
+Phoenix_Functional_PlannedToAutomate,20
+Phoenix_Functional_Automated,10
+Phoenix_IncrementalDataLoad_Total,10
+Phoenix_IncrementalDataLoad_PlannedToAutomate,8
+Phoenix_IncrementalDataLoad_Automated,4
+Phoenix_FullLoadDataValidation_Total,15
+Phoenix_FullLoadDataValidation_PlannedToAutomate,12
+Phoenix_FullLoadDataValidation_Automated,6
+Phoenix_UserAcceptance_Total,10
+Phoenix_UserAcceptance_PlannedToAutomate,8
+Phoenix_UserAcceptance_Automated,4
+Phoenix_API_Total,5
+Phoenix_API_PlannedToAutomate,4
+Phoenix_API_Automated,2
+Phoenix_Regression_Total,15
 Phoenix_Regression_PlannedToAutomate,10
-Phoenix_Regression_Automated,0
-Phoenix_Smoke_Total,19
-Phoenix_Smoke_PlannedToAutomate,0
-Phoenix_Smoke_Automated,0
-Ace_Total,0
-Ace_PlannedToAutomate,0
-Ace_Automated,0
-Ace_Unit_Total,0
-Ace_Unit_PlannedToAutomate,0
-Ace_Unit_Automated,0
-Ace_Functional_Total,0
-Ace_Functional_PlannedToAutomate,0
-Ace_Functional_Automated,0
-Ace_IncrementalDataLoad_Total,0
-Ace_IncrementalDataLoad_PlannedToAutomate,0
-Ace_IncrementalDataLoad_Automated,0
-Ace_FullLoadDataValidation_Total,0
-Ace_FullLoadDataValidation_PlannedToAutomate,0
-Ace_FullLoadDataValidation_Automated,0
-Ace_UserAcceptance_Total,0
-Ace_UserAcceptance_PlannedToAutomate,0
-Ace_UserAcceptance_Automated,0
-Ace_API_Total,0
-Ace_API_PlannedToAutomate,0
-Ace_API_Automated,0
-Ace_Regression_Total,0
-Ace_Regression_PlannedToAutomate,0
-Ace_Regression_Automated,0
-Ace_Smoke_Total,0
+Phoenix_Regression_Automated,8
+Phoenix_Smoke_Total,5
+Phoenix_Smoke_PlannedToAutomate,8
+Phoenix_Smoke_Automated,1
+
+Ace_Total,80
+Ace_PlannedToAutomate,30
+Ace_Automated,10
+Ace_Unit_Total,10
+Ace_Unit_PlannedToAutomate,5
+Ace_Unit_Automated,2
+Ace_Functional_Total,20
+Ace_Functional_PlannedToAutomate,10
+Ace_Functional_Automated,3
+Ace_IncrementalDataLoad_Total,5
+Ace_IncrementalDataLoad_PlannedToAutomate,3
+Ace_IncrementalDataLoad_Automated,1
+Ace_FullLoadDataValidation_Total,10
+Ace_FullLoadDataValidation_PlannedToAutomate,5
+Ace_FullLoadDataValidation_Automated,1
+Ace_UserAcceptance_Total,5
+Ace_UserAcceptance_PlannedToAutomate,2
+Ace_UserAcceptance_Automated,1
+Ace_API_Total,5
+Ace_API_PlannedToAutomate,2
+Ace_API_Automated,1
+Ace_Regression_Total,20
+Ace_Regression_PlannedToAutomate,3
+Ace_Regression_Automated,1
+Ace_Smoke_Total,5
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
 </code></pre>
@@ -475,7 +481,7 @@ Ace_Smoke_Automated,0
             </section>
 
             <!-- Section: Developer Readme -->
-            <section class="bg-white p-6 rounded-lg shadow-md">
+            <section id="developerReadmeSection" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 id="developerReadmeHeading" class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">
                     Developer Readme
                 </h3>
@@ -520,33 +526,32 @@ Ace_Smoke_Automated,0
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
                         <pre id="scenario1CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,1000
-CRM_Total,200
-CRM_PlannedToAutomate,180
-CRM_Automated,170
-CRM_Unit_Total,40
-CRM_Unit_PlannedToAutomate,35
-CRM_Unit_Automated,34
-CRM_Functional_Total,50
-CRM_Functional_PlannedToAutomate,45
-CRM_Functional_Automated,42
-CRM_IncrementalDataLoad_Total,20
-CRM_IncrementalDataLoad_PlannedToAutomate,18
-CRM_IncrementalDataLoad_Automated,17
-CRM_FullLoadDataValidation_Total,30
-CRM_FullLoadDataValidation_PlannedToAutomate,28
-CRM_FullLoadDataValidation_Automated,26
-CRM_UserAcceptance_Total,20
-CRM_UserAcceptance_PlannedToAutomate,18
-CRM_UserAcceptance_Automated,17
-CRM_API_Total,15
-CRM_API_PlannedToAutomate,14
-CRM_API_Automated,13
-CRM_Regression_Total,120
-CRM_Regression_PlannedToAutomate,14
-CRM_Regression_Automated,13
-CRM_Smoke_Total,10
-CRM_Smoke_PlannedToAutomate,8
-CRM_Smoke_Automated,8
+Avengers_Total,200
+Avengers_PlannedToAutomate,180
+Avengers_Automated,170
+Avengers_Unit_Total,40
+Avengers_Unit_PlannedToAutomate,35
+Avengers_Unit_Automated,34
+Avengers_Functional_Total,50
+Avengers_Functional_Automated,42
+Avengers_IncrementalDataLoad_Total,20
+Avengers_IncrementalDataLoad_PlannedToAutomate,18
+Avengers_IncrementalDataLoad_Automated,17
+Avengers_FullLoadDataValidation_Total,30
+Avengers_FullLoadDataValidation_PlannedToAutomate,28
+Avengers_FullLoadDataValidation_Automated,26
+Avengers_UserAcceptance_Total,20
+Avengers_UserAcceptance_PlannedToAutomate,18
+Avengers_UserAcceptance_Automated,17
+Avengers_API_Total,15
+Avengers_API_PlannedToAutomate,14
+Avengers_API_Automated,13
+Avengers_Regression_Total,120
+Avengers_Regression_PlannedToAutomate,14
+Avengers_Regression_Automated,13
+Avengers_Smoke_Total,10
+Avengers_Smoke_PlannedToAutomate,8
+Avengers_Smoke_Automated,8
 Imaging_Total,300
 Imaging_PlannedToAutomate,280
 Imaging_Automated,260
@@ -648,7 +653,7 @@ Ace_Smoke_Automated,7
                                     <li>Overall Automation Warning: **Hidden**</li>
                                 </ul>
                             </li>
-                            <li>**CRM Team:**
+                            <li>**Avengers Team:**
                                 <ul class="list-circle list-inside ml-4">
                                     <li>Tests Automated: **170** (Calculated sum matches CSV)</li>
                                     <li>Planned to Automate: **180**</li>
@@ -689,33 +694,32 @@ Ace_Smoke_Automated,7
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
                         <pre id="scenario2CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,1200
-CRM_Total,200
-CRM_PlannedToAutomate,180
-CRM_Automated,100
-CRM_Unit_Total,40
-CRM_Unit_PlannedToAutomate,35
-CRM_Unit_Automated,20
-CRM_Functional_Total,50
-CRM_Functional_PlannedToAutomate,45
-CRM_Functional_Automated,25
-CRM_IncrementalDataLoad_Total,20
-CRM_IncrementalDataLoad_PlannedToAutomate,18
-CRM_IncrementalDataLoad_Automated,10
-CRM_FullLoadDataValidation_Total,30
-CRM_FullLoadDataValidation_PlannedToAutomate,28
-CRM_FullLoadDataValidation_Automated,15
-CRM_UserAcceptance_Total,20
-CRM_UserAcceptance_PlannedToAutomate,18
-CRM_UserAcceptance_Automated,10
-CRM_API_Total,15
-CRM_API_PlannedToAutomate,14
-CRM_API_Automated,8
-CRM_Regression_Total,120
-CRM_Regression_PlannedToAutomate,14
-CRM_Regression_Automated,7
-CRM_Smoke_Total,10
-CRM_Smoke_PlannedToAutomate,8
-CRM_Smoke_Automated,5
+Avengers_Total,200
+Avengers_PlannedToAutomate,180
+Avengers_Automated,100
+Avengers_Unit_Total,40
+Avengers_Unit_PlannedToAutomate,35
+Avengers_Unit_Automated,20
+Avengers_Functional_Total,50
+Avengers_Functional_Automated,25
+Avengers_IncrementalDataLoad_Total,20
+Avengers_IncrementalDataLoad_PlannedToAutomate,18
+Avengers_IncrementalDataLoad_Automated,10
+Avengers_FullLoadDataValidation_Total,30
+Avengers_FullLoadDataValidation_PlannedToAutomate,28
+Avengers_FullLoadDataValidation_Automated,15
+Avengers_UserAcceptance_Total,20
+Avengers_UserAcceptance_PlannedToAutomate,18
+Avengers_UserAcceptance_Automated,10
+Avengers_API_Total,15
+Avengers_API_PlannedToAutomate,14
+Avengers_API_Automated,8
+Avengers_Regression_Total,120
+Avengers_Regression_PlannedToAutomate,14
+Avengers_Regression_Automated,7
+Avengers_Smoke_Total,10
+Avengers_Smoke_PlannedToAutomate,8
+Avengers_Smoke_Automated,5
 Imaging_Total,300
 Imaging_PlannedToAutomate,280
 Imaging_Automated,260
@@ -817,7 +821,7 @@ Ace_Smoke_Automated,5
                                     <li>Overall Automation Warning: **Hidden**</li>
                                 </ul>
                             </li>
-                            <li>**CRM Team:**
+                            <li>**Avengers Team:**
                                 <ul class="list-circle list-inside ml-4">
                                     <li>Tests Automated: **100** (Calculated sum matches CSV)</li>
                                     <li>Planned to Automate: **180**</li>
@@ -858,33 +862,32 @@ Ace_Smoke_Automated,5
                         <h6 class="text-md font-medium text-gray-800 mb-1">CSV Data:</h6>
                         <pre id="scenario3CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Value
 PlannedToAutomate,250
-CRM_Total,100
-CRM_PlannedToAutomate,80
-CRM_Automated,70
-CRM_Unit_Total,20
-CRM_Unit_PlannedToAutomate,15
-CRM_Unit_Automated,15
-CRM_Functional_Total,30
-CRM_Functional_PlannedToAutomate,25
-CRM_Functional_Automated,25
-CRM_IncrementalDataLoad_Total,10
-CRM_IncrementalDataLoad_PlannedToAutomate,8
-CRM_IncrementalDataLoad_Automated,10
-CRM_FullLoadDataValidation_Total,15
-CRM_FullLoadDataValidation_PlannedToAutomate,12
-CRM_FullLoadDataValidation_Automated,15
-CRM_UserAcceptance_Total,10
-CRM_UserAcceptance_PlannedToAutomate,8
-CRM_UserAcceptance_Automated,10
-CRM_API_Total,5
-CRM_API_PlannedToAutomate,4
-CRM_API_Automated,5
-CRM_Regression_Total,120
-CRM_Regression_PlannedToAutomate,4
-CRM_Regression_Automated,4
-CRM_Smoke_Total,5
-CRM_Smoke_PlannedToAutomate,4
-CRM_Smoke_Automated,20
+Avengers_Total,100
+Avengers_PlannedToAutomate,80
+Avengers_Automated,70
+Avengers_Unit_Total,20
+Avengers_Unit_PlannedToAutomate,15
+Avengers_Unit_Automated,15
+Avengers_Functional_Total,30
+Avengers_Functional_Automated,25
+Avengers_IncrementalDataLoad_Total,10
+Avengers_IncrementalDataLoad_PlannedToAutomate,8
+Avengers_IncrementalDataLoad_Automated,10
+Avengers_FullLoadDataValidation_Total,15
+Avengers_FullLoadDataValidation_PlannedToAutomate,12
+Avengers_FullLoadDataValidation_Automated,15
+Avengers_UserAcceptance_Total,10
+Avengers_UserAcceptance_PlannedToAutomate,8
+Avengers_UserAcceptance_Automated,10
+Avengers_API_Total,5
+Avengers_API_PlannedToAutomate,4
+Avengers_API_Automated,5
+Avengers_Regression_Total,120
+Avengers_Regression_PlannedToAutomate,4
+Avengers_Regression_Automated,4
+Avengers_Smoke_Total,5
+Avengers_Smoke_PlannedToAutomate,4
+Avengers_Smoke_Automated,20
 Imaging_Total,100
 Imaging_PlannedToAutomate,90
 Imaging_Automated,95
@@ -924,7 +927,7 @@ Phoenix_Functional_Automated,30
 Phoenix_IncrementalDataLoad_Total,10
 Phoenix_IncrementalDataLoad_PlannedToAutomate,8
 Phoenix_IncrementalDataLoad_Automated,12
-Phoenix_FullLoadDataValidation_Total,35
+Phoenix_FullLoadDataValidation_Total,0
 Phoenix_FullLoadDataValidation_PlannedToAutomate,12
 Phoenix_FullLoadDataValidation_Automated,18
 Phoenix_UserAcceptance_Total,10
@@ -986,7 +989,7 @@ Ace_Smoke_Automated,0
                                     <li>Overall Automation Warning: **Visible**</li>
                                 </ul>
                             </li>
-                            <li>**CRM Team:**
+                            <li>**Avengers Team:**
                                 <ul class="list-circle list-inside ml-4">
                                     <li>Tests Automated: **104** (Calculated sum of 15+25+10+15+10+5+4+20 = 104)</li>
                                     <li>Planned to Automate: **80**</li>
@@ -1046,33 +1049,33 @@ Ace_Smoke_Automated,0
         // This string serves as the "hardcoded" data source.
         const HARDCODED_CSV_DATA = `Metric,Value
 PlannedToAutomate,110
-CRM_Total,120
-CRM_PlannedToAutomate,50
-CRM_Automated,0
-CRM_Unit_Total,0
-CRM_Unit_PlannedToAutomate,0
-CRM_Unit_Automated,0
-CRM_Functional_Total,0
-CRM_Functional_PlannedToAutomate,0
-CRM_Functional_Automated,0
-CRM_IncrementalDataLoad_Total,0
-CRM_IncrementalDataLoad_PlannedToAutomate,0
-CRM_IncrementalDataLoad_Automated,0
-CRM_FullLoadDataValidation_Total,0
-CRM_FullLoadDataValidation_PlannedToAutomate,0
-CRM_FullLoadDataValidation_Automated,0
-CRM_UserAcceptance_Total,0
-CRM_UserAcceptance_PlannedToAutomate,0
-CRM_UserAcceptance_Automated,0
-CRM_API_Total,0
-CRM_API_PlannedToAutomate,0
-CRM_API_Automated,0
-CRM_Regression_Total,120
-CRM_Regression_PlannedToAutomate,50
-CRM_Regression_Automated,0
-CRM_Smoke_Total,0
-CRM_Smoke_PlannedToAutomate,0
-CRM_Smoke_Automated,0
+Avengers_Total,120
+Avengers_PlannedToAutomate,90
+Avengers_Automated,40
+Avengers_Unit_Total,0
+Avengers_Unit_PlannedToAutomate,0
+Avengers_Unit_Automated,0
+Avengers_Functional_Total,0
+Avengers_Functional_PlannedToAutomate,0
+Avengers_Functional_Automated,0
+Avengers_IncrementalDataLoad_Total,0
+Avengers_IncrementalDataLoad_PlannedToAutomate,0
+Avengers_IncrementalDataLoad_Automated,0
+Avengers_FullLoadDataValidation_Total,0
+Avengers_FullLoadDataValidation_PlannedToAutomate,0
+Avengers_FullLoadDataValidation_Automated,0
+Avengers_UserAcceptance_Total,0
+Avengers_UserAcceptance_PlannedToAutomate,0
+Avengers_UserAcceptance_Automated,0
+Avengers_API_Total,0
+Avengers_API_PlannedToAutomate,0
+Avengers_API_Automated,0
+Avengers_Regression_Total,120
+Avengers_Regression_PlannedToAutomate,90
+Avengers_Regression_Automated,40
+Avengers_Smoke_Total,0
+Avengers_Smoke_PlannedToAutomate,0
+Avengers_Smoke_Automated,0
 Imaging_Total,100
 Imaging_PlannedToAutomate,50
 Imaging_Automated,0
@@ -1157,113 +1160,115 @@ Ace_Smoke_Automated,0
 `;
 
         const CSV_EXAMPLE_DATA = `Metric,Value
-PlannedToAutomate,110
-CRM_Total,120
-CRM_PlannedToAutomate,50
-CRM_Automated,0
-CRM_Unit_Total,0
-CRM_Unit_PlannedToAutomate,0
-CRM_Unit_Automated,0
-CRM_Functional_Total,0
-CRM_Functional_PlannedToAutomate,0
-CRM_Functional_Automated,0
-CRM_IncrementalDataLoad_Total,0
-CRM_IncrementalDataLoad_PlannedToAutomate,0
-CRM_IncrementalDataLoad_Automated,0
-CRM_FullLoadDataValidation_Total,0
-CRM_FullLoadDataValidation_PlannedToAutomate,0
-CRM_FullLoadDataValidation_Automated,0
-CRM_UserAcceptance_Total,0
-CRM_UserAcceptance_PlannedToAutomate,0
-CRM_UserAcceptance_Automated,0
-CRM_API_Total,0
-CRM_API_PlannedToAutomate,0
-CRM_API_Automated,0
-CRM_Regression_Total,120
-CRM_Regression_PlannedToAutomate,50
-CRM_Regression_Automated,0
-CRM_Smoke_Total,0
-CRM_Smoke_PlannedToAutomate,0
-CRM_Smoke_Automated,0
-Imaging_Total,100
-Imaging_PlannedToAutomate,50
-Imaging_Automated,0
-Imaging_Unit_Total,0
-Imaging_Unit_PlannedToAutomate,0
-Imaging_Unit_Automated,0
-Imaging_Functional_Total,0
-Imaging_Functional_PlannedToAutomate,0
-Imaging_Functional_Automated,0
-Imaging_IncrementalDataLoad_Total,0
-Imaging_IncrementalDataLoad_PlannedToAutomate,0
-Imaging_IncrementalDataLoad_Automated,0
-Imaging_FullLoadDataValidation_Total,0
-Imaging_FullLoadDataValidation_PlannedToAutomate,0
-Imaging_FullLoadDataValidation_Automated,0
-Imaging_UserAcceptance_Total,0
-Imaging_UserAcceptance_PlannedToAutomate,0
-Imaging_UserAcceptance_Automated,0
-Imaging_API_Total,0
-Imaging_API_PlannedToAutomate,0
-Imaging_API_Automated,0
-Imaging_Regression_Total,100
-Imaging_Regression_PlannedToAutomate,50
-Imaging_Regression_Automated,0
-Imaging_Smoke_Total,12
-Imaging_Smoke_PlannedToAutomate,0
+PlannedToAutomate,500
+Avengers_Total,150
+Avengers_PlannedToAutomate,100
+Avengers_Automated,85
+Avengers_Unit_Total,20
+Avengers_Unit_PlannedToAutomate,15
+Avengers_Unit_Automated,13
+Avengers_Functional_Total,30
+Avengers_Functional_Automated,28
+Avengers_IncrementalDataLoad_Total,10
+Avengers_IncrementalDataLoad_PlannedToAutomate,8
+Avengers_IncrementalDataLoad_Automated,7
+Avengers_FullLoadDataValidation_Total,15
+Avengers_FullLoadDataValidation_PlannedToAutomate,12
+Avengers_FullLoadDataValidation_Automated,10
+Avengers_UserAcceptance_Total,10
+Avengers_UserAcceptance_PlannedToAutomate,8
+Avengers_UserAcceptance_Automated,7
+Avengers_API_Total,5
+Avengers_API_PlannedToAutomate,4
+Avengers_API_Automated,3
+Avengers_Regression_Total,60
+Avengers_Regression_PlannedToAutomate,35
+Avengers_Regression_Automated,25
+Avengers_Smoke_Total,10
+Avengers_Smoke_PlannedToAutomate,5
+Avengers_Smoke_Automated,2
+
+Imaging_Total,200
+Imaging_PlannedToAutomate,150
+Imaging_Automated,80
+Imaging_Unit_Total,40
+Imaging_Unit_PlannedToAutomate,30
+Imaging_Unit_Automated,15
+Imaging_Functional_Total,50
+Imaging_Functional_PlannedToAutomate,40
+Imaging_Functional_Automated,25
+Imaging_IncrementalDataLoad_Total,20
+Imaging_IncrementalDataLoad_PlannedToAutomate,15
+Imaging_IncrementalDataLoad_Automated,10
+Imaging_FullLoadDataValidation_Total,25
+Imaging_FullLoadDataValidation_PlannedToAutomate,20
+Imaging_FullLoadDataValidation_Automated,12
+Imaging_UserAcceptance_Total,20
+Imaging_UserAcceptance_PlannedToAutomate,15
+Imaging_UserAcceptance_Automated,8
+Imaging_API_Total,10
+Imaging_API_PlannedToAutomate,8
+Imaging_API_Automated,5
+Imaging_Regression_Total,30
+Imaging_Regression_PlannedToAutomate,20
+Imaging_Regression_Automated,5
+Imaging_Smoke_Total,5
+Imaging_Smoke_PlannedToAutomate,2
 Imaging_Smoke_Automated,0
-Phoenix_Total,69
-Phoenix_PlannedToAutomate,10
-Phoenix_Automated,0
-Phoenix_Unit_Total,0
-Phoenix_Unit_PlannedToAutomate,0
-Phoenix_Unit_Automated,0
-Phoenix_Functional_Total,0
-Phoenix_Functional_PlannedToAutomate,0
-Phoenix_Functional_Automated,0
-Phoenix_IncrementalDataLoad_Total,0
-Phoenix_IncrementalDataLoad_PlannedToAutomate,0
-Phoenix_IncrementalDataLoad_Automated,0
-Phoenix_FullLoadDataValidation_Total,0
-Phoenix_FullLoadDataValidation_PlannedToAutomate,0
-Phoenix_FullLoadDataValidation_Automated,0
-Phoenix_UserAcceptance_Total,0
-Phoenix_UserAcceptance_PlannedToAutomate,0
-Phoenix_UserAcceptance_Automated,0
-Phoenix_API_Total,0
-Phoenix_API_PlannedToAutomate,0
-Phoenix_API_Automated,0
-Phoenix_Regression_Total,50
+
+Phoenix_Total,100
+Phoenix_PlannedToAutomate,80
+Phoenix_Automated,40
+Phoenix_Unit_Total,15
+Phoenix_Unit_PlannedToAutomate,10
+Phoenix_Unit_Automated,5
+Phoenix_Functional_Total,25
+Phoenix_Functional_PlannedToAutomate,20
+Phoenix_Functional_Automated,10
+Phoenix_IncrementalDataLoad_Total,10
+Phoenix_IncrementalDataLoad_PlannedToAutomate,8
+Phoenix_IncrementalDataLoad_Automated,4
+Phoenix_FullLoadDataValidation_Total,15
+Phoenix_FullLoadDataValidation_PlannedToAutomate,12
+Phoenix_FullLoadDataValidation_Automated,6
+Phoenix_UserAcceptance_Total,10
+Phoenix_UserAcceptance_PlannedToAutomate,8
+Phoenix_UserAcceptance_Automated,4
+Phoenix_API_Total,5
+Phoenix_API_PlannedToAutomate,4
+Phoenix_API_Automated,2
+Phoenix_Regression_Total,15
 Phoenix_Regression_PlannedToAutomate,10
-Phoenix_Regression_Automated,0
-Phoenix_Smoke_Total,19
-Phoenix_Smoke_PlannedToAutomate,0
-Phoenix_Smoke_Automated,0
-Ace_Total,0
-Ace_PlannedToAutomate,0
-Ace_Automated,0
-Ace_Unit_Total,0
-Ace_Unit_PlannedToAutomate,0
-Ace_Unit_Automated,0
-Ace_Functional_Total,0
-Ace_Functional_PlannedToAutomate,0
-Ace_Functional_Automated,0
-Ace_IncrementalDataLoad_Total,0
-Ace_IncrementalDataLoad_PlannedToAutomate,0
-Ace_IncrementalDataLoad_Automated,0
-Ace_FullLoadDataValidation_Total,0
-Ace_FullLoadDataValidation_PlannedToAutomate,0
-Ace_FullLoadDataValidation_Automated,0
-Ace_UserAcceptance_Total,0
-Ace_UserAcceptance_PlannedToAutomate,0
-Ace_UserAcceptance_Automated,0
-Ace_API_Total,0
-Ace_API_PlannedToAutomate,0
-Ace_API_Automated,0
-Ace_Regression_Total,0
-Ace_Regression_PlannedToAutomate,0
-Ace_Regression_Automated,0
-Ace_Smoke_Total,0
+Phoenix_Regression_Automated,8
+Phoenix_Smoke_Total,5
+Phoenix_Smoke_PlannedToAutomate,8
+Phoenix_Smoke_Automated,1
+
+Ace_Total,80
+Ace_PlannedToAutomate,30
+Ace_Automated,10
+Ace_Unit_Total,10
+Ace_Unit_PlannedToAutomate,5
+Ace_Unit_Automated,2
+Ace_Functional_Total,20
+Ace_Functional_PlannedToAutomate,10
+Ace_Functional_Automated,3
+Ace_IncrementalDataLoad_Total,5
+Ace_IncrementalDataLoad_PlannedToAutomate,3
+Ace_IncrementalDataLoad_Automated,1
+Ace_FullLoadDataValidation_Total,10
+Ace_FullLoadDataValidation_PlannedToAutomate,5
+Ace_FullLoadDataValidation_Automated,1
+Ace_UserAcceptance_Total,5
+Ace_UserAcceptance_PlannedToAutomate,2
+Ace_UserAcceptance_Automated,1
+Ace_API_Total,5
+Ace_API_PlannedToAutomate,2
+Ace_API_Automated,1
+Ace_Regression_Total,20
+Ace_Regression_PlannedToAutomate,3
+Ace_Regression_Automated,1
+Ace_Smoke_Total,5
 Ace_Smoke_PlannedToAutomate,0
 Ace_Smoke_Automated,0
 `;
@@ -1410,7 +1415,7 @@ Ace_Smoke_Automated,0
             }
 
             const data = {};
-            const teamNames = ['CRM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            const teamNames = ['Avengers', 'Imaging', 'Phoenix', 'Ace']; // Order updated
             const testTypeNames = ['Unit', 'Functional', 'IncrementalDataLoad', 'FullLoadDataValidation', 'UserAcceptance', 'API', 'Regression', 'Smoke'];
 
             let overallPlannedSum = 0;
@@ -1488,7 +1493,7 @@ Ace_Smoke_Automated,0
             let totalCurrentlyAutomated = 0; // This will be the sum of team-level automated counts
 
             // Define team prefixes in the desired order
-            const teamPrefixes = ['CRM', 'Imaging', 'Phoenix', 'Ace']; // Order updated
+            const teamPrefixes = ['Avengers', 'Imaging', 'Phoenix', 'Ace']; // Order updated
             // Define test type names for iteration and display
             const testTypeDisplayNames = {
                 'Unit': 'Unit Tests',
@@ -1504,7 +1509,7 @@ Ace_Smoke_Automated,0
 
             // Process Team Data
             teamPrefixes.forEach(teamPrefix => {
-                const lowerCaseTeamPrefix = teamPrefix.toLowerCase(); // e.g., 'crm'
+                const lowerCaseTeamPrefix = teamPrefix.toLowerCase(); // e.g., 'avengers'
 
                 const teamTotal = data[`${teamPrefix}_Total`] || 0;
                 const teamPlannedToAutomate = data[`${teamPrefix}_PlannedToAutomate`] || 0;
@@ -1553,13 +1558,25 @@ Ace_Smoke_Automated,0
                         if (testTypeBreakdownDiv) {
                             const div = document.createElement('div');
                             div.className = 'mb-1'; // Add some margin between test types
-                            div.innerHTML = `
-                                <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span> / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span>
-                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                                    <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
-                                </div>
-                                <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
-                            `;
+
+                            // Special handling for Avengers Functional Tests
+                            if (teamPrefix === 'Avengers' && testTypePrefix === 'Functional') {
+                                div.innerHTML = `
+                                    <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
+                                    <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                        <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
+                                    </div>
+                                    <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
+                                `;
+                            } else {
+                                div.innerHTML = `
+                                    <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span> / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span>
+                                    <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                        <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
+                                    </div>
+                                    <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
+                                `;
+                            }
                             testTypeBreakdownDiv.appendChild(div);
                         }
                     });
@@ -1598,8 +1615,9 @@ Ace_Smoke_Automated,0
                     cardElement.classList.add(teamBgColorClass, teamBorderColorClass);
 
                     // Check for roll-up consistency and display warning
-                    // Only show warning if csvTeamAutomated was explicitly provided (not 0) and it doesn't match the calculated sum
-                    if (csvTeamAutomated !== 0 && calculatedTeamAutomated !== csvTeamAutomated) {
+                    // The warning should trigger if the calculated sum doesn't match the CSV value.
+                    // This is the corrected logic for the roll-up warning.
+                    if (calculatedTeamAutomated !== csvTeamAutomated) {
                         if (rollupWarningDiv) {
                              rollupWarningDiv.classList.remove('hidden');
                         }
