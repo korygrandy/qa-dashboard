@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise Applications - Automation Metrics Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for trend line -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <style>
         /* Custom font for a professional look */
         body {
@@ -33,7 +35,7 @@
             #understandingWarningSection,
             #update-data-section,
             #developerReadmeSection,
-            .header-links,
+            #automationTrendsSection, /* Hide trend section during print */
             footer { /* Added footer to hide it during print */
                 display: none !important;
             }
@@ -103,6 +105,7 @@
 
             <section class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Overall Automation Coverage</h3>
+                <p class="text-gray-600 text-sm mb-4">Data as of <span id="overallDataDate" class="font-semibold"></span></p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-purple-50 p-6 rounded-lg shadow-sm border border-purple-200">
                         <h4 class="text-xl font-medium text-purple-800 mb-2">Total Tests Currently Automated</h4>
@@ -134,6 +137,28 @@
                 </div>
             </section>
 
+            <section id="automationTrendsSection" class="bg-white p-6 rounded-lg shadow-md hidden">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Automation Trend Over Time (Overall)</h3>
+                <p class="text-gray-700 mb-4">
+                    This chart displays the "Overall Automation Progress" over time, based on data saved automatically when you load new metrics, or explicitly loaded from a historical CSV.
+                </p>
+                <div class="mb-4">
+                    <h4 class="text-xl font-medium text-gray-800 mb-2">Load Historical Trend Data:</h4>
+                    <p class="text-gray-700 mb-2">
+                        Paste CSV data for historical trends here. Expected format: <code class="font-mono text-sm bg-gray-200 p-1 rounded">Metric,Date,Value</code>.
+                        Only <code class="font-mono text-sm bg-gray-200 p-1 rounded">Overall_Automation_Progress</code> will be used.
+                    </p>
+                    <textarea id="historicalCsvInput" rows="6" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" placeholder="Paste historical CSV data here..."></textarea>
+                    <button id="loadHistoricalDataBtn" class="mt-2 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                        Load Historical Trend Data
+                    </button>
+                    <p id="historicalDataLoadMessage" class="mt-2 text-sm text-red-600 hidden"></p>
+                </div>
+                <div class="relative">
+                    <canvas id="automationTrendChart"></canvas>
+                </div>
+            </section>
+
             <section id="howToUseSection" class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">How to Use This Dashboard</h3>
                 <p class="text-gray-700 mb-4">
@@ -155,13 +180,13 @@
 
                 <h4 class="text-xl font-medium text-gray-800 mb-2">2. Automation Coverage by Testing Team:</h4>
                 <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
-                    <li>For each team (Avengers, Imaging, Phoenix, Ace, Agency), you'll see:
+                    <li>For each team, you'll see:
                         <ul class="list-circle list-inside ml-4">
-                            <li>**Total Tests in Category:** This value is automatically calculated by summing the "Total" counts of all individual test types within this team.</li>
-                            <li>**Planned to Automate:** This value is automatically calculated by summing the "Planned to Automate" counts of all individual test types within this team (excluding Functional Tests).</li>
+                            <li>**Total Tests in Category:** This value is automatically calculated by summing the "Total" counts of all individual test types within this team (excluding "In-Sprint Functional Tests").</li>
+                            <li>**Planned to Automate:** This value is automatically calculated by summing the "Planned to Automate" counts of all individual test types within this team (excluding "In-Sprint Functional Tests").</li>
                             <li>**Tests Automated:** This value is automatically calculated by summing the "Automated" counts of all individual test types within this team.</li>
                             <li>**Automation Progress Bar:** Visual progress for the team.</li>
-                            <li>**Breakdown by Test Type:** Detailed progress for Unit, Functional, API tests, etc., within each team, including individual progress bars. For Functional Tests, "Planned" will show as "N/A" and will not be included in the team's "Planned to Automate" sum.</li>
+                            <li>**Breakdown by Test Type:** Detailed progress for test types within each team, including individual progress bars. For In-Sprint Functional Tests, "Total" will not be displayed, and "Planned" will show as "N/A" and will not be included in the team's "Planned to Automate" sum. For definitions of each test type, please refer to the <a href="#understandingTestTypesSection" class="text-blue-600 hover:underline">Understanding Test Types</a> section.</li>
                         </ul>
                     </li>
                     <li>**Team Card Color Coding:**
@@ -202,6 +227,73 @@
                     </a>
                 </div>
                 <p id="dataLoadMessage" class="mt-2 text-sm text-red-600 hidden"></p>
+            </section>
+
+            <section id="understandingTestTypesSection" class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Understanding Test Types</h3>
+                <p class="text-gray-700 mb-4">
+                    This section provides a high-level overview of the different types of testing reflected in this dashboard,
+                    tailored for executive understanding.
+                </p>
+
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-xl font-medium text-gray-800 mb-1">Unit Tests</h4>
+                        <p class="text-gray-700">
+                            These are the smallest and fastest tests, focusing on individual components or functions of the code.
+                            They ensure that the foundational building blocks of our applications work correctly in isolation.
+                            High automation here signifies robust code quality at the earliest stage of development.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-medium text-gray-800 mb-1">In-Sprint Functional Tests</h4>
+                        <p class="text-gray-700">
+                            These tests verify that new features developed within a sprint meet their specified requirements.
+                            They focus on the functionality from a user's perspective, ensuring that what was built works as intended.
+                            Automating these tests within the sprint accelerates feedback and reduces manual effort for new development.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-medium text-gray-800 mb-1">Incremental Data Load Tests</h4>
+                        <p class="text-gray-700">
+                            These tests validate the integrity and accuracy of data as it's incrementally loaded into our systems.
+                            They ensure that ongoing data updates and transfers do not corrupt or misrepresent information,
+                            which is critical for data-driven decision making and regulatory compliance.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-medium text-gray-800 mb-1">Full Load Data Validation Tests</h4>
+                        <p class="text-gray-700">
+                            These comprehensive tests verify the complete dataset after a full data migration or initial load.
+                            They are crucial for ensuring that large-scale data transfers are accurate, complete, and consistent,
+                            providing confidence in the foundational data integrity of our systems.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-medium text-gray-800 mb-1">API Tests</h4>
+                        <p class="text-gray-700">
+                            These tests validate the functionality, reliability, performance, and security of Application Programming Interfaces (APIs).
+                            APIs are the backbone of how different systems communicate, so robust API automation ensures seamless integration
+                            and data exchange across our enterprise ecosystem and with external partners.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-medium text-gray-800 mb-1">Regression Tests</h4>
+                        <p class="text-gray-700">
+                            Regression tests ensure that new code changes or bug fixes do not negatively impact existing functionalities.
+                            Automating regression testing is vital for maintaining system stability and preventing unintended side effects,
+                            allowing us to deliver new features with confidence and minimal risk.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-medium text-gray-800 mb-1">Smoke Tests</h4>
+                        <p class="text-gray-700">
+                            These are quick, high-level tests to ensure that the most critical functions of an application are working.
+                            They act as a "go/no-go" decision point, verifying that the core system is stable enough for more extensive testing.
+                            Automated smoke tests provide immediate feedback on the basic health of a new build.
+                        </p>
+                    </div>
+                </div>
             </section>
 
             <section id="developerReadmeSection" class="bg-white p-6 rounded-lg shadow-md">
@@ -251,136 +343,124 @@
                         <pre id="scenario1CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"
 data-expected-metrics='{
     "overallAutomation": {
-        "currentAutomatedCount": 895,
-        "plannedAutomationCount": 717,
-        "overallAutomationProgress": 124.8,
-        "overallAutomationWarningVisible": true
+        "currentAutomatedCount": 686,
+        "plannedAutomationCount": 743,
+        "overallAutomationProgress": 92.3,
+        "overallAutomationWarningVisible": false
     },
     "teams": {
-        "Avengers": {
-            "Total": 305,
-            "Automated": 170,
-            "PlannedToAutomate": 135,
-            "AutomationProgress": 125.9,
+        "AvengersCSM": {
+            "Total": 185,
+            "Automated": 104,
+            "PlannedToAutomate": 117,
+            "AutomationProgress": 88.9,
+            "RollupWarningVisible": false
+        },
+        "DungeonsnDragonsCSM": {
+            "Total": 103,
+            "Automated": 89,
+            "PlannedToAutomate": 93,
+            "AutomationProgress": 95.7,
             "RollupWarningVisible": false
         },
         "Imaging": {
-            "Total": 372,
-            "Automated": 260,
-            "PlannedToAutomate": 205,
-            "AutomationProgress": 126.8,
+            "Total": 192,
+            "Automated": 191,
+            "PlannedToAutomate": 204,
+            "AutomationProgress": 93.6,
             "RollupWarningVisible": false
         },
         "Phoenix": {
-            "Total": 289,
-            "Automated": 200,
-            "PlannedToAutomate": 155,
-            "AutomationProgress": 129.0,
+            "Total": 159,
+            "Automated": 152,
+            "PlannedToAutomate": 168,
+            "AutomationProgress": 90.5,
             "RollupWarningVisible": false
         },
         "Ace": {
-            "Total": 220,
-            "Automated": 180,
-            "PlannedToAutomate": 140,
-            "AutomationProgress": 128.6,
+            "Total": 90,
+            "Automated": 135,
+            "PlannedToAutomate": 150,
+            "AutomationProgress": 90.0,
             "RollupWarningVisible": false
         },
         "Agency": {
-            "Total": 120,
-            "Automated": 85,
-            "PlannedToAutomate": 82,
-            "AutomationProgress": 103.7,
+            "Total": 70,
+            "Automated": 65,
+            "PlannedToAutomate": 78,
+            "AutomationProgress": 83.3,
+            "RollupWarningVisible": false
+        },
+        "Integration": {
+            "Total": 100,
+            "Automated": 50,
+            "PlannedToAutomate": 50,
+            "AutomationProgress": 100.0,
             "RollupWarningVisible": false
         }
     }
 }'><code>Metric,Value
-Avengers_Unit_Total,40
-Avengers_Unit_PlannedToAutomate,35
-Avengers_Unit_Automated,34
-Avengers_Functional_Total,50
-Avengers_Functional_PlannedToAutomate,42
-Avengers_Functional_Automated,42
-Avengers_IncrementalDataLoad_Total,20
-Avengers_IncrementalDataLoad_PlannedToAutomate,18
-Avengers_IncrementalDataLoad_Automated,17
-Avengers_FullLoadDataValidation_Total,30
-Avengers_FullLoadDataValidation_PlannedToAutomate,28
-Avengers_FullLoadDataValidation_Automated,26
-Avengers_UserAcceptance_Total,20
-Avengers_UserAcceptance_PlannedToAutomate,18
-Avengers_UserAcceptance_Automated,17
-Avengers_API_Total,15
-Avengers_API_PlannedToAutomate,14
-Avengers_API_Automated,13
-Avengers_Regression_Total,120
-Avengers_Regression_PlannedToAutomate,14
-Avengers_Regression_Automated,13
-Avengers_Smoke_Total,10
-Avengers_Smoke_PlannedToAutomate,8
-Avengers_Smoke_Automated,8
+AvengersCSM_Unit_Total,40
+AvengersCSM_Unit_PlannedToAutomate,35
+AvengersCSM_Unit_Automated,34
+AvengersCSM_Functional_PlannedToAutomate,42
+AvengersCSM_Functional_Automated,42
+AvengersCSM_API_Total,15
+AvengersCSM_API_PlannedToAutomate,14
+AvengersCSM_API_Automated,13
+AvengersCSM_Regression_Total,120
+AvengersCSM_Regression_PlannedToAutomate,14
+AvengersCSM_Regression_Automated,13
+AvengersCSM_Smoke_Total,10
+AvengersCSM_Smoke_PlannedToAutomate,8
+AvengersCSM_Smoke_Automated,2
+DungeonsnDragonsCSM_Unit_Total,30
+DungeonsnDragonsCSM_Unit_PlannedToAutomate,28
+DungeonsnDragonsCSM_Unit_Automated,27
+DungeonsnDragonsCSM_Functional_PlannedToAutomate,35
+DungeonsnDragonsCSM_Functional_Automated,35
+DungeonsnDragonsCSM_API_Total,10
+DungeonsnDragonsCSM_API_PlannedToAutomate,9
+DungeonsnDragonsCSM_API_Automated,8
+DungeonsnDragonsCSM_Regression_Total,20
+DungeonsnDragonsCSM_Regression_PlannedToAutomate,10
+DungeonsnDragonsCSM_Regression_Automated,9
+DungeonsnDragonsCSM_Smoke_Total,8
+DungeonsnDragonsCSM_Smoke_PlannedToAutomate,7
+DungeonsnDragonsCSM_Smoke_Automated,7
 Imaging_Unit_Total,60
 Imaging_Unit_PlannedToAutomate,55
 Imaging_Unit_Automated,52
-Imaging_Functional_Total,80
 Imaging_Functional_PlannedToAutomate,75
 Imaging_Functional_Automated,70
-Imaging_IncrementalDataLoad_Total,30
-Imaging_IncrementalDataLoad_PlannedToAutomate,28
-Imaging_IncrementalDataLoad_Automated,26
-Imaging_FullLoadDataValidation_Total,40
-Imaging_FullLoadDataValidation_PlannedToAutomate,38
-Imaging_FullLoadDataValidation_Automated,36
-Imaging_UserAcceptance_Total,30
-Imaging_UserAcceptance_PlannedToAutomate,28
-Imaging_UserAcceptance_Automated,26
 Imaging_API_Total,20
 Imaging_API_PlannedToAutomate,18
 Imaging_API_Automated,17
-Imaging_Regression_Total,100
+Imaging_Regression_Total,20
 Imaging_Regression_PlannedToAutomate,18
 Imaging_Regression_Automated,17
-Imaging_Smoke_Total,12
+Imaging_Smoke_Total,17
 Imaging_Smoke_PlannedToAutomate,20
-Imaging_Smoke_Automated,16
+Imaging_Smoke_Automated,15
 Phoenix_Unit_Total,50
 Phoenix_Unit_PlannedToAutomate,45
 Phoenix_Unit_Automated,40
-Phoenix_Functional_Total,70
 Phoenix_Functional_PlannedToAutomate,65
 Phoenix_Functional_Automated,60
-Phoenix_IncrementalDataLoad_Total,25
-Phoenix_IncrementalDataLoad_PlannedToAutomate,22
-Phoenix_IncrementalDataLoad_Automated,20
-Phoenix_FullLoadDataValidation_Total,35
-Phoenix_FullLoadDataValidation_PlannedToAutomate,32
-Phoenix_FullLoadDataValidation_Automated,28
-Phoenix_UserAcceptance_Total,25
-Phoenix_UserAcceptance_PlannedToAutomate,22
-Phoenix_UserAcceptance_Automated,20
 Phoenix_API_Total,15
 Phoenix_API_PlannedToAutomate,13
 Phoenix_API_Automated,12
-Phoenix_Regression_Total,50
+Phoenix_Regression_Total,15
 Phoenix_Regression_PlannedToAutomate,13
 Phoenix_Regression_Automated,10
-Phoenix_Smoke_Total,19
+Phoenix_Smoke_Total,14
 Phoenix_Smoke_PlannedToAutomate,8
-Phoenix_Smoke_Automated,10
+Phoenix_Smoke_Automated,7
 Ace_Unit_Total,50
 Ace_Unit_PlannedToAutomate,40
 Ace_Unit_Automated,38
-Ace_Functional_Total,70
 Ace_Functional_PlannedToAutomate,60
 Ace_Functional_Automated,55
-Ace_IncrementalDataLoad_Total,25
-Ace_IncrementalDataLoad_PlannedToAutomate,20
-Ace_IncrementalDataLoad_Automated,18
-Ace_FullLoadDataValidation_Total,35
-Ace_FullLoadDataValidation_PlannedToAutomate,30
-Ace_FullLoadDataValidation_Automated,27
-Ace_UserAcceptance_Total,25
-Ace_UserAcceptance_PlannedToAutomate,20
-Ace_UserAcceptance_Automated,18
 Ace_API_Total,15
 Ace_API_PlannedToAutomate,10
 Ace_API_Automated,9
@@ -393,18 +473,8 @@ Ace_Smoke_Automated,7
 Agency_Unit_Total,15
 Agency_Unit_PlannedToAutomate,12
 Agency_Unit_Automated,10
-Agency_Functional_Total,20
 Agency_Functional_PlannedToAutomate,18
 Agency_Functional_Automated,15
-Agency_IncrementalDataLoad_Total,15
-Agency_IncrementalDataLoad_PlannedToAutomate,12
-Agency_IncrementalDataLoad_Automated,10
-Agency_FullLoadDataValidation_Total,15
-Agency_FullLoadDataValidation_PlannedToAutomate,12
-Agency_FullLoadDataValidation_Automated,10
-Agency_UserAcceptance_Total,15
-Agency_UserAcceptance_PlannedToAutomate,12
-Agency_UserAcceptance_Automated,10
 Agency_API_Total,10
 Agency_API_PlannedToAutomate,8
 Agency_API_Automated,5
@@ -414,6 +484,26 @@ Agency_Regression_Automated,15
 Agency_Smoke_Total,10
 Agency_Smoke_PlannedToAutomate,8
 Agency_Smoke_Automated,10
+Integration_Unit_Total,10
+Integration_Unit_PlannedToAutomate,10
+Integration_Unit_Automated,10
+Integration_Functional_PlannedToAutomate,10
+Integration_Functional_Automated,10
+Integration_IncrementalDataLoad_Total,20
+Integration_IncrementalDataLoad_PlannedToAutomate,10
+Integration_IncrementalDataLoad_Automated,10
+Integration_FullLoadDataValidation_Total,20
+Integration_FullLoadDataValidation_PlannedToAutomate,10
+Integration_FullLoadDataValidation_Automated,10
+Integration_API_Total,10
+Integration_API_PlannedToAutomate,5
+Integration_API_Automated,5
+Integration_Regression_Total,20
+Integration_Regression_PlannedToAutomate,5
+Integration_Regression_Automated,5
+Integration_Smoke_Total,10
+Integration_Smoke_PlannedToAutomate,0
+Integration_Smoke_Automated,0
 </code></pre>
                         <div class="mt-2">
                             <a href="#" class="run-scenario-data text-blue-600 hover:underline text-sm font-semibold transition duration-200" data-scenario-id="scenario1CsvData" data-scenario-number="1">
@@ -424,54 +514,72 @@ Agency_Smoke_Automated,10
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
                             <li>**Overall Automation Coverage:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests Currently Automated: **895**</li>
-                                    <li>Tests Planned for Automation (Overall): **717**</li>
-                                    <li>Overall Automation Progress: **124.8% (Green bar)**</li>
-                                    <li>Overall Automation Warning: **Visible**</li>
+                                    <li>Total Tests Currently Automated: **686**</li>
+                                    <li>Tests Planned for Automation (Overall): **743**</li>
+                                    <li>Overall Automation Progress: **92.3% (Green bar)**</li>
+                                    <li>Overall Automation Warning: **Hidden**</li>
                                 </ul>
                             </li>
-                            <li>**Avengers Team:**
+                            <li>**Avengers (CSM) Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **305**</li>
-                                    <li>Tests Automated: **170**</li>
-                                    <li>Planned to Automate: **135**</li>
-                                    <li>Automation Progress: **125.9% (Green bar)**</li>
+                                    <li>Total Tests in Category: **185**</li>
+                                    <li>Tests Automated: **104**</li>
+                                    <li>Planned to Automate: **117**</li>
+                                    <li>Automation Progress: **88.9% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Dungeons n Dragons (CSM) Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests in Category: **103**</li>
+                                    <li>Tests Automated: **89**</li>
+                                    <li>Planned to Automate: **93**</li>
+                                    <li>Automation Progress: **95.7% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Imaging Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **372**</li>
-                                    <li>Tests Automated: **260**</li>
-                                    <li>Planned to Automate: **205**</li>
-                                    <li>Automation Progress: **126.8% (Green bar)**</li>
+                                    <li>Total Tests in Category: **192**</li>
+                                    <li>Tests Automated: **191**</li>
+                                    <li>Planned to Automate: **204**</li>
+                                    <li>Automation Progress: **93.6% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Phoenix Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **289**</li>
-                                    <li>Tests Automated: **200**</li>
-                                    <li>Planned to Automate: **155**</li>
-                                    <li>Automation Progress: **129.0% (Green bar)**</li>
+                                    <li>Total Tests in Category: **159**</li>
+                                    <li>Tests Automated: **152**</li>
+                                    <li>Planned to Automate: **168**</li>
+                                    <li>Automation Progress: **90.5% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Ace Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **220**</li>
-                                    <li>Tests Automated: **180**</li>
-                                    <li>Planned to Automate: **140**</li>
-                                    <li>Automation Progress: **128.6% (Green bar)**</li>
+                                    <li>Total Tests in Category: **90**</li>
+                                    <li>Tests Automated: **135**</li>
+                                    <li>Planned to Automate: **150**</li>
+                                    <li>Automation Progress: **90.0% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Agency Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **120**</li>
-                                    <li>Tests Automated: **85**</li>
-                                    <li>Planned to Automate: **82**</li>
-                                    <li>Automation Progress: **103.7% (Green bar)**</li>
+                                    <li>Total Tests in Category: **70**</li>
+                                    <li>Tests Automated: **65**</li>
+                                    <li>Planned to Automate: **78**</li>
+                                    <li>Automation Progress: **83.3% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Integration Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests in Category: **100**</li>
+                                    <li>Tests Automated: **50**</li>
+                                    <li>Planned to Automate: **50**</li>
+                                    <li>Automation Progress: **100.0% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
@@ -486,139 +594,124 @@ Agency_Smoke_Automated,10
                         <pre id="scenario2CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"
 data-expected-metrics='{
     "overallAutomation": {
-        "currentAutomatedCount": 645,
-        "plannedAutomationCount": 700,
-        "overallAutomationProgress": 92.1,
+        "currentAutomatedCount": 427,
+        "plannedAutomationCount": 713,
+        "overallAutomationProgress": 59.9,
         "overallAutomationWarningVisible": false
     },
     "teams": {
-        "Avengers": {
-            "Total": 305,
-            "Automated": 100,
-            "PlannedToAutomate": 135,
-            "AutomationProgress": 74.1,
+        "AvengersCSM": {
+            "Total": 185,
+            "Automated": 65,
+            "PlannedToAutomate": 117,
+            "AutomationProgress": 55.6,
+            "RollupWarningVisible": false
+        },
+        "DungeonsnDragonsCSM": {
+            "Total": 103,
+            "Automated": 50,
+            "PlannedToAutomate": 93,
+            "AutomationProgress": 53.8,
             "RollupWarningVisible": false
         },
         "Imaging": {
-            "Total": 372,
-            "Automated": 260,
-            "PlannedToAutomate": 205,
-            "AutomationProgress": 126.8,
+            "Total": 192,
+            "Automated": 191,
+            "PlannedToAutomate": 204,
+            "AutomationProgress": 93.6,
             "RollupWarningVisible": false
         },
         "Phoenix": {
-            "Total": 289,
-            "Automated": 130,
-            "PlannedToAutomate": 155,
-            "AutomationProgress": 83.9,
+            "Total": 159,
+            "Automated": 93,
+            "PlannedToAutomate": 168,
+            "AutomationProgress": 55.4,
             "RollupWarningVisible": false
         },
         "Ace": {
-            "Total": 220,
-            "Automated": 100,
-            "PlannedToAutomate": 130,
-            "AutomationProgress": 76.9,
+            "Total": 90,
+            "Automated": 77,
+            "PlannedToAutomate": 150,
+            "AutomationProgress": 51.3,
             "RollupWarningVisible": false
         },
         "Agency": {
-            "Total": 120,
-            "Automated": 55,
-            "PlannedToAutomate": 75,
-            "AutomationProgress": 73.3,
+            "Total": 70,
+            "Automated": 40,
+            "PlannedToAutomate": 78,
+            "AutomationProgress": 51.3,
+            "RollupWarningVisible": false
+        },
+        "Integration": {
+            "Total": 100,
+            "Automated": 50,
+            "PlannedToAutomate": 50,
+            "AutomationProgress": 100.0,
             "RollupWarningVisible": false
         }
     }
 }'><code>Metric,Value
-Avengers_Unit_Total,40
-Avengers_Unit_PlannedToAutomate,35
-Avengers_Unit_Automated,20
-Avengers_Functional_Total,50
-Avengers_Functional_PlannedToAutomate,25
-Avengers_Functional_Automated,25
-Avengers_IncrementalDataLoad_Total,20
-Avengers_IncrementalDataLoad_PlannedToAutomate,18
-Avengers_IncrementalDataLoad_Automated,10
-Avengers_FullLoadDataValidation_Total,30
-Avengers_FullLoadDataValidation_PlannedToAutomate,28
-Avengers_FullLoadDataValidation_Automated,15
-Avengers_UserAcceptance_Total,20
-Avengers_UserAcceptance_PlannedToAutomate,18
-Avengers_UserAcceptance_Automated,10
-Avengers_API_Total,15
-Avengers_API_PlannedToAutomate,14
-Avengers_API_Automated,8
-Avengers_Regression_Total,120
-Avengers_Regression_PlannedToAutomate,14
-Avengers_Regression_Automated,7
-Avengers_Smoke_Total,10
-Avengers_Smoke_PlannedToAutomate,8
-Avengers_Smoke_Automated,5
-Imaging_Total,300
-Imaging_PlannedToAutomate,280
-Imaging_Automated,260
+AvengersCSM_Unit_Total,40
+AvengersCSM_Unit_PlannedToAutomate,35
+AvengersCSM_Unit_Automated,20
+AvengersCSM_Functional_PlannedToAutomate,25
+AvengersCSM_Functional_Automated,25
+AvengersCSM_API_Total,15
+AvengersCSM_API_PlannedToAutomate,14
+AvengersCSM_API_Automated,8
+AvengersCSM_Regression_Total,120
+AvengersCSM_Regression_PlannedToAutomate,14
+AvengersCSM_Regression_Automated,7
+AvengersCSM_Smoke_Total,10
+AvengersCSM_Smoke_PlannedToAutomate,8
+AvengersCSM_Smoke_Automated,5
+DungeonsnDragonsCSM_Unit_Total,30
+DungeonsnDragonsCSM_Unit_PlannedToAutomate,25
+DungeonsnDragonsCSM_Unit_Automated,15
+DungeonsnDragonsCSM_Functional_PlannedToAutomate,30
+DungeonsnDragonsCSM_Functional_Automated,20
+DungeonsnDragonsCSM_API_Total,10
+DungeonsnDragonsCSM_API_PlannedToAutomate,8
+DungeonsnDragonsCSM_API_Automated,5
+DungeonsnDragonsCSM_Regression_Total,20
+DungeonsnDragonsCSM_Regression_PlannedToAutomate,10
+DungeonsnDragonsCSM_Regression_Automated,5
+DungeonsnDragonsCSM_Smoke_Total,8
+DungeonsnDragonsCSM_Smoke_PlannedToAutomate,6
+DungeonsnDragonsCSM_Smoke_Automated,5
 Imaging_Unit_Total,60
 Imaging_Unit_PlannedToAutomate,55
 Imaging_Unit_Automated,52
-Imaging_Functional_Total,80
 Imaging_Functional_PlannedToAutomate,75
 Imaging_Functional_Automated,70
-Imaging_IncrementalDataLoad_Total,30
-Imaging_IncrementalDataLoad_PlannedToAutomate,28
-Imaging_IncrementalDataLoad_Automated,26
-Imaging_FullLoadDataValidation_Total,40
-Imaging_FullLoadDataValidation_PlannedToAutomate,38
-Imaging_FullLoadDataValidation_Automated,36
-Imaging_UserAcceptance_Total,30
-Imaging_UserAcceptance_PlannedToAutomate,28
-Imaging_UserAcceptance_Automated,26
 Imaging_API_Total,20
 Imaging_API_PlannedToAutomate,18
 Imaging_API_Automated,17
-Imaging_Regression_Total,100
+Imaging_Regression_Total,20
 Imaging_Regression_PlannedToAutomate,18
 Imaging_Regression_Automated,17
-Imaging_Smoke_Total,12
+Imaging_Smoke_Total,17
 Imaging_Smoke_PlannedToAutomate,20
-Imaging_Smoke_Automated,16
+Imaging_Smoke_Automated,15
 Phoenix_Unit_Total,50
 Phoenix_Unit_PlannedToAutomate,45
 Phoenix_Unit_Automated,25
-Phoenix_Functional_Total,70
 Phoenix_Functional_PlannedToAutomate,65
 Phoenix_Functional_Automated,35
-Phoenix_IncrementalDataLoad_Total,25
-Phoenix_IncrementalDataLoad_PlannedToAutomate,22
-Phoenix_IncrementalDataLoad_Automated,12
-Phoenix_FullLoadDataValidation_Total,35
-Phoenix_FullLoadDataValidation_PlannedToAutomate,32
-Phoenix_FullLoadDataValidation_Automated,18
-Phoenix_UserAcceptance_Total,25
-Phoenix_UserAcceptance_PlannedToAutomate,22
-Phoenix_UserAcceptance_Automated,12
 Phoenix_API_Total,15
 Phoenix_API_PlannedToAutomate,13
 Phoenix_API_Automated,7
-Phoenix_Regression_Total,50
+Phoenix_Regression_Total,15
 Phoenix_Regression_PlannedToAutomate,13
 Phoenix_Regression_Automated,7
-Phoenix_Smoke_Total,19
+Phoenix_Smoke_Total,14
 Phoenix_Smoke_PlannedToAutomate,8
-Phoenix_Smoke_Automated,14
+Phoenix_Smoke_Automated,7
 Ace_Unit_Total,50
 Ace_Unit_PlannedToAutomate,40
 Ace_Unit_Automated,20
-Ace_Functional_Total,70
 Ace_Functional_PlannedToAutomate,60
 Ace_Functional_Automated,30
-Ace_IncrementalDataLoad_Total,25
-Ace_IncrementalDataLoad_PlannedToAutomate,20
-Ace_IncrementalDataLoad_Automated,10
-Ace_FullLoadDataValidation_Total,35
-Ace_FullLoadDataValidation_PlannedToAutomate,30
-Ace_FullLoadDataValidation_Automated,15
-Ace_UserAcceptance_Total,25
-Ace_UserAcceptance_PlannedToAutomate,20
-Ace_UserAcceptance_Automated,10
 Ace_API_Total,15
 Ace_API_PlannedToAutomate,10
 Ace_API_Automated,5
@@ -631,18 +724,8 @@ Ace_Smoke_Automated,5
 Agency_Unit_Total,15
 Agency_Unit_PlannedToAutomate,10
 Agency_Unit_Automated,5
-Agency_Functional_Total,20
 Agency_Functional_PlannedToAutomate,15
 Agency_Functional_Automated,10
-Agency_IncrementalDataLoad_Total,15
-Agency_IncrementalDataLoad_PlannedToAutomate,10
-Agency_IncrementalDataLoad_Automated,7
-Agency_FullLoadDataValidation_Total,15
-Agency_FullLoadDataValidation_PlannedToAutomate,10
-Agency_FullLoadDataValidation_Automated,8
-Agency_UserAcceptance_Total,15
-Agency_UserAcceptance_PlannedToAutomate,10
-Agency_UserAcceptance_Automated,5
 Agency_API_Total,10
 Agency_API_PlannedToAutomate,8
 Agency_API_Automated,5
@@ -651,7 +734,27 @@ Agency_Regression_PlannedToAutomate,15
 Agency_Regression_Automated,10
 Agency_Smoke_Total,10
 Agency_Smoke_PlannedToAutomate,12
-Agency_Smoke_Automated,5
+Agency_Smoke_Automated,10
+Integration_Unit_Total,10
+Integration_Unit_PlannedToAutomate,10
+Integration_Unit_Automated,10
+Integration_Functional_PlannedToAutomate,10
+Integration_Functional_Automated,10
+Integration_IncrementalDataLoad_Total,20
+Integration_IncrementalDataLoad_PlannedToAutomate,10
+Integration_IncrementalDataLoad_Automated,10
+Integration_FullLoadDataValidation_Total,20
+Integration_FullLoadDataValidation_PlannedToAutomate,10
+Integration_FullLoadDataValidation_Automated,10
+Integration_API_Total,10
+Integration_API_PlannedToAutomate,5
+Integration_API_Automated,5
+Integration_Regression_Total,20
+Integration_Regression_PlannedToAutomate,5
+Integration_Regression_Automated,5
+Integration_Smoke_Total,10
+Integration_Smoke_PlannedToAutomate,0
+Integration_Smoke_Automated,0
 </code></pre>
                         <div class="mt-2">
                             <a href="#" class="run-scenario-data text-blue-600 hover:underline text-sm font-semibold transition duration-200" data-scenario-id="scenario2CsvData" data-scenario-number="2">
@@ -662,54 +765,63 @@ Agency_Smoke_Automated,5
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
                             <li>**Overall Automation Coverage:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests Currently Automated: **645**</li>
-                                    <li>Tests Planned for Automation (Overall): **700**</li>
-                                    <li>Overall Automation Progress: **92.1% (Green bar)**</li>
+                                    <li>Total Tests Currently Automated: **427**</li>
+                                    <li>Tests Planned for Automation (Overall): **713**</li>
+                                    <li>Overall Automation Progress: **59.9% (Red bar)**</li>
                                     <li>Overall Automation Warning: **Hidden**</li>
                                 </ul>
                             </li>
-                            <li>**Avengers Team:**
+                            <li>**Dungeons n Dragons (CSM) Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **305**</li>
-                                    <li>Tests Automated: **100**</li>
-                                    <li>Planned to Automate: **135**</li>
-                                    <li>Automation Progress: **74.1% (Yellow bar)**</li>
+                                    <li>Total Tests in Category: **103**</li>
+                                    <li>Tests Automated: **50**</li>
+                                    <li>Planned to Automate: **93**</li>
+                                    <li>Automation Progress: **53.8% (Yellow bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Imaging Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **372**</li>
-                                    <li>Tests Automated: **260**</li>
-                                    <li>Planned to Automate: **205**</li>
-                                    <li>Automation Progress: **126.8% (Green bar)**</li>
+                                    <li>Total Tests in Category: **192**</li>
+                                    <li>Tests Automated: **191**</li>
+                                    <li>Planned to Automate: **204**</li>
+                                    <li>Automation Progress: **93.6% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Phoenix Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **289**</li>
-                                    <li>Tests Automated: **130**</li>
-                                    <li>Planned to Automate: **155**</li>
-                                    <li>Automation Progress: **83.9% (Green bar)**</li>
+                                    <li>Total Tests in Category: **159**</li>
+                                    <li>Tests Automated: **93**</li>
+                                    <li>Planned to Automate: **168**</li>
+                                    <li>Automation Progress: **55.4% (Red bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Ace Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **220**</li>
-                                    <li>Tests Automated: **100**</li>
-                                    <li>Planned to Automate: **130**</li>
-                                    <li><li>Automation Progress: **76.9% (Yellow bar)**</li>
+                                    <li>Total Tests in Category: **90**</li>
+                                    <li>Tests Automated: **77**</li>
+                                    <li>Planned to Automate: **150**</li>
+                                    <li><li>Automation Progress: **51.3% (Yellow bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Agency Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **120**</li>
-                                    <li>Tests Automated: **55**</li>
-                                    <li>Planned to Automate: **75**</li>
-                                    <li>Automation Progress: **73.3% (Yellow bar)**</li>
+                                    <li>Total Tests in Category: **70**</li>
+                                    <li>Tests Automated: **40**</li>
+                                    <li>Planned to Automate: **78**</li>
+                                    <li>Automation Progress: **51.3% (Yellow bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Integration Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests in Category: **100**</li>
+                                    <li>Tests Automated: **50**</li>
+                                    <li>Planned to Automate: **50**</li>
+                                    <li>Automation Progress: **100.0% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
@@ -724,31 +836,38 @@ Agency_Smoke_Automated,5
                         <pre id="scenario3CsvData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"
 data-expected-metrics='{
     "overallAutomation": {
-        "currentAutomatedCount": 336,
-        "plannedAutomationCount": 222,
-        "overallAutomationProgress": 151.4,
+        "currentAutomatedCount": 405,
+        "plannedAutomationCount": 333,
+        "overallAutomationProgress": 121.6,
         "overallAutomationWarningVisible": true
     },
     "teams": {
-        "Avengers": {
-            "Total": 215,
-            "Automated": 104,
-            "PlannedToAutomate": 55,
-            "AutomationProgress": 189.1,
+        "AvengersCSM": {
+            "Total": 175,
+            "Automated": 94,
+            "PlannedToAutomate": 72,
+            "AutomationProgress": 130.6,
+            "RollupWarningVisible": false
+        },
+        "DungeonsnDragonsCSM": {
+            "Total": 60,
+            "Automated": 87,
+            "PlannedToAutomate": 50,
+            "AutomationProgress": 174.0,
             "RollupWarningVisible": false
         },
         "Imaging": {
-            "Total": 202,
-            "Automated": 78,
-            "PlannedToAutomate": 61,
-            "AutomationProgress": 127.9,
+            "Total": 162,
+            "Automated": 70,
+            "PlannedToAutomate": 79,
+            "AutomationProgress": 88.6,
             "RollupWarningVisible": false
         },
         "Phoenix": {
-            "Total": 144,
-            "Automated": 119,
-            "PlannedToAutomate": 56,
-            "AutomationProgress": 212.5,
+            "Total": 104,
+            "Automated": 107,
+            "PlannedToAutomate": 72,
+            "AutomationProgress": 148.6,
             "RollupWarningVisible": false
         },
         "Ace": {
@@ -759,54 +878,54 @@ data-expected-metrics='{
             "RollupWarningVisible": false
         },
         "Agency": {
-
-            "Total": 80,
-            "Automated": 35,
+            "Total": 60,
+            "Automated": 30,
             "PlannedToAutomate": 50,
-            "AutomationProgress": 70.0,
+            "AutomationProgress": 60.0,
+            "RollupWarningVisible": false
+        },
+        "Integration": {
+            "Total": 100,
+            "Automated": 17,
+            "PlannedToAutomate": 10,
+            "AutomationProgress": 170.0,
             "RollupWarningVisible": false
         }
     }
 }'><code>Metric,Value
-Avengers_Unit_Total,20
-Avengers_Unit_PlannedToAutomate,15
-Avengers_Unit_Automated,15
-Avengers_Functional_Total,30
-Avengers_Functional_PlannedToAutomate,25
-Avengers_Functional_Automated,25
-Avengers_IncrementalDataLoad_Total,10
-Avengers_IncrementalDataLoad_PlannedToAutomate,8
-Avengers_IncrementalDataLoad_Automated,10
-Avengers_FullLoadDataValidation_Total,15
-Avengers_FullLoadDataValidation_PlannedToAutomate,12
-Avengers_FullLoadDataValidation_Automated,15
-Avengers_UserAcceptance_Total,10
-Avengers_UserAcceptance_PlannedToAutomate,8
-Avengers_UserAcceptance_Automated,10
-Avengers_API_Total,5
-Avengers_API_PlannedToAutomate,4
-Avengers_API_Automated,5
-Avengers_Regression_Total,120
-Avengers_Regression_PlannedToAutomate,4
-Avengers_Regression_Automated,4
-Avengers_Smoke_Total,5
-Avengers_Smoke_PlannedToAutomate,4
-Avengers_Smoke_Automated,20
+AvengersCSM_Unit_Total,20
+AvengersCSM_Unit_PlannedToAutomate,15
+AvengersCSM_Unit_Automated,15
+AvengersCSM_Functional_PlannedToAutomate,25
+AvengersCSM_Functional_Automated,25
+AvengersCSM_API_Total,5
+AvengersCSM_API_PlannedToAutomate,4
+AvengersCSM_API_Automated,5
+AvengersCSM_Regression_Total,120
+AvengersCSM_Regression_PlannedToAutomate,4
+AvengersCSM_Regression_Automated,4
+AvengersCSM_Smoke_Total,5
+AvengersCSM_Smoke_PlannedToAutomate,4
+AvengersCSM_Smoke_Automated,20
+DungeonsnDragonsCSM_Unit_Total,20
+DungeonsnDragonsCSM_Unit_PlannedToAutomate,10
+DungeonsnDragonsCSM_Unit_Automated,12
+DungeonsnDragonsCSM_Functional_PlannedToAutomate,20
+DungeonsnDragonsCSM_Functional_Automated,25
+DungeonsnDragonsCSM_API_Total,5
+DungeonsnDragonsCSM_API_PlannedToAutomate,3
+DungeonsnDragonsCSM_API_Automated,7
+DungeonsnDragonsCSM_Regression_Total,10
+DungeonsnDragonsCSM_Regression_PlannedToAutomate,2
+DungeonsnDragonsCSM_Regression_Automated,8
+DungeonsnDragonsCSM_Smoke_Total,5
+DungeonsnDragonsCSM_Smoke_PlannedToAutomate,2
+DungeonsnDragonsCSM_Smoke_Automated,10
 Imaging_Unit_Total,20
 Imaging_Unit_PlannedToAutomate,18
 Imaging_Unit_Automated,17
-Imaging_Functional_Total,30
 Imaging_Functional_PlannedToAutomate,27
 Imaging_Functional_Automated,25
-Imaging_IncrementalDataLoad_Total,10
-Imaging_IncrementalDataLoad_PlannedToAutomate,9
-Imaging_IncrementalDataLoad_Automated,8
-Imaging_FullLoadDataValidation_Total,15
-Imaging_FullLoadDataValidation_PlannedToAutomate,13
-Imaging_FullLoadDataValidation_Automated,12
-Imaging_UserAcceptance_Total,10
-Imaging_UserAcceptance_PlannedToAutomate,9
-Imaging_UserAcceptance_Automated,8
 Imaging_API_Total,5
 Imaging_API_PlannedToAutomate,4
 Imaging_API_Automated,3
@@ -819,22 +938,12 @@ Imaging_Smoke_Automated,2
 Phoenix_Unit_Total,20
 Phoenix_Unit_PlannedToAutomate,16
 Phoenix_Unit_Automated,18
-Phoenix_Functional_Total,30
 Phoenix_Functional_PlannedToAutomate,24
 Phoenix_Functional_Automated,30
-Phoenix_IncrementalDataLoad_Total,10
-Phoenix_IncrementalDataLoad_PlannedToAutomate,8
-Phoenix_IncrementalDataLoad_Automated,12
-Phoenix_FullLoadDataValidation_Total,0
-Phoenix_FullLoadDataValidation_PlannedToAutomate,12
-Phoenix_FullLoadDataValidation_Automated,18
-Phoenix_UserAcceptance_Total,10
-Phoenix_UserAcceptance_PlannedToAutomate,8
-Phoenix_UserAcceptance_Automated,12
 Phoenix_API_Total,5
 Phoenix_API_PlannedToAutomate,4
 Phoenix_API_Automated,7
-Phoenix_Regression_Total,50
+Phoenix_Regression_Total,15
 Phoenix_Regression_PlannedToAutomate,4
 Phoenix_Regression_Automated,7
 Phoenix_Smoke_Total,19
@@ -843,18 +952,8 @@ Phoenix_Smoke_Automated,15
 Ace_Unit_Total,0
 Ace_Unit_PlannedToAutomate,0
 Ace_Unit_Automated,0
-Ace_Functional_Total,0
 Ace_Functional_PlannedToAutomate,0
 Ace_Functional_Automated,0
-Ace_IncrementalDataLoad_Total,0
-Ace_IncrementalDataLoad_PlannedToAutomate,0
-Ace_IncrementalDataLoad_Automated,0
-Ace_FullLoadDataValidation_Total,0
-Ace_FullLoadDataValidation_PlannedToAutomate,0
-Ace_FullLoadDataValidation_Automated,0
-Ace_UserAcceptance_Total,0
-Ace_UserAcceptance_PlannedToAutomate,0
-Ace_UserAcceptance_Automated,0
 Ace_API_Total,0
 Ace_API_PlannedToAutomate,0
 Ace_API_Automated,0
@@ -867,18 +966,8 @@ Ace_Smoke_Automated,0
 Agency_Unit_Total,10
 Agency_Unit_PlannedToAutomate,8
 Agency_Unit_Automated,5
-Agency_Functional_Total,10
 Agency_Functional_PlannedToAutomate,8
 Agency_Functional_Automated,5
-Agency_IncrementalDataLoad_Total,10
-Agency_IncrementalDataLoad_PlannedToAutomate,8
-Agency_IncrementalDataLoad_Automated,5
-Agency_FullLoadDataValidation_Total,10
-Agency_FullLoadDataValidation_PlannedToAutomate,8
-Agency_FullLoadDataValidation_Automated,5
-Agency_UserAcceptance_Total,10
-Agency_UserAcceptance_PlannedToAutomate,8
-Agency_UserAcceptance_Automated,5
 Agency_API_Total,10
 Agency_API_PlannedToAutomate,8
 Agency_API_Automated,5
@@ -888,6 +977,26 @@ Agency_Regression_Automated,3
 Agency_Smoke_Total,10
 Agency_Smoke_PlannedToAutomate,5
 Agency_Smoke_Automated,2
+Integration_Unit_Total,10
+Integration_Unit_PlannedToAutomate,5
+Integration_Unit_Automated,5
+Integration_Functional_PlannedToAutomate,10
+Integration_Functional_Automated,5
+Integration_IncrementalDataLoad_Total,20
+Integration_IncrementalDataLoad_PlannedToAutomate,0
+Integration_IncrementalDataLoad_Automated,2
+Integration_FullLoadDataValidation_Total,20
+Integration_FullLoadDataValidation_PlannedToAutomate,0
+Integration_FullLoadDataValidation_Automated,0
+Integration_API_Total,10
+Integration_API_PlannedToAutomate,5
+Integration_API_Automated,5
+Integration_Regression_Total,20
+Integration_Regression_PlannedToAutomate,0
+Integration_Regression_Automated,0
+Integration_Smoke_Total,10
+Integration_Smoke_PlannedToAutomate,0
+Integration_Smoke_Automated,0
 </code></pre>
                         <div class="mt-2">
                             <a href="#" class="run-scenario-data text-blue-600 hover:underline text-sm font-semibold transition duration-200" data-scenario-id="scenario3CsvData" data-scenario-number="3">
@@ -898,36 +1007,45 @@ Agency_Smoke_Automated,2
                         <ul class="list-disc list-inside text-gray-700 space-y-1 ml-4">
                             <li>**Overall Automation Coverage:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests Currently Automated: **336**</li>
-                                    <li>Tests Planned for Automation (Overall): **222**</li>
-                                    <li>Overall Automation Progress: **151.4% (Green bar)**</li>
-                                    <li>Overall Automation Warning: **Visible**</li>
+                                    <li>Total Tests Currently Automated: **405**</li>
+                                    <li>Tests Planned for Automation (Overall): **333**</li>
+                                    <li>Overall Automation Progress: **121.6% (Green bar)**</li>
+                                    <li>Overall Automation Warning: **True**</li>
                                 </ul>
                             </li>
-                            <li>**Avengers Team:**
+                            <li>**Avengers (CSM) Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **215**</li>
-                                    <li>Tests Automated: **104**</li>
-                                    <li>Planned to Automate: **55**</li>
-                                    <li>Automation Progress: **189.1% (Green bar)**</li>
+                                    <li>Total Tests in Category: **175**</li>
+                                    <li>Tests Automated: **94**</li>
+                                    <li>Planned to Automate: **72**</li>
+                                    <li>Automation Progress: **130.6% (Green bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Dungeons n Dragons (CSM) Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests in Category: **60**</li>
+                                    <li>Tests Automated: **87**</li>
+                                    <li>Planned to Automate: **50**</li>
+                                    <li>Automation Progress: **174.0% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Imaging Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **202**</li>
-                                    <li>Tests Automated: **78**</li>
-                                    <li>Planned to Automate: **61**</li>
-                                    <li>Automation Progress: **127.9% (Green bar)**</li>
+                                    <li>Total Tests in Category: **162**</li>
+                                    <li>Tests Automated: **70**</li>
+                                    <li>Planned to Automate: **79**</li>
+                                    <li>Automation Progress: **88.6% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                             <li>**Phoenix Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **144**</li>
-                                    <li>Tests Automated: **119**</li>
-                                    <li>Planned to Automate: **56**</li>
-                                    <li>Automation Progress: **212.5% (Green bar)**</li>
+                                    <li>Total Tests in Category: **104**</li>
+                                    <li>Tests Automated: **107**</li>
+                                    <li>Planned to Automate: **72**</li>
+                                    <li>Automation Progress: **148.6% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
@@ -942,26 +1060,230 @@ Agency_Smoke_Automated,2
                             </li>
                             <li>**Agency Team:**
                                 <ul class="list-circle list-inside ml-4">
-                                    <li>Total Tests in Category: **80**</li>
-                                    <li>Tests Automated: **35**</li>
+                                    <li>Total Tests in Category: **60**</li>
+                                    <li>Tests Automated: **30**</li>
                                     <li>Planned to Automate: **50**</li>
-                                    <li>Automation Progress: **70.0% (Yellow bar)**</li>
+                                    <li>Automation Progress: **60.0% (Yellow bar)**</li>
+                                    <li>Roll-up Warning: **Hidden**</li>
+                                </ul>
+                            </li>
+                            <li>**Integration Team:**
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>Total Tests in Category: **100**</li>
+                                    <li>Tests Automated: **17**</li>
+                                    <li>Planned to Automate: **10**</li>
+                                    <li>Automation Progress: **170.0% (Green bar)**</li>
                                     <li>Roll-up Warning: **Hidden**</li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
 
+                    <h4 class="text-xl font-medium text-gray-800 mb-2 mt-6">Historical CSV Data Example (for Trend Line):</h4>
+                    <p class="text-gray-700 mb-2">
+                        This is example data for the "Automation Trend Over Time" section. Copy and paste it into the "Load Historical Trend Data" text area.
+                    </p>
+                    <pre id="historicalCsvExampleData" class="bg-gray-100 p-2 rounded text-sm overflow-auto mb-2"><code>Metric,Date,Value
+Overall_Automation_Progress,2024-01-01,50.0
+Overall_Automation_Progress,2024-01-08,51.0
+Overall_Automation_Progress,2024-01-15,52.0
+Overall_Automation_Progress,2024-01-22,53.0
+Overall_Automation_Progress,2024-01-29,54.0
+Overall_Automation_Progress,2024-02-05,55.0
+Overall_Automation_Progress,2024-02-12,56.0
+Overall_Automation_Progress,2024-02-19,57.0
+Overall_Automation_Progress,2024-02-26,58.0
+Overall_Automation_Progress,2024-03-04,59.0
+Overall_Automation_Progress,2024-03-11,60.0
+Overall_Automation_Progress,2024-03-18,61.0
+Overall_Automation_Progress,2024-03-25,62.0
+Overall_Automation_Progress,2024-04-01,63.0
+Overall_Automation_Progress,2024-04-08,64.0
+Overall_Automation_Progress,2024-04-15,65.0
+Overall_Automation_Progress,2024-04-22,66.0
+Overall_Automation_Progress,2024-04-29,67.0
+Overall_Automation_Progress,2024-05-06,68.0
+Overall_Automation_Progress,2024-05-13,69.0
+Overall_Automation_Progress,2024-05-20,70.0
+Overall_Automation_Progress,2024-05-27,71.0
+Overall_Automation_Progress,2024-06-03,72.0
+Overall_Automation_Progress,2024-06-10,73.0
+Overall_Automation_Progress,2024-06-17,74.0
+Overall_Automation_Progress,2024-06-24,75.0
+Overall_Automation_Progress,2024-07-01,76.0
+Overall_Automation_Progress,2024-07-08,77.0
+Overall_Automation_Progress,2024-07-15,78.0
+Overall_Automation_Progress,2024-07-22,79.0
+Overall_Automation_Progress,2024-07-29,80.0
+Overall_Automation_Progress,2024-08-05,81.0
+Overall_Automation_Progress,2024-08-12,82.0
+Overall_Automation_Progress,2024-08-19,83.0
+Overall_Automation_Progress,2024-08-26,84.0
+Overall_Automation_Progress,2024-09-02,85.0
+Overall_Automation_Progress,2024-09-09,86.0
+Overall_Automation_Progress,2024-09-16,87.0
+Overall_Automation_Progress,2024-09-23,88.0
+Overall_Automation_Progress,2024-09-30,89.0
+Overall_Automation_Progress,2024-10-07,90.0
+Overall_Automation_Progress,2024-10-14,91.0
+Overall_Automation_Progress,2024-10-21,92.0
+Overall_Automation_Progress,2024-10-28,93.0
+Overall_Automation_Progress,2024-11-04,94.0
+Overall_Automation_Progress,2024-11-11,95.0
+Overall_Automation_Progress,2024-11-18,96.0
+Overall_Automation_Progress,2024-11-25,97.0
+Overall_Automation_Progress,2024-12-02,98.0
+Overall_Automation_Progress,2024-12-09,99.0
+Overall_Automation_Progress,2024-12-16,100.0
+</code></pre>
+                        <div class="mt-2">
+                            <a href="#" id="copyHistoricalCsvExampleLink" class="inline-block text-blue-600 hover:underline text-sm font-semibold transition duration-200">
+                                Copy Historical Sample Data
+                            </a>
+                        </div>
                     <p class="text-gray-700 mt-6">
                         After making changes to these constants, save the HTML file and refresh your browser to see the effects.
                     </p>
                 </div>
-                <!-- New Change Log Section -->
+                <!-- New Future Enhancements Section -->
+                <div class="mt-8">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Future Enhancements</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>
+                            **Data Persistence:** Implement local storage or a simple backend (e.g., Firebase Firestore) to save and load data, removing the need to paste CSV on every refresh.
+                        </li>
+                        <li>
+                            **Chart Integration:** Use a charting library (e.g., Chart.js, D3.js) to visualize trends over time or breakdown data more effectively.
+                        </li>
+                        <li>
+                            **More Granular Metrics:** Add metrics for defect counts, execution times, or pass/fail rates.
+                        </li>
+                        <li>
+                            **Filtering and Sorting:** Allow users to filter teams or sort data based on different criteria.
+                        </li>
+                        <li>
+                            **User Interface Improvements:** Enhance user experience with more interactive elements, animations, or a more sophisticated layout.
+                        </li>
+                        <li>
+                            **Date Range Selection / Historical View:** Implement a date picker or predefined date ranges (e.g., "Last 7 Days," "Last Month," "Quarterly") to view historical automation data.
+                        </li>
+                        <li>
+                            **Export and Sharing Options:** Add options to export the displayed data as a PDF, image, or a more structured CSV/JSON file directly from the UI.
+                        </li>
+                        <li>
+                            **Enhanced Tooltips and Help Text:** Expand on the existing "How to Use" section with more contextual tooltips on individual metrics or progress bars.
+                        </li>
+                        <li>
+                            **Accessibility Improvements:** Ensure proper ARIA attributes for screen readers, keyboard navigation support, and sufficient color contrast.
+                        </li>
+                        <li>
+                            **Loading Indicators:** For data loading, a clear loading spinner or message would improve feedback to the user.
+                        </li>
+                        <li>
+                            **User Authentication and Role-Based Access:** If different teams or individuals need to update their own data, or if certain data should only be visible to specific roles.
+                        </li>
+                        <li>
+                            **Alerts and Notifications:** Allow users to set thresholds for metrics (e.g., "notify me if automation coverage drops below 70% for any team").
+                        </li>
+                        <li>
+                            **Trend Analysis and Forecasting:** Beyond just current status, show the trend of automation coverage (e.g., "up 5% from last week") and potentially offer simple forecasts.
+                            <ul class="list-circle list-inside ml-4">
+                                <li>**Specific Trend Lines:** Expand the current trend line for overall automation to allow selection and display of trends for individual teams or specific test types (e.g., Regression, API tests) over time. This would require more complex data storage in `localStorage` and a dropdown/checkbox UI to select metrics for trending.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            **Target/Goal Setting:** Allow teams to input and display specific automation targets or goals for different test types or overall automation.
+                        </li>
+                        <li>
+                            **Comparison Views:** Enable side-by-side comparison of two different teams, or the same team's performance across different time periods.
+                        </li>
+                        <li>
+                            **Drill-down Capabilities:** Clicking on a team card could navigate to a more detailed page for that specific team.
+                        </li>
+                        <li>
+                            **Audit Log for Data Changes:** If data persistence is implemented, an audit log showing who updated the data, what changes were made, and when.
+                        </li>
+                        <li>
+                            **Robust Data Validation:** More comprehensive validation (schema, type, range, dependency) to prevent malformed data.
+                        </li>
+                        <li>
+                            **Version Control for Data:** If data is stored persistently, track versions of the data for rollback.
+                        </li>
+                        <li>
+                            **Security Measures:** If user authentication is introduced, ensure proper security practices.
+                        </li>
+                        <li>
+                            **Automated Error Reporting/Logging:** Integrate a client-side error reporting tool to capture and log JavaScript errors.
+                        </li>
+                        <li>
+                            **Clear Data Source Documentation:** Clearly document *where* the raw data for the CSV should originate from.
+                        </li>
+                        <li>
+                            **Data Freshness Indicator:** Display "Data last updated on: [Date/Time]" prominently.
+                        </li>
+                    </ul>
+                </div>
+                <!-- Original Change Log Section -->
                 <div class="mt-8">
                     <h3 class="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">Change Log</h3>
                     <div class="mb-6">
-                        <h4 class="text-xl font-medium text-gray-800 mb-2">July 18, 2025</h4>
+                        <h4 class="text-xl font-medium text-gray-800 mb-2">July 23, 2025</h4>
                         <ul class="list-disc list-inside text-gray-700 space-y-2">
+                            <li>
+                                **Added "Data as of Date" to Overall Automation Coverage:**
+                                <p class="ml-4">
+                                    **Explanation:** A "Data as of Date" has been added to the "Overall Automation Coverage" section, mirroring the functionality of the footer's date. This provides a clear indication of the data's freshness at the top of the dashboard.
+                                </p>
+                            </li>
+                            <li>
+                                **Removed "Understanding Test Types" Button from Header:**
+                                <p class="ml-4">
+                                    **Explanation:** The direct link button to the "Understanding Test Types" section has been removed from the dashboard header. The section itself remains accessible by scrolling down the page, and it is still referenced in the "How to Use This Dashboard" section.
+                                </p>
+                            </li>
+                            <li>
+                                **Added "Understanding Test Types" Section:**
+                                <p class="ml-4">
+                                    **Explanation:** A new section has been added above the "Developer Readme" to define each test type (Unit, Functional, Incremental Data Load, Full Load Data Validation, API, Regression, Smoke) with descriptions tailored for a C-suite audience. The header navigation and "How to Use" section have been updated to link to and reference this new section, improving clarity and reducing redundancy.
+                                </p>
+                            </li>
+                            <li>
+                                **Removed 'User Acceptance Tests' (UAT) Data:**
+                                <p class="ml-4">
+                                    **Explanation:** The "User Acceptance Tests" (UAT) data point and related CSV entries have been removed from all team breakdowns. UAT metrics are no longer displayed or included in the calculation of "Total Tests in Category" or "Planned to Automate" for each team. All CSV data and expected metrics for regression scenarios have been updated to reflect this change.
+                                </p>
+                            </li>
+                            <li>
+                                **Added 'Integration Team' and Modified Test Type Breakdowns:**
+                                <p class="ml-4">
+                                    **Explanation:** A new team, "Integration Team," has been added to the dashboard. "Incremental Data Load Tests" and "Full Load Data Validation Tests" have been removed from the detailed breakdown and calculations for all existing teams. These two test types are now *only* displayed and included in the calculations for the new "Integration Team." All `HARDCODED_CSV_DATA`, `CSV_EXAMPLE_DATA`, and regression test scenarios have been updated to reflect these changes and ensure accurate metric roll-ups.
+                                </p>
+                            </li>
+                            <li>
+                                **Confirmed Regression Test Data Accuracy:**
+                                <p class="ml-4">
+                                    **Explanation:** Verified that all three regression test scenarios (All Green, Mixed Coverage, Data Inconsistencies) calculate and roll up to the appropriate numbers as expected, confirming the continued functionality and accuracy of the dashboard's logic after recent modifications.
+                                </s
+                                p>
+                            </li>
+                            <li>
+                                **Removed 'Total' Data for In-Sprint Functional Tests:**
+                                <p class="ml-4">
+                                    **Explanation:** The "Total" data point and related CSV entries for "In-Sprint Functional Tests" have been removed. These tests now only display "Planned" and "Automated" counts in their breakdown. The overall "Total Tests in Category" for each team now excludes the "Total" for In-Sprint Functional Tests. All CSV data and expected metrics for regression scenarios have been updated to reflect this change.
+                                </p>
+                            </li>
+                            <li>
+                                **Renamed and Reordered Teams:**
+                                <p class="ml-4">
+                                    **Explanation:** The "Avengers Team" has been renamed to "Avengers (CSM) Team" and "Dungeons n Dragons Team" to "Dungeons n Dragons (CSM) Team." The "Dungeons n Dragons (CSM) Team" has also been reordered to appear immediately after "Avengers (CSM) Team" in the dashboard's display. All internal data references (prefixes in CSV data and expected metrics for regression scenarios) have been updated to reflect these new names and order.
+                                </p>
+                            </li>
+                            <li>
+                                **Added New Team: Dungeons n Dragons:**
+                                <p class="ml-4">
+                                    **Explanation:** A new team, "Dungeons n Dragons," has been added to the dashboard. This includes updating the `teamNames` array, `HARDCODED_CSV_DATA`, `CSV_EXAMPLE_DATA`, and all regression test scenarios to incorporate metrics for this new team.
+                                </p>
+                            </li>
                             <li>
                                 **Removed Unused Export Functions:**
                                 <p class="ml-4">
@@ -1101,172 +1423,154 @@ Agency_Smoke_Automated,2
         // Set to 'false' to load random data initially (and then rely on the UI 'Load Data' button).
         const LOAD_FROM_HARDCODED_ON_STARTUP = true;
 
+        // Set this to 'true' to load historical trend data from HARDCODED_HISTORICAL_TREND_DATA on startup.
+        // Set to 'false' if you want the trend chart to start empty until manually loaded.
+        const LOAD_HISTORICAL_FROM_HARDCODED_ON_STARTUP = true;
+
         // This is your hardcoded CSV data. You can paste content from your sample-data.csv here.
         // NOTE: Due to browser security, you cannot directly load from a local file path like C:\temp\rawdata.csv.
         // This string serves as the "hardcoded" data source.
         const HARDCODED_CSV_DATA = `Metric,Value
-Avengers_Unit_Total,40
-Avengers_Unit_PlannedToAutomate,35
-Avengers_Unit_Automated,34
-Avengers_Functional_Total,50
-Avengers_Functional_PlannedToAutomate,42
-Avengers_Functional_Automated,42
-Avengers_IncrementalDataLoad_Total,20
-Avengers_IncrementalDataLoad_PlannedToAutomate,18
-Avengers_IncrementalDataLoad_Automated,17
-Avengers_FullLoadDataValidation_Total,30
-Avengers_FullLoadDataValidation_PlannedToAutomate,28
-Avengers_FullLoadDataValidation_Automated,26
-Avengers_UserAcceptance_Total,20
-Avengers_UserAcceptance_PlannedToAutomate,18
-Avengers_UserAcceptance_Automated,17
-Avengers_API_Total,15
-Avengers_API_PlannedToAutomate,14
-Avengers_API_Automated,13
-Avengers_Regression_Total,120
-Avengers_Regression_PlannedToAutomate,14
-Avengers_Regression_Automated,13
-Avengers_Smoke_Total,10
-Avengers_Smoke_PlannedToAutomate,8
-Avengers_Smoke_Automated,8
+AvengersCSM_Unit_Total,40
+AvengersCSM_Unit_PlannedToAutomate,35
+AvengersCSM_Unit_Automated,34
+AvengersCSM_Functional_PlannedToAutomate,42
+AvengersCSM_Functional_Automated,40
+AvengersCSM_API_Total,15
+AvengersCSM_API_PlannedToAutomate,14
+AvengersCSM_API_Automated,12
+AvengersCSM_Regression_Total,120
+AvengersCSM_Regression_PlannedToAutomate,14
+AvengersCSM_Regression_Automated,12
+AvengersCSM_Smoke_Total,10
+AvengersCSM_Smoke_PlannedToAutomate,8
+AvengersCSM_Smoke_Automated,7
+DungeonsnDragonsCSM_Unit_Total,30
+DungeonsnDragonsCSM_Unit_PlannedToAutomate,28
+DungeonsnDragonsCSM_Unit_Automated,15
+DungeonsnDragonsCSM_Functional_PlannedToAutomate,35
+DungeonsnDragonsCSM_Functional_Automated,20
+DungeonsnDragonsCSM_API_Total,10
+DungeonsnDragonsCSM_API_PlannedToAutomate,9
+DungeonsnDragonsCSM_API_Automated,4
+DungeonsnDragonsCSM_Regression_Total,50
+DungeonsnDragonsCSM_Regression_PlannedToAutomate,10
+DungeonsnDragonsCSM_Regression_Automated,5
+DungeonsnDragonsCSM_Smoke_Total,8
+DungeonsnDragonsCSM_Smoke_PlannedToAutomate,7
+DungeonsnDragonsCSM_Smoke_Automated,3
 Imaging_Unit_Total,60
 Imaging_Unit_PlannedToAutomate,55
-Imaging_Unit_Automated,52
-Imaging_Functional_Total,80
+Imaging_Unit_Automated,20
 Imaging_Functional_PlannedToAutomate,75
-Imaging_Functional_Automated,70
-Imaging_IncrementalDataLoad_Total,30
-Imaging_IncrementalDataLoad_PlannedToAutomate,28
-Imaging_IncrementalDataLoad_Automated,26
-Imaging_FullLoadDataValidation_Total,40
-Imaging_FullLoadDataValidation_PlannedToAutomate,38
-Imaging_FullLoadDataValidation_Automated,36
-Imaging_UserAcceptance_Total,30
-Imaging_UserAcceptance_PlannedToAutomate,28
-Imaging_UserAcceptance_Automated,26
+Imaging_Functional_Automated,30
 Imaging_API_Total,20
 Imaging_API_PlannedToAutomate,18
-Imaging_API_Automated,17
+Imaging_API_Automated,7
 Imaging_Regression_Total,100
 Imaging_Regression_PlannedToAutomate,18
-Imaging_Regression_Automated,17
+Imaging_Regression_Automated,7
 Imaging_Smoke_Total,12
 Imaging_Smoke_PlannedToAutomate,20
-Imaging_Smoke_Automated,16
+Imaging_Smoke_Automated,5
 Phoenix_Unit_Total,50
 Phoenix_Unit_PlannedToAutomate,45
 Phoenix_Unit_Automated,40
-Phoenix_Functional_Total,70
 Phoenix_Functional_PlannedToAutomate,65
-Phoenix_Functional_Automated,60
-Phoenix_IncrementalDataLoad_Total,25
-Phoenix_IncrementalDataLoad_PlannedToAutomate,22
-Phoenix_IncrementalDataLoad_Automated,20
-Phoenix_FullLoadDataValidation_Total,35
-Phoenix_FullLoadDataValidation_PlannedToAutomate,32
-Phoenix_FullLoadDataValidation_Automated,28
-Phoenix_UserAcceptance_Total,25
-Phoenix_UserAcceptance_PlannedToAutomate,22
-Phoenix_UserAcceptance_Automated,20
+Phoenix_Functional_Automated,55
 Phoenix_API_Total,15
 Phoenix_API_PlannedToAutomate,13
-Phoenix_API_Automated,12
+Phoenix_API_Automated,11
 Phoenix_Regression_Total,50
 Phoenix_Regression_PlannedToAutomate,13
-Phoenix_Regression_Automated,10
+Phoenix_Regression_Automated,11
 Phoenix_Smoke_Total,19
 Phoenix_Smoke_PlannedToAutomate,8
-Phoenix_Smoke_Automated,10
+Phoenix_Smoke_Automated,7
 Ace_Unit_Total,50
 Ace_Unit_PlannedToAutomate,40
-Ace_Unit_Automated,38
-Ace_Functional_Total,70
+Ace_Unit_Automated,25
 Ace_Functional_PlannedToAutomate,60
-Ace_Functional_Automated,55
-Ace_IncrementalDataLoad_Total,25
-Ace_IncrementalDataLoad_PlannedToAutomate,20
-Ace_IncrementalDataLoad_Automated,18
-Ace_FullLoadDataValidation_Total,35
-Ace_FullLoadDataValidation_PlannedToAutomate,30
-Ace_FullLoadDataValidation_Automated,27
-Ace_UserAcceptance_Total,25
-Ace_UserAcceptance_PlannedToAutomate,20
-Ace_UserAcceptance_Automated,18
+Ace_Functional_Automated,35
 Ace_API_Total,15
-Ace_API_PlannedToAutomate,10
-Ace_API_Automated,9
+Ace_API_PlannedToAutomate,20
+Ace_API_Automated,6
 Ace_Regression_Total,0
 Ace_Regression_PlannedToAutomate,10
-Ace_Regression_Automated,8
+Ace_Regression_Automated,3
 Ace_Smoke_Total,0
 Ace_Smoke_PlannedToAutomate,10
-Ace_Smoke_Automated,7
+Ace_Smoke_Automated,3
 Agency_Unit_Total,15
 Agency_Unit_PlannedToAutomate,12
-Agency_Unit_Automated,10
-Agency_Functional_Total,20
+Agency_Unit_Automated,4
 Agency_Functional_PlannedToAutomate,18
-Agency_Functional_Automated,15
-Agency_IncrementalDataLoad_Total,15
-Agency_IncrementalDataLoad_PlannedToAutomate,12
-Agency_IncrementalDataLoad_Automated,10
-Agency_FullLoadDataValidation_Total,15
-Agency_FullLoadDataValidation_PlannedToAutomate,12
-Agency_FullLoadDataValidation_Automated,10
-Agency_UserAcceptance_Total,15
-Agency_UserAcceptance_PlannedToAutomate,12
-Agency_UserAcceptance_Automated,10
+Agency_Functional_Automated,6
 Agency_API_Total,10
 Agency_API_PlannedToAutomate,8
-Agency_API_Automated,5
+Agency_API_Automated,2
 Agency_Regression_Total,20
 Agency_Regression_PlannedToAutomate,18
-Agency_Regression_Automated,15
+Agency_Regression_Automated,5
 Agency_Smoke_Total,10
 Agency_Smoke_PlannedToAutomate,8
-Agency_Smoke_Automated,10
+Agency_Smoke_Automated,2
+Integration_Unit_Total,10
+Integration_Unit_PlannedToAutomate,10
+Integration_Unit_Automated,8
+Integration_Functional_PlannedToAutomate,15
+Integration_Functional_Automated,12
+Integration_IncrementalDataLoad_Total,20
+Integration_IncrementalDataLoad_PlannedToAutomate,18
+Integration_IncrementalDataLoad_Automated,15
+Integration_FullLoadDataValidation_Total,20
+Integration_FullLoadDataValidation_PlannedToAutomate,18
+Integration_FullLoadDataValidation_Automated,15
+Integration_API_Total,10
+Integration_API_PlannedToAutomate,8
+Integration_API_Automated,7
+Integration_Regression_Total,20
+Integration_Regression_PlannedToAutomate,18
+Integration_Regression_Automated,15
+Integration_Smoke_Total,10
+Integration_Smoke_PlannedToAutomate,8
+Integration_Smoke_Automated,7
 `;
 
         const CSV_EXAMPLE_DATA = `Metric,Value
-Avengers_Unit_Total,0
-Avengers_Unit_PlannedToAutomate,0
-Avengers_Unit_Automated,0
-Avengers_Functional_Total,0
-Avengers_Functional_PlannedToAutomate,0
-Avengers_Functional_Automated,0
-Avengers_IncrementalDataLoad_Total,0
-Avengers_IncrementalDataLoad_PlannedToAutomate,0
-Avengers_IncrementalDataLoad_Automated,0
-Avengers_FullLoadDataValidation_Total,0
-Avengers_FullLoadDataValidation_PlannedToAutomate,0
-Avengers_FullLoadDataValidation_Automated,0
-Avengers_UserAcceptance_Total,0
-Avengers_UserAcceptance_PlannedToAutomate,0
-Avengers_UserAcceptance_Automated,0
-Avengers_API_Total,0
-Avengers_API_PlannedToAutomate,0
-Avengers_API_Automated,0
-Avengers_Regression_Total,120
-Avengers_Regression_PlannedToAutomate,90
-Avengers_Regression_Automated,37
-Avengers_Smoke_Total,0
-Avengers_Smoke_PlannedToAutomate,0
-Avengers_Smoke_Automated,0
+AvengersCSM_Unit_Total,0
+AvengersCSM_Unit_PlannedToAutomate,0
+AvengersCSM_Unit_Automated,0
+AvengersCSM_Functional_PlannedToAutomate,0
+AvengersCSM_Functional_Automated,0
+AvengersCSM_API_Total,0
+AvengersCSM_API_PlannedToAutomate,0
+AvengersCSM_API_Automated,0
+AvengersCSM_Regression_Total,120
+AvengersCSM_Regression_PlannedToAutomate,90
+AvengersCSM_Regression_Automated,37
+AvengersCSM_Smoke_Total,0
+AvengersCSM_Smoke_PlannedToAutomate,0
+AvengersCSM_Smoke_Automated,0
+DungeonsnDragonsCSM_Unit_Total,0
+DungeonsnDragonsCSM_Unit_PlannedToAutomate,0
+DungeonsnDragonsCSM_Unit_Automated,0
+DungeonsnDragonsCSM_Functional_PlannedToAutomate,0
+DungeonsnDragonsCSM_Functional_Automated,0
+DungeonsnDragonsCSM_API_Total,0
+DungeonsnDragonsCSM_API_PlannedToAutomate,0
+DungeonsnDragonsCSM_API_Automated,0
+DungeonsnDragonsCSM_Regression_Total,0
+DungeonsnDragonsCSM_Regression_PlannedToAutomate,0
+DungeonsnDragonsCSM_Regression_Automated,0
+DungeonsnDragonsCSM_Smoke_Total,0
+DungeonsnDragonsCSM_Smoke_PlannedToAutomate,0
+DungeonsnDragonsCSM_Smoke_Automated,0
 Imaging_Unit_Total,0
 Imaging_Unit_PlannedToAutomate,0
 Imaging_Unit_Automated,0
-Imaging_Functional_Total,0
 Imaging_Functional_PlannedToAutomate,0
 Imaging_Functional_Automated,0
-Imaging_IncrementalDataLoad_Total,0
-Imaging_IncrementalDataLoad_PlannedToAutomate,0
-Imaging_IncrementalDataLoad_Automated,0
-Imaging_FullLoadDataValidation_Total,0
-Imaging_FullLoadDataValidation_PlannedToAutomate,0
-Imaging_FullLoadDataValidation_Automated,0
-Imaging_UserAcceptance_Total,0
-Imaging_UserAcceptance_PlannedToAutomate,0
-Imaging_UserAcceptance_Automated,0
 Imaging_API_Total,0
 Imaging_API_PlannedToAutomate,0
 Imaging_API_Automated,0
@@ -1279,18 +1583,8 @@ Imaging_Smoke_Automated,0
 Phoenix_Unit_Total,0
 Phoenix_Unit_PlannedToAutomate,0
 Phoenix_Unit_Automated,0
-Phoenix_Functional_Total,0
 Phoenix_Functional_PlannedToAutomate,0
 Phoenix_Functional_Automated,0
-Phoenix_IncrementalDataLoad_Total,0
-Phoenix_IncrementalDataLoad_PlannedToAutomate,0
-Phoenix_IncrementalDataLoad_Automated,0
-Phoenix_FullLoadDataValidation_Total,0
-Phoenix_FullLoadDataValidation_PlannedToAutomate,0
-Phoenix_FullLoadDataValidation_Automated,0
-Phoenix_UserAcceptance_Total,0
-Phoenix_UserAcceptance_PlannedToAutomate,0
-Phoenix_UserAcceptance_Automated,0
 Phoenix_API_Total,0
 Phoenix_API_PlannedToAutomate,0
 Phoenix_API_Automated,0
@@ -1303,18 +1597,8 @@ Phoenix_Smoke_Automated,0
 Ace_Unit_Total,0
 Ace_Unit_PlannedToAutomate,0
 Ace_Unit_Automated,0
-Ace_Functional_Total,0
 Ace_Functional_PlannedToAutomate,0
 Ace_Functional_Automated,0
-Ace_IncrementalDataLoad_Total,0
-Ace_IncrementalDataLoad_PlannedToAutomate,0
-Ace_IncrementalDataLoad_Automated,0
-Ace_FullLoadDataValidation_Total,0
-Ace_FullLoadDataValidation_PlannedToAutomate,0
-Ace_FullLoadDataValidation_Automated,0
-Ace_UserAcceptance_Total,0
-Ace_UserAcceptance_PlannedToAutomate,0
-Ace_UserAcceptance_Automated,0
 Ace_API_Total,0
 Ace_API_PlannedToAutomate,0
 Ace_API_Automated,0
@@ -1327,18 +1611,8 @@ Ace_Smoke_Automated,0
 Agency_Unit_Total,0
 Agency_Unit_PlannedToAutomate,0
 Agency_Unit_Automated,0
-Agency_Functional_Total,0
 Agency_Functional_PlannedToAutomate,0
 Agency_Functional_Automated,0
-Agency_IncrementalDataLoad_Total,0
-Agency_IncrementalDataLoad_PlannedToAutomate,0
-Agency_IncrementalDataLoad_Automated,0
-Agency_FullLoadDataValidation_Total,0
-Agency_FullLoadDataValidation_PlannedToAutomate,0
-Agency_FullLoadDataValidation_Automated,0
-Agency_UserAcceptance_Total,0
-Agency_UserAcceptance_PlannedToAutomate,0
-Agency_UserAcceptance_Automated,0
 Agency_API_Total,0
 Agency_API_PlannedToAutomate,0
 Agency_API_Automated,0
@@ -1348,6 +1622,100 @@ Agency_Regression_Automated,0
 Agency_Smoke_Total,13
 Agency_Smoke_PlannedToAutomate,0
 Agency_Smoke_Automated,0
+Integration_Unit_Total,10
+Integration_Unit_PlannedToAutomate,10
+Integration_Unit_Automated,10
+Integration_Functional_PlannedToAutomate,10
+Integration_Functional_Automated,10
+Integration_IncrementalDataLoad_Total,20
+Integration_IncrementalDataLoad_PlannedToAutomate,18
+Integration_IncrementalDataLoad_Automated,15
+Integration_FullLoadDataValidation_Total,20
+Integration_FullLoadDataValidation_PlannedToAutomate,18
+Integration_FullLoadDataValidation_Automated,15
+Integration_API_Total,10
+Integration_API_PlannedToAutomate,8
+Integration_API_Automated,7
+Integration_Regression_Total,20
+Integration_Regression_PlannedToAutomate,18
+Integration_Regression_Automated,15
+Integration_Smoke_Total,10
+Integration_Smoke_PlannedToAutomate,8
+Integration_Smoke_Automated,7
+`;
+
+        // This is a sample historical trend data that shows a slow progression to 100%
+        const HISTORICAL_CSV_EXAMPLE_DATA = `Metric,Date,Value
+Overall_Automation_Progress,2024-01-01,50.0
+Overall_Automation_Progress,2024-01-08,51.0
+Overall_Automation_Progress,2024-01-15,52.0
+Overall_Automation_Progress,2024-01-22,53.0
+Overall_Automation_Progress,2024-01-29,54.0
+Overall_Automation_Progress,2024-02-05,55.0
+Overall_Automation_Progress,2024-02-12,56.0
+Overall_Automation_Progress,2024-02-19,57.0
+Overall_Automation_Progress,2024-02-26,58.0
+Overall_Automation_Progress,2024-03-04,59.0
+Overall_Automation_Progress,2024-03-11,60.0
+Overall_Automation_Progress,2024-03-18,61.0
+Overall_Automation_Progress,2024-03-25,62.0
+Overall_Automation_Progress,2024-04-01,63.0
+Overall_Automation_Progress,2024-04-08,64.0
+Overall_Automation_Progress,2024-04-15,65.0
+Overall_Automation_Progress,2024-04-22,66.0
+Overall_Automation_Progress,2024-04-29,67.0
+Overall_Automation_Progress,2024-05-06,68.0
+Overall_Automation_Progress,2024-05-13,69.0
+Overall_Automation_Progress,2024-05-20,70.0
+Overall_Automation_Progress,2024-05-27,71.0
+Overall_Automation_Progress,2024-06-03,72.0
+Overall_Automation_Progress,2024-06-10,73.0
+Overall_Automation_Progress,2024-06-17,74.0
+Overall_Automation_Progress,2024-06-24,75.0
+Overall_Automation_Progress,2024-07-01,76.0
+Overall_Automation_Progress,2024-07-08,77.0
+Overall_Automation_Progress,2024-07-15,78.0
+Overall_Automation_Progress,2024-07-22,79.0
+Overall_Automation_Progress,2024-07-29,80.0
+Overall_Automation_Progress,2024-08-05,81.0
+Overall_Automation_Progress,2024-08-12,82.0
+Overall_Automation_Progress,2024-08-19,83.0
+Overall_Automation_Progress,2024-08-26,84.0
+Overall_Automation_Progress,2024-09-02,85.0
+Overall_Automation_Progress,2024-09-09,86.0
+Overall_Automation_Progress,2024-09-16,87.0
+Overall_Automation_Progress,2024-09-23,88.0
+Overall_Automation_Progress,2024-09-30,89.0
+Overall_Automation_Progress,2024-10-07,90.0
+Overall_Automation_Progress,2024-10-14,91.0
+Overall_Automation_Progress,2024-10-21,92.0
+Overall_Automation_Progress,2024-10-28,93.0
+Overall_Automation_Progress,2024-11-04,94.0
+Overall_Automation_Progress,2024-11-11,95.0
+Overall_Automation_Progress,2024-11-18,96.0
+Overall_Automation_Progress,2024-11-25,97.0
+Overall_Automation_Progress,2024-12-02,98.0
+Overall_Automation_Progress,2024-12-09,99.0
+Overall_Automation_Progress,2024-12-16,100.0
+`;
+
+        // This is the hardcoded historical trend data that will be loaded automatically on startup
+        const HARDCODED_HISTORICAL_TREND_DATA = `Metric,Date,Value
+Overall_Automation_Progress,2024-01-01,70.0
+Overall_Automation_Progress,2024-02-01,72.5
+Overall_Automation_Progress,2024-03-01,75.0
+Overall_Automation_Progress,2024-04-01,74.0
+Overall_Automation_Progress,2024-05-01,78.0
+Overall_Automation_Progress,2024-06-01,80.0
+Overall_Automation_Progress,2024-07-01,82.0
+Overall_Automation_Progress,2024-08-01,81.5
+Overall_Automation_Progress,2024-09-01,84.0
+Overall_Automation_Progress,2024-10-01,87.0
+Overall_Automation_Progress,2024-11-01,90.0
+Overall_Automation_Progress,2024-12-01,93.0
+Overall_Automation_Progress,2025-01-01,96.0
+Overall_Automation_Progress,2025-02-01,98.5
+Overall_Automation_Progress,2025-03-01,100.0
 `;
 
 
@@ -1356,27 +1724,43 @@ Agency_Smoke_Automated,0
         // Global variable to store the last loaded data
         let currentDashboardData = {};
 
+        // Global variable for Chart.js instance
+        let automationTrendChart = null;
+        const TREND_STORAGE_KEY = 'automationOverallTrend'; // localStorage key
+
         // Define team names and their display names. This array controls which teams appear on the dashboard.
         const teamNames = [
-            { prefix: 'Avengers', displayName: 'Avengers Team' },
+            { prefix: 'AvengersCSM', displayName: 'Avengers (CSM) Team' },
+            { prefix: 'DungeonsnDragonsCSM', displayName: 'Dungeons n Dragons (CSM) Team' },
             { prefix: 'Imaging', displayName: 'Imaging Team' },
             { prefix: 'Phoenix', displayName: 'Phoenix Team' },
             { prefix: 'Ace', displayName: 'Ace Team' },
-            { prefix: 'Agency', displayName: 'Agency Team' } // New team added
+            { prefix: 'Agency', displayName: 'Agency Team' },
+            { prefix: 'Integration', displayName: 'Integration Team' } // New team added
         ];
 
-        // Define test type names for iteration and display
-        const testTypeDisplayNames = {
+        // Define test type names for iteration and display for most teams
+        const commonTestTypeDisplayNames = {
             'Unit': 'Unit Tests',
-            'Functional': 'Functional Tests',
-            'IncrementalDataLoad': 'Incremental Data Load Tests',
-            'FullLoadDataValidation': 'Full Load Data Validation Tests',
-            'UserAcceptance': 'User Acceptance Tests',
+            'Functional': 'In-Sprint Functional Tests',
             'API': 'API Tests',
             'Regression': 'Regression Tests',
             'Smoke': 'Smoke Tests'
         };
-        const testTypeMetricPrefixes = Object.keys(testTypeDisplayNames); // e.g., ['Unit', 'Functional', ...]
+        const commonTestTypeMetricPrefixes = Object.keys(commonTestTypeDisplayNames);
+
+        // Define test type names for the Integration team specifically
+        const integrationTestTypeDisplayNames = {
+            'Unit': 'Unit Tests',
+            'Functional': 'In-Sprint Functional Tests',
+            'IncrementalDataLoad': 'Incremental Data Load Tests',
+            'FullLoadDataValidation': 'Full Load Data Validation Tests',
+            'API': 'API Tests',
+            'Regression': 'Regression Tests',
+            'Smoke': 'Smoke Tests'
+        };
+        const integrationTestTypeMetricPrefixes = Object.keys(integrationTestTypeDisplayNames);
+
 
         /**
          * Helper function to display a temporary confirmation or error message in the overlay.
@@ -1420,11 +1804,14 @@ Agency_Smoke_Automated,0
         function initializeDashboard() {
             // Set current date in footer
             const today = new Date();
-            document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', {
+            const formattedDate = today.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
+            document.getElementById('currentDate').textContent = formattedDate;
+            document.getElementById('overallDataDate').textContent = formattedDate;
+
 
             // Dynamically generate team cards
             const teamCardsContainer = document.getElementById('teamCardsContainer');
@@ -1442,6 +1829,23 @@ Agency_Smoke_Automated,0
 
             // Set the CSV example data in the textarea
             document.getElementById('csvExampleData').textContent = CSV_EXAMPLE_DATA;
+            document.getElementById('historicalCsvExampleData').textContent = HISTORICAL_CSV_EXAMPLE_DATA;
+
+            // Load hardcoded historical trend data if configured
+            if (LOAD_HISTORICAL_FROM_HARDCODED_ON_STARTUP) {
+                try {
+                    const parsedHistoricalData = parseHistoricalTrendCSV(HARDCODED_HISTORICAL_TREND_DATA);
+                    if (parsedHistoricalData.length > 0) {
+                        localStorage.setItem(TREND_STORAGE_KEY, JSON.stringify(parsedHistoricalData));
+                        console.log("Hardcoded historical trend data loaded on startup.");
+                    } else {
+                        console.warn("Hardcoded historical trend data is empty or invalid. Not loading.");
+                    }
+                } catch (e) {
+                    console.error("Error loading hardcoded historical trend data:", e);
+                }
+            }
+
 
             // Event listener for the Load Data button (always active to allow manual updates)
             document.getElementById('loadDataBtn').addEventListener('click', () => {
@@ -1462,6 +1866,34 @@ Agency_Smoke_Automated,0
                 const csvExampleData = document.getElementById('csvExampleData').textContent;
                 // No specific element for copyConfirmMessage, use the global overlay
                 copyTextToClipboard(csvExampleData);
+            });
+
+            // Event listener for Copy Historical CSV Example link
+            document.getElementById('copyHistoricalCsvExampleLink').addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default anchor link behavior
+                const historicalCsvExampleData = document.getElementById('historicalCsvExampleData').textContent;
+                copyTextToClipboard(historicalCsvExampleData);
+            });
+
+
+            // Event listener for the new Load Historical Data button
+            document.getElementById('loadHistoricalDataBtn').addEventListener('click', () => {
+                const csvInput = document.getElementById('historicalCsvInput').value;
+                const parsedHistoricalData = parseHistoricalTrendCSV(csvInput);
+
+                if (parsedHistoricalData.length > 0) {
+                    // Overwrite localStorage with the new historical data
+                    try {
+                        localStorage.setItem(TREND_STORAGE_KEY, JSON.stringify(parsedHistoricalData));
+                        renderAutomationTrendChart(); // Re-render chart with new data
+                        showConfirmation('Historical trend data loaded successfully!');
+                    } catch (e) {
+                        console.error("Error saving historical data to localStorage:", e);
+                        showConfirmation('Error saving historical data. Data might be too large.', true);
+                    }
+                } else {
+                    showConfirmation('No valid historical trend data found. Please check CSV format (Metric,Date,Value).', true);
+                }
             });
 
             // Add event listeners for scenario specific "Run Test Scenario" links
@@ -1516,12 +1948,15 @@ Agency_Smoke_Automated,0
                     }
                 }
             });
+
+            // Initial render of the trend chart if any data exists in localStorage
+            renderAutomationTrendChart();
         }
 
         /**
          * Generates the HTML string for a single team card.
-         * @param {string} prefix - The unique prefix for the team (e.g., 'Avengers').
-         * @param {string} displayName - The display name of the team (e.g., 'Avengers Team').
+         * @param {string} prefix - The unique prefix for the team (e.g., 'AvengersCSM').
+         * @param {string} displayName - The display name of the team (e.g., 'Avengers (CSM) Team').
          * @returns {string} The HTML string for the team card.
          */
         function createTeamCardHtml(prefix, displayName) {
@@ -1605,11 +2040,21 @@ Agency_Smoke_Automated,0
             teamNames.forEach(team => {
                 const teamPrefix = team.prefix;
                 
-                testTypeMetricPrefixes.forEach(testType => {
-                    const metrics = generateRandomMetric(100); // Base for individual test types
-                    data[`${teamPrefix}_${testType}_Total`] = metrics.total;
-                    data[`${teamPrefix}_${testType}_PlannedToAutomate`] = metrics.plannedToAutomate;
-                    data[`${teamPrefix}_${testType}_Automated`] = metrics.automated;
+                let currentTestTypePrefixes = (teamPrefix === 'Integration') ? integrationTestTypeMetricPrefixes : commonTestTypeMetricPrefixes;
+                
+                currentTestTypePrefixes.forEach(testType => {
+                    // Functional tests no longer have a 'Total' metric
+                    if (testType === 'Functional') {
+                        const planned = Math.floor(50 * (0.5 + Math.random() * 0.5)); // Arbitrary base for functional planned
+                        const automated = Math.floor(planned * (0.3 + Math.random() * 0.6));
+                        data[`${teamPrefix}_${testType}_PlannedToAutomate`] = planned;
+                        data[`${teamPrefix}_${testType}_Automated`] = automated;
+                    } else {
+                        const metrics = generateRandomMetric(100); // Base for individual test types
+                        data[`${teamPrefix}_${testType}_Total`] = metrics.total;
+                        data[`${teamPrefix}_${testType}_PlannedToAutomate`] = metrics.plannedToAutomate;
+                        data[`${teamPrefix}_${testType}_Automated`] = metrics.automated;
+                    }
                 });
             });
 
@@ -1622,28 +2067,220 @@ Agency_Smoke_Automated,0
          * @returns {object} An object where keys are metric names and values are their integer values.
          */
         function parseCSV(csvString) {
-            const parsedData = {};
-            const lines = csvString.trim().split('\n');
+            console.log("--- Starting CSV Parsing ---");
+            console.log("Raw CSV String received by parseCSV:", csvString);
 
-            if (lines.length < 2) {
-                console.warn('CSV string is empty or has no data rows.');
+            // Remove BOM if present, then trim leading/trailing whitespace
+            const cleanedCsvString = csvString.replace(/^\uFEFF/g, '').trim();
+            console.log("Cleaned CSV String (after BOM removal and trim):", cleanedCsvString);
+
+            const parsedData = {};
+            // Use regex to split by both \n and \r\n to handle different line endings
+            const lines = cleanedCsvString.split(/\r?\n/);
+
+            console.log("Total lines after splitting:", lines.length);
+            console.log("First 5 lines:", lines.slice(0, 5));
+
+            if (lines.length === 0) {
+                console.warn('CSV string is empty after cleaning. No data to parse.');
+                return parsedData;
+            }
+
+            const header = lines[0].trim();
+            console.log(`Actual Header line: "${header}"`);
+            if (header !== 'Metric,Value') {
+                console.error(`Invalid CSV header. Expected "Metric,Value", but got "${header}". Parsing aborted.`);
                 return parsedData;
             }
 
             // Skip header line and parse data lines
             for (let i = 1; i < lines.length; i++) {
-                const parts = lines[i].split(',');
+                const line = lines[i].trim(); // Trim each line before splitting
+                if (line === '') {
+                    console.log(`Skipping empty line at index ${i}.`);
+                    continue; // Skip empty lines that might result from split
+                }
+
+                const parts = line.split(',');
                 if (parts.length === 2) {
                     const metric = parts[0].trim();
                     const value = parseInt(parts[1].trim(), 10);
                     if (!isNaN(value)) {
                         parsedData[metric] = value;
                     } else {
-                        console.warn(`Skipping invalid value for metric "${metric}": ${parts[1].trim()}`);
+                        console.warn(`Skipping invalid value for metric "${metric}" on line ${i + 1}: "${parts[1].trim()}". Value is not a number.`);
                     }
+                } else {
+                    console.warn(`Skipping malformed CSV line at index ${i + 1} (expected 2 parts, got ${parts.length}): "${line}"`);
                 }
             }
+            console.log("Final Parsed CSV Data:", parsedData);
+            console.log("--- Finished CSV Parsing ---");
             return parsedData;
+        }
+
+        /**
+         * Parses a historical CSV string into an array of trend data objects.
+         * Expected format: Metric,Date,Value
+         * Only "Overall_Automation_Progress" metrics are collected.
+         * @param {string} csvString - The historical CSV data as a string.
+         * @returns {Array<Object>} An array of objects: [{ date: 'YYYY-MM-DD', value: number }]
+         */
+        function parseHistoricalTrendCSV(csvString) {
+            console.log("--- Starting Historical Trend CSV Parsing ---");
+            const parsedData = [];
+            const lines = csvString.replace(/^\uFEFF/g, '').trim().split(/\r?\n/);
+
+            if (lines.length === 0 || lines[0].trim() !== 'Metric,Date,Value') {
+                console.error('Invalid historical CSV header. Expected "Metric,Date,Value".');
+                return parsedData;
+            }
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line === '') continue;
+
+                const parts = line.split(',');
+                if (parts.length === 3) {
+                    const metric = parts[0].trim();
+                    const date = parts[1].trim();
+                    const value = parseFloat(parts[2].trim());
+
+                    if (metric === 'Overall_Automation_Progress' && !isNaN(value) && date) {
+                        parsedData.push({ date: date, value: value });
+                    } else if (metric !== 'Overall_Automation_Progress') {
+                        console.warn(`Skipping non-Overall_Automation_Progress metric "${metric}" on line ${i + 1}.`);
+                    } else if (isNaN(value)) {
+                        console.warn(`Skipping invalid value "${parts[2].trim()}" for metric "${metric}" on line ${i + 1}.`);
+                    } else if (!date) {
+                        console.warn(`Skipping missing date for metric "${metric}" on line ${i + 1}.`);
+                    }
+                } else {
+                    console.warn(`Skipping malformed historical CSV line at index ${i + 1}: "${line}"`);
+                }
+            }
+            // Sort data by date to ensure correct chart display
+            parsedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+            console.log("Final Parsed Historical Trend Data:", parsedData);
+            console.log("--- Finished Historical Trend CSV Parsing ---");
+            return parsedData;
+        }
+
+        /**
+         * Saves the current day's overall automation progress to localStorage.
+         * @param {string} date - The date in YYYY-MM-DD format.
+         * @param {number} overallProgress - The overall automation progress percentage.
+         */
+        function saveCurrentOverallProgressToTrend(date, overallProgress) {
+            try {
+                const storedData = localStorage.getItem(TREND_STORAGE_KEY);
+                let trendData = storedData ? JSON.parse(storedData) : [];
+
+                // Check if an entry for today already exists
+                const existingIndex = trendData.findIndex(item => item.date === date);
+
+                if (existingIndex > -1) {
+                    // Update existing entry
+                    trendData[existingIndex].value = overallProgress;
+                    console.log(`Updated trend data for ${date}: ${overallProgress}%`);
+                } else {
+                    // Add new entry
+                    trendData.push({ date: date, value: overallProgress });
+                    console.log(`Added new trend data for ${date}: ${overallProgress}%`);
+                }
+
+                // Sort data by date
+                trendData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                localStorage.setItem(TREND_STORAGE_KEY, JSON.stringify(trendData));
+            } catch (e) {
+                console.error("Failed to save trend data to localStorage:", e);
+                showConfirmation('Failed to save trend data. Data might be too large.', true);
+            }
+        }
+
+        /**
+         * Renders the automation trend chart using Chart.js.
+         */
+        function renderAutomationTrendChart() {
+            const ctx = document.getElementById('automationTrendChart');
+            if (!ctx) {
+                console.warn("Automation trend chart canvas not found.");
+                return;
+            }
+
+            try {
+                const storedData = localStorage.getItem(TREND_STORAGE_KEY);
+                const trendData = storedData ? JSON.parse(storedData) : [];
+
+                const labels = trendData.map(item => item.date);
+                const dataPoints = trendData.map(item => item.value);
+
+                if (automationTrendChart) {
+                    automationTrendChart.destroy(); // Destroy existing chart instance
+                }
+
+                automationTrendChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Overall Automation Progress (%)',
+                            data: dataPoints,
+                            borderColor: '#4f46e5', // Indigo-600
+                            backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                            fill: true,
+                            tension: 0.3 // Smooth curves
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Allows flexible sizing
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Overall Automation Progress Over Time'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.raw.toFixed(1)}%`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'category',
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Automation Progress (%)'
+                                },
+                                max: 100, // Percentage max
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error("Error rendering automation trend chart:", e);
+                showConfirmation('Error rendering trend chart. Data in localStorage might be corrupted.', true);
+            }
         }
 
         /**
@@ -1652,6 +2289,35 @@ Agency_Smoke_Automated,0
          */
         function applyData(data) {
             currentDashboardData = data; // Update global data
+
+            if (Object.keys(data).length === 0) {
+                console.warn("applyData received empty or invalid data. Dashboard will display zeros.");
+                showConfirmation('Dashboard data is empty or invalid. Please check CSV format and browser console for details.', true);
+                
+                // Explicitly reset overall metrics to zero
+                document.getElementById('currentAutomatedCount').textContent = '0';
+                document.getElementById('plannedAutomationCount').textContent = '0';
+                document.getElementById('overallAutomationProgressBar').style.width = '0%';
+                document.getElementById('overallAutomationProgressBar').className = 'h-4 rounded-full bg-red-600'; // Default to red
+                document.getElementById('overallAutomationProgressText').textContent = '0% Automated';
+                document.getElementById('overallAutomationWarning').classList.add('hidden'); // Hide warning if no data
+
+                // Explicitly reset team cards to zero
+                teamNames.forEach(team => {
+                    const lowerCaseTeamPrefix = team.prefix.toLowerCase();
+                    const cardElement = document.getElementById(`${lowerCaseTeamPrefix}Card`);
+                    if (cardElement) {
+                        document.getElementById(`${lowerCaseTeamPrefix}Total`).textContent = '0';
+                        document.getElementById(`${lowerCaseTeamPrefix}PlannedToAutomate`).textContent = '0';
+                        document.getElementById(`${lowerCaseTeamPrefix}Automated`).textContent = '0';
+                        const testTypeBreakdownDiv = document.getElementById(`${lowerCaseTeamPrefix}TestTypeBreakdown`);
+                        if (testTypeBreakdownDiv) testTypeBreakdownDiv.innerHTML = ''; // Clear breakdowns
+                        cardElement.classList.remove('bg-green-50', 'border-green-200', 'bg-yellow-50', 'border-yellow-200', 'bg-red-50', 'border-red-200');
+                        cardElement.classList.add('bg-red-50', 'border-red-200'); // Default to red if no data
+                    }
+                });
+                return; // Stop further processing if data is empty
+            }
 
             let totalCurrentlyAutomatedOverall = 0;
             let totalPlannedToAutomateOverall = 0;
@@ -1662,7 +2328,7 @@ Agency_Smoke_Automated,0
                 const { calculatedAutomated, calculatedPlannedToAutomate, calculatedTotal } = updateTeamCard(team.prefix, data);
                 totalCurrentlyAutomatedOverall += calculatedAutomated;
                 totalPlannedToAutomateOverall += calculatedPlannedToAutomate;
-                totalTestsOverall += calculatedTotal;
+                totalTestsOverall += calculatedTotal; // This will now correctly exclude Functional_Total and UAT
             });
 
             // Update Overall Automation Coverage Metrics
@@ -1684,16 +2350,28 @@ Agency_Smoke_Automated,0
             } else {
                 overallAutomationWarning.classList.add('hidden');
             }
+
+            // Save current overall progress to trend data in localStorage
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayDateString = `${yyyy}-${mm}-${dd}`;
+            saveCurrentOverallProgressToTrend(todayDateString, parseFloat(overallAutomationProgress.toFixed(1)));
+
+            // Re-render the trend chart
+            renderAutomationTrendChart();
         }
 
         /**
          * Updates a single team's card with data and calculates its automation metrics.
-         * @param {string} teamPrefix - The prefix for the team (e.g., 'Avengers').
+         * @param {string} teamPrefix - The prefix for the team (e.g., 'AvengersCSM').
          * @param {object} data - The complete data object.
          * @returns {object} An object containing the calculated total automated, planned, and total tests for this team.
          */
         function updateTeamCard(teamPrefix, data) {
             const lowerCaseTeamPrefix = teamPrefix.toLowerCase();
+            console.log(`--- Updating Team Card: ${teamPrefix} ---`);
 
             let calculatedTeamAutomated = 0;
             let calculatedTeamPlannedToAutomate = 0;
@@ -1701,48 +2379,65 @@ Agency_Smoke_Automated,0
 
             const cardElement = document.getElementById(`${lowerCaseTeamPrefix}Card`);
             const testTypeBreakdownDiv = document.getElementById(`${lowerCaseTeamPrefix}TestTypeBreakdown`);
-            const rollupWarningDiv = document.getElementById(`${lowerCaseTeamPrefix}RollupWarning`); // Keep reference to hide it
+            const rollupWarningDiv = document.getElementById(`${lowerCaseTeamPrefix}RollupWarning`);
 
             // Clear previous breakdown content
             if (testTypeBreakdownDiv) {
                 testTypeBreakdownDiv.innerHTML = '';
             }
 
+            // Determine which set of test types to use for the current team
+            const currentTestTypePrefixes = (teamPrefix === 'Integration') ? integrationTestTypeMetricPrefixes : commonTestTypeMetricPrefixes;
+            const currentTestTypeDisplayNames = (teamPrefix === 'Integration') ? integrationTestTypeDisplayNames : commonTestTypeDisplayNames;
+
+
             if (cardElement) {
-                testTypeMetricPrefixes.forEach(testTypePrefix => {
-                    const testTypeTotal = data[`${teamPrefix}_${testTypePrefix}_Total`] || 0;
-                    const testTypePlannedToAutomate = data[`${teamPrefix}_${testTypePrefix}_PlannedToAutomate`] || 0;
-                    const testTypeAutomated = data[`${teamPrefix}_${testTypePrefix}_Automated`] || 0;
+                currentTestTypePrefixes.forEach(testTypePrefix => {
+                    const plannedMetricKey = `${teamPrefix}_${testTypePrefix}_PlannedToAutomate`;
+                    const automatedMetricKey = `${teamPrefix}_${testTypePrefix}_Automated`;
 
-                    calculatedTeamTotal += testTypeTotal;
+                    let testTypeTotal = 0;
+                    if (testTypePrefix !== 'Functional') {
+                        const totalMetricKey = `${teamPrefix}_${testTypePrefix}_Total`;
+                        testTypeTotal = data[totalMetricKey] || 0;
+                        calculatedTeamTotal += testTypeTotal;
+                    }
+
+                    const testTypePlannedToAutomate = data[plannedMetricKey] || 0;
+                    const testTypeAutomated = data[automatedMetricKey] || 0;
+
+                    console.log(`  Metric Keys for ${teamPrefix} - ${testTypePrefix}:`);
+                    if (testTypePrefix !== 'Functional') {
+                        console.log(`    Total: ${teamPrefix}_${testTypePrefix}_Total = ${testTypeTotal}`);
+                    }
+                    console.log(`    PlannedToAutomate: ${plannedMetricKey} = ${testTypePlannedToAutomate}`);
+                    console.log(`    Automated: ${automatedMetricKey} = ${testTypeAutomated}`);
+
                     calculatedTeamAutomated += testTypeAutomated;
-
-                    // Exclude Functional Tests from PlannedToAutomate sum
                     if (testTypePrefix !== 'Functional') {
                         calculatedTeamPlannedToAutomate += testTypePlannedToAutomate;
                     }
-
-                    const testTypeCoverage = testTypeTotal > 0 ? ((testTypeAutomated / testTypeTotal) * 100).toFixed(1) : 0;
-                    const testTypeProgressBarColorClass = getProgressBarColorClass(testTypeCoverage);
 
                     if (testTypeBreakdownDiv) {
                         const div = document.createElement('div');
                         div.className = 'mb-1';
 
-                        let plannedText = '';
-                        if (testTypePrefix !== 'Functional') {
-                            plannedText = ` / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span>`;
+                        if (testTypePrefix === 'Functional') {
+                            div.innerHTML = `
+                                <span class="font-medium">${currentTestTypeDisplayNames[testTypePrefix]}:</span> Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
+                                <p class="text-right text-xs text-gray-600 mt-0.5">N/A</p>
+                            `;
                         } else {
-                            plannedText = ` / Planned: <span class="font-semibold">N/A</span>`; // Indicate not applicable for Functional
+                            const testTypeCoverage = testTypeTotal > 0 ? ((testTypeAutomated / testTypeTotal) * 100).toFixed(1) : 0;
+                            const testTypeProgressBarColorClass = getProgressBarColorClass(testTypeCoverage);
+                            div.innerHTML = `
+                                <span class="font-medium">${currentTestTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span> / Planned: <span class="font-semibold">${testTypePlannedToAutomate.toLocaleString()}</span> / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
+                                </div>
+                                <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
+                            `;
                         }
-
-                        div.innerHTML = `
-                            <span class="font-medium">${testTypeDisplayNames[testTypePrefix]}:</span> Total: <span class="font-semibold">${testTypeTotal.toLocaleString()}</span>${plannedText} / Automated: <span class="font-semibold">${testTypeAutomated.toLocaleString()}</span>
-                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                                <div class="h-2 rounded-full ${testTypeProgressBarColorClass}" style="width: ${Math.min(100, testTypeCoverage)}%;"></div>
-                            </div>
-                            <p class="text-right text-xs text-gray-600 mt-0.5">${testTypeCoverage}% Automated</p>
-                        `;
                         testTypeBreakdownDiv.appendChild(div);
                     }
                 });
@@ -1755,6 +2450,7 @@ Agency_Smoke_Automated,0
                 const teamAutomationCoverage = calculatedTeamPlannedToAutomate > 0 ? ((calculatedTeamAutomated / calculatedTeamPlannedToAutomate) * 100).toFixed(1) : 0;
 
                 // Update team-level progress bar
+                // Ensure these elements exist in the createTeamCardHtml if they are used here
                 const teamAutomationProgressBar = cardElement.querySelector('.h-3.rounded-full');
                 const teamAutomationProgressText = cardElement.querySelector('.text-right.text-sm.text-gray-600');
 
@@ -1762,7 +2458,22 @@ Agency_Smoke_Automated,0
                     teamAutomationProgressBar.style.width = `${Math.min(100, teamAutomationCoverage)}%`;
                     teamAutomationProgressBar.className = `h-3 rounded-full ${getProgressBarColorClass(teamAutomationCoverage)}`;
                     teamAutomationProgressText.textContent = `${teamAutomationCoverage}% Automated`;
+                } else {
+                    console.warn(`Team-level progress bar or text not found for ${teamPrefix}. Ensure createTeamCardHtml defines them.`);
+                    if (!teamAutomationProgressBar && cardElement) {
+                        const progressBarDiv = document.createElement('div');
+                        progressBarDiv.className = 'w-full bg-gray-200 rounded-full h-3 mt-2';
+                        progressBarDiv.innerHTML = `<div class="h-3 rounded-full ${getProgressBarColorClass(teamAutomationCoverage)}" style="width: ${Math.min(100, teamAutomationCoverage)}%;"></div>`;
+                        cardElement.querySelector('.space-y-1').appendChild(progressBarDiv);
+                    }
+                    if (!teamAutomationProgressText && cardElement) {
+                        const progressTextP = document.createElement('p');
+                        progressTextP.className = 'text-right text-sm text-gray-600 mt-1';
+                        progressTextP.textContent = `${teamAutomationCoverage}% Automated`;
+                        cardElement.querySelector('.space-y-1').appendChild(progressTextP);
+                    }
                 }
+
 
                 // Apply color coding for the team card based on calculated coverage
                 cardElement.classList.remove(
@@ -1778,6 +2489,7 @@ Agency_Smoke_Automated,0
                     rollupWarningDiv.classList.add('hidden');
                 }
             }
+            console.log(`--- Finished Updating Team Card: ${teamPrefix} ---`);
             return { calculatedAutomated: calculatedTeamAutomated, calculatedPlannedToAutomate: calculatedTeamPlannedToAutomate, calculatedTotal: calculatedTeamTotal };
         }
 
