@@ -20,7 +20,7 @@ Developer Readme: Built-in section within the dashboard itself provides detailed
 🚀 How to Use
 Viewing the Dashboard
 Clone the repository:
-git clone https://github.com/your-username/qa-metrics-dashboard.git
+git clone https://github.com/korygrandy/qa-dashboard.git
 
 
 Navigate to the project directory:
