@@ -1,18 +1,22 @@
 Acme Co - QA Metrics Dashboard
 This repository contains a simple, interactive HTML dashboard designed to visualize Quality Assurance (QA) automation metrics for various testing teams within Sammons Financial Group. It provides a quick overview of automation coverage, tracks progress against planned automation, and highlights potential data inconsistencies.
+
 ✨ Features
 Overall Automation Coverage: Displays total automated tests and tests planned for automation across all teams, with an aggregated progress bar.
 Team-Specific Metrics: Provides detailed automation metrics for individual teams (CSM, Imaging, Phoenix, Ace), including their total tests, planned automation, and current automated count.
 Dynamic Test Type Breakdown: Each team card features a collapsible section to show a granular breakdown of automated tests by type (Unit, Functional, API, Regression, etc.), complete with individual progress bars.
+
 Intuitive Color Coding:
 Progress Bars: Green (>80% automated), Yellow (>60% & <=80% automated), Red (<=60% automated).
 Team Cards: Background color changes based on the team's overall automation coverage (Green, Yellow, Red).
+
 Data Consistency Warnings:
 An overall warning appears if "Total Tests Currently Automated" exceeds "Tests Planned for Automation."
 Team-specific warnings are displayed if the sum of automated tests from individual test types does not match the team's reported "Tests Automated" figure from the CSV input.
 CSV Data Input: Easily update all dashboard metrics by pasting new CSV data directly into a provided text area.
 Print Functionality: A dedicated button to print the dashboard, optimized for a clean print layout (hides input/export sections).
 Developer Readme: Built-in section within the dashboard itself provides detailed instructions for developers on configuration and regression testing.
+
 🚀 How to Use
 Viewing the Dashboard
 Clone the repository:
@@ -96,12 +100,14 @@ Technologies Used
 HTML5: Structure of the dashboard.
 Tailwind CSS: For rapid and responsive styling. Loaded via CDN.
 JavaScript (Vanilla JS): For all interactive elements, data parsing, calculations, and dynamic content updates.
+
 💡 Future Enhancements
 Data Persistence: Implement local storage or a simple backend (e.g., Firebase Firestore) to save and load data, removing the need to paste CSV on every refresh.
 Chart Integration: Use a charting library (e.g., Chart.js, D3.js) to visualize trends over time or breakdown data more effectively.
 More Granular Metrics: Add metrics for defect counts, execution times, or pass/fail rates.
 Filtering and Sorting: Allow users to filter teams or sort data based on different criteria.
 User Interface Improvements: Enhance user experience with more interactive elements, animations, or a more sophisticated layout.
+
 🤝 Contributing
 Contributions are welcome! If you have suggestions for improvements or find any issues, please open an issue or submit a pull request.
 📄 License
